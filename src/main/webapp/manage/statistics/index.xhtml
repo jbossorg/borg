@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:c="http://java.sun.com/jstl/core"
+	template="../../layout/template.xhtml">
+
+	<ui:param name="pageId" value="statistics" />
+	<ui:param name="section" value="management" />
+
+	<ui:define name="header">
+    #{msg['management.stats.name']}
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml" />
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['management.stats.name']}
+		<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h3>
+			<h:outputText value="#{msg['management.stats.hib.name']}" />
+		</h3>
+		<div class="well">
+			#{msg['management.stats.hib.enabled']}: #{statisticController.hibernateStatistics.statisticsEnabled}
+			<h:form id="feed" styleClass="form-horizontal">
+				<div class="btn-toolbar">
+					<div class="btn-group">
+						<h:commandLink action="#{statisticController.startHibernateStatistics}" styleClass="btn btn-success">
+							<i class="icon-ok icon-white"></i>
+	  					#{msg['management.stats.hib.start']}
+  					</h:commandLink>
+						<h:commandLink action="#{statisticController.stopHibernateStatistics}" styleClass="btn btn-danger">
+							<i class="icon-off icon-white"></i>
+			  			#{msg['management.stats.hib.stop']}
+  					</h:commandLink>
+						<h:commandLink action="#{statisticController.clearHibernateStatistics}" styleClass="btn btn-info">
+							<i class="icon-remove icon-white"></i>
+	  					#{msg['management.stats.hib.clear']}
+  					</h:commandLink>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<table class="table table-bordered table-hover table-condensed table-striped">
+			<thead>
+				<th>#{msg['management.stats.hib.column.name']}</th>
+				<th>#{msg['management.stats.hib.column.value']}</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Start time</td>
+					<td><h:outputText value="#{statisticController.hibernateStatistics.startTime}">
+							<f:convertDateTime type="both" dateType="short" />
+						</h:outputText></td>
+				</tr>
+				<tr>
+					<td>sessions opened</td>
+					<td>#{statisticController.hibernateStatistics.sessionOpenCount}</td>
+				</tr>
+				<tr>
+					<td>sessions closed</td>
+					<td>#{statisticController.hibernateStatistics.sessionCloseCount}</td>
+				</tr>
+				<tr>
+					<td>transactions</td>
+					<td>#{statisticController.hibernateStatistics.transactionCount}</td>
+				</tr>
+				<tr>
+					<td>successful transactions</td>
+					<td>#{statisticController.hibernateStatistics.successfulTransactionCount}</td>
+				</tr>
+				<tr>
+					<td>optimistic lock failures</td>
+					<td>#{statisticController.hibernateStatistics.optimisticFailureCount}</td>
+				</tr>
+				<tr>
+					<td>flushes</td>
+					<td>#{statisticController.hibernateStatistics.flushCount}</td>
+				</tr>
+				<tr>
+					<td>connections obtained</td>
+					<td>#{statisticController.hibernateStatistics.connectCount}</td>
+				</tr>
+				<tr>
+					<td>statements prepared</td>
+					<td>#{statisticController.hibernateStatistics.prepareStatementCount}</td>
+				</tr>
+				<tr>
+					<td>statements closed</td>
+					<td>#{statisticController.hibernateStatistics.closeStatementCount}</td>
+				</tr>
+				<tr>
+					<td>second level cache puts</td>
+					<td>#{statisticController.hibernateStatistics.secondLevelCachePutCount}</td>
+				</tr>
+				<tr>
+					<td>second level cache hits</td>
+					<td>#{statisticController.hibernateStatistics.secondLevelCacheHitCount}</td>
+				</tr>
+				<tr>
+					<td>second level cache misses</td>
+					<td>#{statisticController.hibernateStatistics.secondLevelCacheMissCount}</td>
+				</tr>
+				<tr>
+					<td>entities loaded</td>
+					<td>#{statisticController.hibernateStatistics.entityLoadCount}</td>
+				</tr>
+				<tr>
+					<td>entities updated</td>
+					<td>#{statisticController.hibernateStatistics.entityUpdateCount}</td>
+				</tr>
+				<tr>
+					<td>entities inserted</td>
+					<td>#{statisticController.hibernateStatistics.entityInsertCount}</td>
+				</tr>
+				<tr>
+					<td>entities deleted</td>
+					<td>#{statisticController.hibernateStatistics.entityDeleteCount}</td>
+				</tr>
+				<tr>
+					<td>entities fetched</td>
+					<td>#{statisticController.hibernateStatistics.entityFetchCount}</td>
+				</tr>
+				<tr>
+					<td>collections loaded</td>
+					<td>#{statisticController.hibernateStatistics.collectionLoadCount}</td>
+				</tr>
+				<tr>
+					<td>collections updated</td>
+					<td>#{statisticController.hibernateStatistics.collectionUpdateCount}</td>
+				</tr>
+				<tr>
+					<td>collections removed</td>
+					<td>#{statisticController.hibernateStatistics.collectionRemoveCount}</td>
+				</tr>
+				<tr>
+					<td>collections recreated</td>
+					<td>#{statisticController.hibernateStatistics.collectionRecreateCount}</td>
+				</tr>
+				<tr>
+					<td>collections fetched</td>
+					<td>#{statisticController.hibernateStatistics.collectionFetchCount}</td>
+				</tr>
+				<tr>
+					<td>naturalId queries executed to database</td>
+					<td>#{statisticController.hibernateStatistics.naturalIdQueryExecutionCount}</td>
+				</tr>
+				<tr>
+					<td>naturalId cache puts</td>
+					<td>#{statisticController.hibernateStatistics.naturalIdCachePutCount}</td>
+				</tr>
+				<tr>
+					<td>naturalId cache hits</td>
+					<td>#{statisticController.hibernateStatistics.naturalIdCacheHitCount}</td>
+				</tr>
+				<tr>
+					<td>naturalId cache misses</td>
+					<td>#{statisticController.hibernateStatistics.naturalIdCacheMissCount}</td>
+				</tr>
+				<tr>
+					<td>naturalId max query time</td>
+					<td>#{statisticController.hibernateStatistics.naturalIdQueryExecutionMaxTime}</td>
+				</tr>
+				<tr>
+					<td>queries executed to database</td>
+					<td>#{statisticController.hibernateStatistics.queryExecutionCount}</td>
+				</tr>
+				<tr>
+					<td>query cache puts</td>
+					<td>#{statisticController.hibernateStatistics.queryCachePutCount}</td>
+				</tr>
+				<tr>
+					<td>query cache hits</td>
+					<td>#{statisticController.hibernateStatistics.queryCacheHitCount}</td>
+				</tr>
+				<tr>
+					<td>query cache misses</td>
+					<td>#{statisticController.hibernateStatistics.queryCacheMissCount}</td>
+				</tr>
+				<tr>
+					<td>update timestamps cache puts</td>
+					<td>#{statisticController.hibernateStatistics.updateTimestampsCachePutCount}</td>
+				</tr>
+				<tr>
+					<td>update timestamps cache hits</td>
+					<td>#{statisticController.hibernateStatistics.updateTimestampsCacheHitCount}</td>
+				</tr>
+				<tr>
+					<td>update timestamps cache misses</td>
+					<td>#{statisticController.hibernateStatistics.updateTimestampsCacheMissCount}</td>
+				</tr>
+				<tr>
+					<td>max query time</td>
+					<td>#{statisticController.hibernateStatistics.queryExecutionMaxTime}</td>
+				</tr>
+			</tbody>
+		</table>
+	</ui:define>
+
+</ui:composition>

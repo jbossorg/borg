@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" lang="en" manifest="cache.manifest">
+<head>
+<meta charset="UTF-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<title>Planet Reader</title>
+<link type="text/css" rel="stylesheet" href="reader.css" media="all"></link>
+<SCRIPT type="text/javascript">
+	var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
+	var syncServer = "https://dcp-jbossorgdev.rhcloud.com"
+	//var syncServer = "#{configurationService.configuration.syncServer}";
+</SCRIPT>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.animate-enhanced.min.js"></script>
+<script src="js/hammer.js"></script>
+<script src="js/jquery.hammer.js"></script>
+<script src="reader.js"></script>
+</head>
+<body>
+	<article>
+		<header>
+			<div id="header-home" class="header-navbar">
+				<div class="left">
+					<a id="refresh" href="">Refresh</a>
+				</div>
+				<div class="center">Planet Reader</div>
+				<div class="right"></div>
+			</div>
+			<div id="header-preview" class="header-navbar nocenter">
+				<div class="left">
+					<a id="back" href="">Back</a>
+				</div>
+				<div class="right">
+					<a id="previous" href="">Previous</a> <a id="next" href="">Next</a>
+				</div>
+			</div>
+		</header>
+
+		<div id="home" class="page">
+			<div id="elm-to-animate">
+				<div id="updated-wrapper">
+					updated: <span id="updated"></span>
+				</div>
+				<div id="posts" class="scroll-content">
+					<ul id="posts_list" class="mobile_list">
+					</ul>
+				</div>
+				<div id="loading"></div>
+			</div>
+		</div>
+
+		<div id="preview" class="page">
+			<div id="elm-to-animate">
+				<div id="postwrapper">
+					<div class="publishedwrapper">
+						<span id="published"></span>
+					</div>
+					<h1 id="title"></h1>
+					<div id="postpreview"></div>
+				</div>
+			</div>
+		</div>
+
+
+	</article>
+</body>
+</html>

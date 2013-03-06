@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="well">
+		<h:form id="group" styleClass="form-horizontal">
+			<f:validateBean>
+				<fieldset>
+					<div class="control-group #{!name.valid ? 'error' : ''} required">
+						<h:outputLabel for="name" value="#{msg['management.group.name']}:" styleClass="control-label" />
+						<div class="controls">
+							<h:inputText id="name" value="#{groupController.groupToUpdate.name}" required="true"
+								label="#{msg['management.group.name']}" binding="#{name}" />
+							<h:message for="name" errorClass="help-inline" />
+						</div>
+					</div>
+					<div class="control-group #{!displayName.valid ? 'error' : ''} required">
+						<h:outputLabel for="displayName" value="#{msg['management.group.displayName']}:" styleClass="control-label" />
+						<div class="controls">
+							<h:inputText id="displayName" value="#{groupController.groupToUpdate.displayName}" required="true"
+								label="#{msg['management.group.displayName']}" binding="#{displayName}" />
+							<h:message for="displayName" errorClass="help-inline" />
+						</div>
+					</div>
+					<div class="control-group #{!adminEmail.valid ? 'error' : ''} required">
+						<h:outputLabel for="adminEmail" value="#{msg['management.group.adminEmail']}:" styleClass="control-label" />
+						<div class="controls">
+							<h:inputText id="adminEmail" value="#{groupController.groupToUpdate.adminEmail}" required="true"
+								label="#{msg['management.group.adminEmail']}" binding="#{adminEmail}" />
+							<h:message for="adminEmail" errorClass="help-inline" />
+						</div>
+					</div>
+				</fieldset>
+			</f:validateBean>
+
+			<div class="form-actions">
+				<h:commandLink action="#{groupController.update}" styleClass="btn btn-success">
+					<i class="icon-ok icon-white"></i>
+					<h:outputText value="#{msg['common.submit']}" />
+				</h:commandLink>
+				&#160;
+				<h:link value="#{msg['common.back']}" outcome="/manage/group/list.jsf" styleClass="btn" />
+			</div>
+		</h:form>
+	</div>
+</ui:composition>

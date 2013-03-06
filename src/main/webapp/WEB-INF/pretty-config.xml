@@ -1,0 +1,133 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+
+
+	<url-mapping id="home">
+		<pattern value="/" />
+		<view-id value="/home.jsf" />
+	</url-mapping>
+
+	<url-mapping id="reader">
+		<pattern value="/reader" />
+		<view-id value="/reader/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="reader">
+		<pattern value="/reader/" />
+		<view-id value="/reader/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="list">
+		<pattern value="/list" />
+		<view-id value="/view/feeds-list.jsf" />
+	</url-mapping>
+
+	<url-mapping id="browse">
+		<pattern value="/browse" />
+		<view-id value="/view/browse.jsf" />
+	</url-mapping>
+
+	<url-mapping id="manage-index">
+		<pattern value="/manage/" />
+		<view-id value="/manage/index.jsf" />
+		<action>#{userController.checkIsLoggedIn}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-configuration">
+		<pattern value="/manage/configuration/edit" />
+		<view-id value="/manage/configuration/config-edit.jsf" />
+		<action>#{configurationController.load}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-statistics">
+		<pattern value="/manage/statistics/" />
+		<view-id value="/manage/statistics/index.jsf" />
+		<action>#{userController.checkIsAdmin}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-system-admins">
+		<pattern value="/manage/configuration/system-admins" />
+		<view-id value="/manage/configuration/system-admins.jsf" />
+		<action>#{userController.checkIsAdmin}</action>
+	</url-mapping>
+
+
+	<url-mapping id="manage-feed">
+		<pattern value="/manage/feed/" />
+		<view-id value="/manage/feed/list.jsf" />
+		<action>#{userController.checkIsLoggedIn}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-feed-propositions">
+		<pattern value="/manage/feed/propositions" />
+		<view-id value="/manage/feed/propositions.jsf" />
+		<action>#{userController.checkIsAdmin}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-feed-edit">
+		<pattern value="/manage/feed/#{name : feedController.feedName}/edit" />
+		<view-id value="/manage/feed/feed-edit.jsf" />
+		<action>#{feedController.loadFeed}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-feed-new">
+		<pattern value="/manage/feed/new" />
+		<view-id value="/manage/feed/feed-new.jsf" />
+		<action>#{userController.checkIsLoggedIn}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-feed-admins">
+		<pattern value="/manage/feed/#{name : feedController.feedName}/admins" />
+		<view-id value="/manage/feed/feed-admins.jsf" />
+		<action>#{feedController.loadFeed}</action>
+	</url-mapping>
+
+
+	<url-mapping id="manage-group">
+		<pattern value="/manage/group/" />
+		<view-id value="/manage/group/list.jsf" />
+		<action>#{userController.checkIsGroupAdmin}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-group-edit">
+		<pattern value="/manage/group/#{name : groupController.groupName}/edit" />
+		<view-id value="/manage/group/group-edit.jsf" />
+		<action>#{groupController.loadGroup}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-group-new">
+		<pattern value="/manage/group/new" />
+		<view-id value="/manage/group/group-new.jsf" />
+		<action>#{groupController.newGroup}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-group-admins">
+		<pattern value="/manage/group/#{name : groupController.groupName}/admins" />
+		<view-id value="/manage/group/group-admins.jsf" />
+		<action>#{groupController.loadGroup}</action>
+	</url-mapping>
+
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<view-id value="/logout.jsf" />
+		<action>#{userController.logout}</action>
+	</url-mapping>
+
+	<url-mapping id="not-logged">
+		<pattern value="/error/notlogged" />
+		<view-id value="/error/notlogged.jsf" />
+		<action>#{userController.checkUserOnErrorPage}</action>
+	</url-mapping>
+
+	<url-mapping id="not-authorized">
+		<pattern value="/error/notauthorized" />
+		<view-id value="/error/notauthorized.jsf" />
+	</url-mapping>
+
+	<url-mapping>
+		<pattern value="/error/unknown" />
+		<view-id value="/error/unknown.jsf" />
+	</url-mapping>
+
+</pretty-config>

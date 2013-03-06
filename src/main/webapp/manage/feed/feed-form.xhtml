@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="well">
+		<h:form id="feed" styleClass="form-horizontal">
+			<fieldset>
+				<div class="control-group #{!url.valid ? 'error' : ''} required">
+					<h:outputLabel for="url" value="#{msg['management.feed.url']}:" styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="url" value="#{feedController.feedToUpdate.remoteLink}" binding="#{url}"
+							label="#{msg['management.feed.url']}" styleClass="url">
+							<f:validateBean />
+						</h:inputText>
+						<ui:fragment>
+								&#160;
+								<h:commandLink id="retrieveFeed" action="#{feedController.retrieveFeed}" styleClass="btn btn-success">
+								<f:param name="URL_ONLY" value="true" />
+								<i class="icon-download icon-white"></i>
+									#{msg['management.feed.url.getfeed']}
+								</h:commandLink>
+						</ui:fragment>
+						<h:message for="url" errorClass="help-inline" />
+					</div>
+				</div>
+				<div style="#{(url.valid and url.value.length() &gt; 0) ? '' : 'display: none' }">
+					<div class="control-group #{!name.valid ? 'error' : ''} required">
+						<h:outputLabel for="name" value="#{msg['management.feed.name']}:" styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:inputText id="name" value="#{feedController.feedToUpdate.name}" binding="#{name}"
+									label="#{msg['management.feed.name']}" />
+							</f:validateBean>
+							<h:message for="name" errorClass="help-inline" />
+							<p class="help-block">
+								<h:outputText value="#{msg['management.feed.name.desc']}" />
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group #{!title.valid ? 'error' : ''} required">
+						<h:outputLabel for="title" value="#{msg['management.feed.title']}:" styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:inputText id="title" value="#{feedController.feedToUpdate.title}" binding="#{title}"
+									label="#{msg['management.feed.title']}" />
+							</f:validateBean>
+							<h:message for="title" errorClass="help-inline" />
+						</div>
+					</div>
+
+					<div class="control-group #{!author.valid ? 'error' : ''} required">
+						<h:outputLabel for="author" value="#{msg['management.feed.author']}:" styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:inputText id="author" class="feed-author" value="#{feedController.feedToUpdate.author}" binding="#{author}"
+									label="#{msg['management.feed.author']}" />
+							</f:validateBean>
+							<h:message for="author" errorClass="help-inline" />
+						</div>
+					</div>
+
+					<div class="control-group #{!authorJbossUsername.valid ? 'error' : ''}">
+						<h:outputLabel for="authorJbossUsername" value="#{msg['management.feed.authorJbossUsername']}:"
+							styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:inputText id="authorJbossUsername" value="#{feedController.feedToUpdate.authorJbossUsername}"
+									binding="#{authorJbossUsername}" label="#{msg['management.feed.authorJbossUsername']}" />
+							</f:validateBean>
+							<h:message for="authorJbossUsername" errorClass="help-inline" />
+						</div>
+					</div>
+
+					<div class="control-group #{!authorAvatarLink.valid ? 'error' : ''}">
+						<h:outputLabel for="authorAvatarLink" value="#{msg['management.feed.authorAvatarLink']}:"
+							styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:inputText id="authorAvatarLink" value="#{feedController.feedToUpdate.authorAvatarLink}"
+									binding="#{authorAvatarLink}" label="#{msg['management.feed.authorAvatarLink']}" />
+							</f:validateBean>
+							<h:message for="authorAvatarLink" errorClass="help-inline" />
+							<p class="help-block">
+								<h:outputText value="#{msg['management.feed.authorAvatarLink.desc']}" />
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group #{!group.valid ? 'error' : ''} required">
+						<h:outputLabel for="group" value="#{msg['management.feed.group']}:" styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:selectOneMenu id="group" value="#{feedController.feedToUpdate.group}" converter="#{groupConverter}"
+									label="#{msg['management.feed.group']}" binding="#{group}" styleClass="span5">
+									<f:selectItems value="#{groups}" var="g" itemValue="#{g}" itemLabel="#{g.displayName}" />
+								</h:selectOneMenu>
+							</f:validateBean>
+							<h:message for="group" errorClass="help-inline" />
+						</div>
+					</div>
+
+					<div class="control-group #{!postAuthorType.valid ? 'error' : ''} required">
+						<h:outputLabel for="postAuthorType" value="#{msg['management.feed.postAuthorType']}:" styleClass="control-label" />
+						<div class="controls">
+							<f:validateBean disabled="#{param['URL_ONLY']}">
+								<h:selectOneMenu id="postAuthorType" value="#{feedController.feedToUpdate.postAuthorType}"
+									converter="#{postAuthorTypeConverter}" label="#{msg['management.feed.postAuthorType']}"
+									binding="#{postAuthorType}" styleClass="span5">
+									<f:selectItems value="#{postAuthorTypeConverter.options}" />
+								</h:selectOneMenu>
+							</f:validateBean>
+							<h:message for="postAuthorType" styleClass="help-inline" />
+						</div>
+					</div>
+
+					<div class="control-group">
+						<h:outputLabel for="includeCategory" value="#{msg['management.feed.includeCategory']}:" styleClass="control-label" />
+						<div class="controls">
+							<ui:fragment rendered="#{formType == 'create' and url.value.length() > 0}">
+								<h:selectOneMenu id="includeCategory" value="#{feedController.includeCategory}"
+									label="#{msg['management.feed.includeCategory']}" styleClass="span5">
+									<f:selectItems value="#{feedCategoriesHolder.categories}" />
+									<f:validateBean disabled="true" />
+								</h:selectOneMenu>
+								<h:message for="includeCategory" styleClass="help-inline" />
+							</ui:fragment>
+							<ui:fragment rendered="#{formType == 'update'}">
+								<h:inputText id="includeCategoryRegexp" value="#{feedController.feedToUpdate.includeCategoryRegexp}"
+									binding="#{includeCategoryRegexp}" label="#{msg['management.feed.includeCategory']}" />
+								<h:message for="includeCategoryRegexp" styleClass="help-inline" />
+								<p class="help-block">
+									<h:outputText value="#{msg['management.feed.includeCategory.regexp.desc']}" />
+								</p>
+							</ui:fragment>
+						</div>
+					</div>
+
+					<ui:fragment rendered="#{userController.admin and formType != 'create'}">
+						<div class="control-group #{!status.valid ? 'error' : ''} required">
+							<h:outputLabel for="status" value="#{msg['management.feed.status']}:" styleClass="control-label" />
+							<div class="controls">
+								<f:validateBean disabled="#{param['URL_ONLY']}">
+									<h:selectOneMenu id="status" value="#{feedController.feedToUpdate.status}" converter="#{feedStatusConverter}"
+										label="#{msg['management.feed.status']}" binding="#{status}" styleClass="span5">
+										<f:selectItems value="#{feedStatusConverter.options}" />
+									</h:selectOneMenu>
+								</f:validateBean>
+								<h:message for="status" styleClass="help-inline" />
+							</div>
+						</div>
+					</ui:fragment>
+				</div>
+			</fieldset>
+
+			<div class="form-actions" style="#{(url.valid and url.value.length() &gt; 0) ? '' : 'display: none' }">
+				<h:commandLink action="#{feedController.update}" styleClass="btn btn-success">
+					<f:param name="URL_ONLY" value="false" />
+					<i class="icon-ok icon-white"></i>
+					<h:outputText value="#{msg['management.feed.submit']}" />
+				</h:commandLink>
+				&#160;
+				<h:link value="#{msg['management.feed.back']}" outcome="/manage/feed/list.jsf" styleClass="btn" />
+			</div>
+
+		</h:form>
+	</div>
+</ui:composition>

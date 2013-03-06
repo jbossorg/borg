@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+
+	<ui:param name="pageId" value="edit-group-admins" />
+	<ui:param name="section" value="yourstuff" />
+	<ui:param name="datatables" value="true" />
+
+	<ui:define name="header">
+    #{msg['manage.group.admin.name']} <h:outputText value="#{groupController.groupToUpdate.displayName}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="./breadcrumb.xhtml" />
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['manage.group.admin.name']} <h:outputText
+			value="#{groupController.groupToUpdate.displayName}" />
+		<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="admins" styleClass="well">
+			<f:validateBean>
+				<fieldset>
+					<div class="control-group #{!user.valid ? 'error' : ''} required">
+						<h:outputLabel for="user" value="#{msg['manage.systemAdmins.user']}:" styleClass="control-label" />
+						<div class="controls">
+							<h:inputText id="user" value="#{groupController.adminToUpdate}" binding="#{user}" required="true"
+								label="#{msg['manage.systemAdmins.user']}" />
+							<h:message for="user" styleClass="help-inline" />
+						</div>
+					</div>
+				</fieldset>
+			</f:validateBean>
+
+			<h:commandLink action="#{groupController.addAdmin}" styleClass="btn btn-success">
+				<i class="icon-plus icon-white"></i>
+  					#{msg['common.add']}
+	  			</h:commandLink>
+	  			&#160;
+				<h:link value="#{msg['common.back']}" outcome="/manage/group/list.jsf" styleClass="btn" />
+		</h:form>
+	
+		<table id="manage-group-admins-table" class="manage-admins-table table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>#{msg['manage.systemAdmins.column.username']}</th>
+					<th>#{msg['manage.systemAdmins.column.action']}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="admin" value="#{permissionService.getGroupAdministrators(groupController.groupToUpdate.id)}">
+					<tr>
+						<td><h:outputText value="#{admin.externalId}" /></td>
+						<td><ui:fragment rendered="#{userController.admin || admin.externalId != userController.username}">
+								<h:form id="admins-action" styleClass="group-action-form">
+									<h:commandLink id="delete" action="#{groupController.removeAdmin}" styleClass="btn btn-danger"
+										onclick="if (!confirm('#{msg['manage.systemAdmins.text.deleteConfirm']}')) return false">
+										<f:setPropertyActionListener target="#{groupController.adminToUpdate}" value="#{admin.externalId}" />
+										<f:setPropertyActionListener target="#{groupController.groupName}"
+											value="#{groupController.groupToUpdate.name}" />
+										<i class="icon-minus icon-white"></i>
+										#{msg['manage.systemAdmins.remove']}
+									</h:commandLink>
+								</h:form>
+							</ui:fragment>
+							<ui:fragment rendered="#{admin.externalId == userController.username and !userController.admin}">
+								#{msg['manage.systemAdmins.text.cannotDelete']}
+							</ui:fragment></td>
+					</tr>
+				</ui:repeat>
+			</tbody>
+		</table>
+
+		<script type="text/javascript" charset="utf-8">
+			function appLoadedOnDesktop() {
+			$(document).ready(function() {
+				initDataTable($('#manage-group-admins-table'));
+			} );
+
+			}
+		</script>
+	</ui:define>
+
+</ui:composition>

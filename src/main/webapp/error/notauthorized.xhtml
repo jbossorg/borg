@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  template="../layout/template.xhtml">
+
+  <ui:param name="pageId" value="notlogged" />
+
+  <ui:define name="header">
+    #{msg['error.notauthorized.name']}
+  </ui:define>
+  
+  <ui:define name="page_title">#{msg['error.notauthorized.name']}<ui:include src="/layout/page-title-suffix.xhtml" /></ui:define>
+
+   <ui:define name="breadcrumb">
+   	<ui:include src="../breadcrumb.xhtml" />
+   </ui:define>
+
+  <ui:define name="body">
+		<p>#{msg['error.notauthorized.desc']}</p>
+  </ui:define>
+
+</ui:composition>

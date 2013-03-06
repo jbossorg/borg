@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="../layout/template.xhtml">
+    <ui:define name="header">
+        Feeds list
+    </ui:define>
+
+    <ui:define name="breadcrumb">
+    	<ui:include src="../breadcrumb.xhtml" />
+    </ui:define>
+
+    <ui:define name="page_title">Feeds list<ui:include src="/layout/page-title-suffix.xhtml" /></ui:define>
+
+    <ui:define name="body">
+      <div class="columns-wrapper">
+
+        <div class="columnright">
+          <div id="propose-blog">
+            <h:link value="" view="/manage/remote/remote_propose.xhtml" propagation="none">
+              <div id="propose-blog-img"></div>
+            </h:link>
+          </div>
+        </div>
+
+        <div class="columnleft">
+            <!-- TODO: Add search list powered by HTML5 search stuff -->
+            <ul id="feed-list-ul" class="ui-listview" data-role="listview" data-filter="true" data-inset="true" data-theme="c">
+            <ui:repeat var="group" value="#{groups}">
+	             <li class="group-name" data-role="list-divider"><h2>#{group.displayName}</h2></li>
+	                 <ui:repeat var="feed" value="#{feedsService.getAcceptedFeeds(group.id)}">
+	                   <li>
+	                     <h:link outcome="/home.xhtml" fragment="feed=#{feed.name}" propagation="none">
+	                       <img src="#{feed.effectiveAvatarLink}" class="ui-li-thumb" alt="#{feed.author}" height="46px" width="46px"/>
+	                       <h3 class="ui-li-heading"><h:outputText value="#{feed.title}" /></h3>
+	                       <p class="ui-li-desc">#{feed.author}</p>
+	                       <span class="ui-li-count">#{feedsService.getFeedPostsCount(feed)}</span>
+	                     </h:link>
+	                   </li>
+	                 </ui:repeat>
+
+            </ui:repeat>
+            </ul>
+        </div>
+        
+        <div class="clearfix"></div>
+      
+      </div>
+    </ui:define>
+</ui:composition>

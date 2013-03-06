@@ -1,4 +1,5 @@
-borg
+Borg
 ====
 
-Blog posts aggregator
+Borg is the Blog aggregator
+

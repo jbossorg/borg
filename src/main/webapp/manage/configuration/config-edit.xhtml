@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+
+	<ui:param name="pageId" value="edit-config" />
+	<ui:param name="section" value="management" />
+
+	<ui:define name="header">
+    #{msg['management.config.edit']}
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml" />
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['management.config.edit']}
+		<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="feed" styleClass="form-horizontal well">
+			<f:validateBean>
+				<h3>
+					<h:outputText value="#{msg['management.config.global.name']}" />
+				</h3>
+
+				<div class="control-group #{!readTimeout.valid ? 'error' : ''} required">
+					<h:outputLabel for="readTimeout" value="#{msg['management.config.readTimeout']}:" styleClass="control-label" />
+					<div class="controls">
+						<div class="input-append">
+							<h:inputText id="readTimeout" styleClass="span2" value="#{configurationController.config.readTimeout}"
+								binding="#{readTimeout}" label="#{msg['management.config.readTimeout']}" required="true" />
+							<span class="add-on">#{msg['management.config.append.sec']}</span>
+						</div>
+						<h:message for="readTimeout" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!connectionTimeout.valid ? 'error' : ''} required">
+					<h:outputLabel for="connectionTimeout" value="#{msg['management.config.connectionTimeout']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<div class="input-append">
+							<h:inputText id="connectionTimeout" styleClass="span2"
+								value="#{configurationController.config.connectionTimeout}" binding="#{connectionTimeout}"
+								label="#{msg['management.config.connectionTimeout']}" required="true" />
+							<span class="add-on">#{msg['management.config.append.sec']}</span>
+						</div>
+						<h:message for="connectionTimeout" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!updateInterval.valid ? 'error' : ''} required">
+					<h:outputLabel for="updateInterval" value="#{msg['management.config.updateInterval']}:" styleClass="control-label" />
+					<div class="controls">
+						<div class="input-append">
+							<h:inputText id="updateInterval" styleClass="span2" value="#{configurationController.config.updateInterval}"
+								binding="#{updateInterval}" label="#{msg['management.config.updateInterval']}" required="true" />
+							<span class="add-on">#{msg['management.config.append.sec']}</span>
+						</div>
+						<h:message for="updateInterval" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!updateFeedFailsThreshold.valid ? 'error' : ''} required">
+					<h:outputLabel for="updateFeedFailsThreshold" value="#{msg['management.config.updateFeedFailsThreshold']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="updateFeedFailsThreshold" value="#{configurationController.config.updateFeedFailsThreshold}"
+							binding="#{updateFeedFailsThreshold}" label="#{msg['management.config.updateFeedFailsThreshold']}" />
+						<h:message for="updateFeedFailsThreshold" errorClass="help-inline" />
+						<p class="help-block">
+							<h:outputText value="#{msg['management.config.updateFeedFailsThreshold.desc']}" />
+						</p>
+					</div>
+				</div>
+
+				<div class="control-group #{!adminEmail.valid ? 'error' : ''} required">
+					<h:outputLabel for="adminEmail" value="#{msg['management.config.adminEmail']}:" styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="adminEmail" value="#{configurationController.config.adminEmail}" binding="#{adminEmail}"
+							label="#{msg['management.config.adminEmail']}" required="true" />
+						<h:message for="adminEmail" errorClass="help-inline" />
+					</div>
+				</div>
+
+
+				<h3>
+					<h:outputText value="#{msg['management.config.sync.name']}" />
+				</h3>
+				<div class="control-group #{!syncServer.valid ? 'error' : ''}">
+					<h:outputLabel for="syncServer" value="#{msg['management.config.syncServer']}:" styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="syncServer" value="#{configurationController.config.syncServer}" binding="#{syncServer}"
+							label="#{msg['management.config.syncServer']}" />
+						<h:message for="syncServer" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!syncServerHttpInViewLayer.valid ? 'error' : ''}">
+					<h:outputLabel for="syncServerHttpInViewLayer" value="#{msg['management.config.syncServerHttpInViewLayer']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<h:selectBooleanCheckbox id="syncServerHttpInViewLayer"
+							value="#{configurationController.config.syncServerHttpInViewLayer}" binding="#{syncServerHttpInViewLayer}"
+							label="#{msg['management.config.syncServerHttpInViewLayer']}" />
+						<h:message for="syncServerHttpInViewLayer" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!syncServerUsername.valid ? 'error' : ''}">
+					<h:outputLabel for="syncServerUsername" value="#{msg['management.config.syncServerUsername']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="syncServerUsername" value="#{configurationController.config.syncUsername}"
+							binding="#{syncServerUsername}" label="#{msg['management.config.syncServerUsername']}" />
+						<h:message for="syncServerUsername" errorClass="help-inline" />
+					</div>
+				</div>
+
+				<div class="control-group #{!syncServerPassword.valid ? 'error' : ''}">
+					<h:outputLabel for="syncServerPassword" value="#{msg['management.config.syncServerPassword']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<h:inputSecret id="syncServerPassword" value="#{configurationController.config.syncPassword}"
+							binding="#{syncServerPassword}" label="#{msg['management.config.syncServerPassword']}" />
+						<h:message for="syncServerPassword" errorClass="help-inline" />
+						<p class="help-block">
+							<h:outputText value="#{msg['management.config.syncServerPassword.desc']}" />
+						</p>
+					</div>
+				</div>
+
+				<div class="control-group #{!syncContentType.valid ? 'error' : ''}">
+					<h:outputLabel for="syncContentType" value="#{msg['management.config.syncContentType']}:"
+						styleClass="control-label" />
+					<div class="controls">
+						<h:inputText id="syncContentType" value="#{configurationController.config.syncContentType}"
+							binding="#{syncContentType}" label="#{msg['management.config.syncContentType']}" />
+						<h:message for="syncContentType" errorClass="help-inline" />
+					</div>
+				</div>
+			</f:validateBean>
+
+			<div class="form-actions">
+				<h:commandLink action="#{configurationController.update}" styleClass="btn btn-success">
+					<i class="icon-ok icon-white"></i>
+	  			#{msg['common.submit']}
+  			</h:commandLink>
+				&#160;
+				<h:link value="#{msg['common.back']}" outcome="/manage/index.jsf" styleClass="btn" />
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

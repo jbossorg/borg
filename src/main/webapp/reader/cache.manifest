@@ -1,0 +1,16 @@
+CACHE MANIFEST
+
+# Cache manifest file.
+# Random number to force reload resources: 14191210
+
+CACHE:
+reader.css
+reader.js
+http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
+js/jquery.animate-enhanced.min.js
+js/hammer.js
+js/jquery.hammer.js
+
+# All other resources (e.g. sites) require the user to be online. 
+NETWORK:
+*

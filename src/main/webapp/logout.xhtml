@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  template="layout/template.xhtml">
+
+  <ui:param name="pageId" value="logout" />
+  
+  <ui:define name="header">
+    Logout Successful
+  </ui:define>
+
+  <ui:define name="page_title">Logout Successful<ui:include src="/layout/page-title-suffix.xhtml" /></ui:define>
+
+   <ui:define name="breadcrumb">
+   	<ui:include src="./breadcrumb.xhtml" />
+   </ui:define>
+  
+  <ui:define name="body">
+		<p>You are now logged out from this site.</p>
+		<p>If using a public computer please <h:outputLink value="#{globalConfig.SSOServerUrl}/logout">Log Out of JBoss Community</h:outputLink> and Exit your web browser when you have finished!</p>
+  </ui:define>
+
+</ui:composition>

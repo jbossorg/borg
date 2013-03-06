@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><ui:insert name="page_title">#{msg['app.title']}</ui:insert></title>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/favicon.ico"></link>
+
+    <link id="sccs1" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/screen.css" media="screen"></link>
+    <link id="sccs-print" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/print.css" media="print"></link>
+    <link id="sccs-bootstrap" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap.min.css" media="screen"></link>
+    <link id="sccs-bootstrap-responsive" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap-responsive.min.css" media="screen"></link>
+
+	<SCRIPT type="text/javascript">
+		var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
+		//var syncServer = "https://dcp-jbossorgdev.rhcloud.com"
+		var syncServer = "#{configurationService.syncServerOnView}";
+	</SCRIPT>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <h:outputScript library="bbq/js" name="jquery.ba-bbq.min.js" />
+    <h:outputScript library="datatables/js" name="jquery.dataTables.min.js" rendered="#{datatables == 'true'}" />
+    <h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
+    <ui:fragment rendered="#{addthis == 'true'}">
+		<script type="text/javascript" src="#{requestUtils.scheme}://s7.addthis.com/js/250/addthis_widget.js#username=ra-4fe82e7237a0e8c4"></script>
+    </ui:fragment>
+    <h:outputScript library="js" name="md5.js" />
+    <h:outputScript library="js" name="app.js" />
+    <h:outputScript library="animate-enhanced/js" name="jquery.animate-enhanced.min.js" />
+    
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-29404929-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
+    
+    <ui:insert name="additional_headers" />
+    <ui:fragment rendered="#{ajaxPage == 'true'}">
+      <ui:include src="../common/header-resources-ajax.xhtml" />
+    </ui:fragment>
+</h:head>
+
+<body>
+	<ui:insert name="page-start"/>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="http://www.jboss.org">JBoss Community</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="#{pageId == 'home' ? 'active' : ''}"><h:link outcome="/home.jsf" value="Home" /></li>
+              <li class="dropdown">
+			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			      <b class="caret"></b>
+			      Browse
+			    </a>
+			    <ul class="dropdown-menu">
+				    <li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
+			    </ul>
+			  </li>
+			  <li class="dropdown #{section == 'yourstuff' ? 'active' : ''}">
+			    <a href="#{facesContext.externalContext.requestContextPath}/manage" class="dropdown-toggle" data-toggle="dropdown">
+			      <b class="caret"></b>
+			      #{msg['browse.yourstuff']}
+			    </a>
+			    <ul class="dropdown-menu">
+					<li><h:link outcome="/manage/feed/feed-new.jsf" value="#{msg['management.feeds.new']}" /></li>
+					<ui:fragment rendered="#{userController.loggedIn}">
+						<li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.feeds.name']}" /></li>
+				    	<ui:fragment rendered="#{userController.groupAdmin}">
+							<li class="divider"></li>
+							<li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.groups.name']}"  /></li>
+				    	</ui:fragment>
+					</ui:fragment>
+			    </ul>
+			    </li>
+				<ui:fragment rendered="#{userController.admin}">
+					<li class="dropdown #{section == 'management' ? 'active' : ''}">
+				    <a href="#{facesContext.externalContext.requestContextPath}/manage" class="dropdown-toggle" data-toggle="dropdown">
+				      <b class="caret"></b>
+				      #{msg['browse.management']}
+				    </a>
+				    <ul class="dropdown-menu">
+						<li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" /></li>
+						<li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" /></li>
+						<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}" /></li>
+				    </ul>
+				    </li>
+				</ui:fragment>
+              <ui:insert name="mainmenu"/>
+            </ul>
+            <ul class="nav pull-right">
+       		  <ui:fragment rendered="#{!userController.loggedIn}">
+		          <li><a href="#{facesContext.externalContext.requestContextPath}/login">#{msg['browse.login']}</a></li>
+		      </ui:fragment>
+		      <ui:fragment rendered="#{userController.loggedIn}">
+		          <li><a href="#{facesContext.externalContext.requestContextPath}/logout">#{msg['browse.logout']}</a></li>
+		      </ui:fragment>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+   	<div id="page-id-#{pageId}" class="container #{pageClass}">
+           <div class="row">
+            <div class="span12 main-content-header">
+                <div id="breadcrumb-bootstrap">
+									<ul class="breadcrumb">
+                    <ui:insert name="breadcrumb"/>
+                  </ul>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+              <div class="span12 main-messages">
+              	<ui:repeat var="m" value="#{requestUtils.globalMessages}">
+              	<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{m.severity.ordinal == 0}">
+              		<a class="close" data-dismiss="alert" href="#">×</a>
+              		#{m.summary}
+              	</h:panelGroup>
+              	<h:panelGroup layout="block" styleClass="alert" rendered="#{m.severity.ordinal == 1}">
+              		<a class="close" data-dismiss="alert" href="#">×</a>
+              		#{m.summary}
+              	</h:panelGroup>
+              	<h:panelGroup layout="block" styleClass="alert alert-error" rendered="#{m.severity.ordinal == 2}">
+              		<a class="close" data-dismiss="alert" href="#">×</a>
+              		#{m.summary}
+              	</h:panelGroup>
+              	</ui:repeat>
+              </div>
+           </div>
+
+
+			<div class="row">
+               <div class="span12">
+                 <div class="content-title" id="content-title-#{pageId}"><h1><ui:insert name="header"/></h1></div>
+               </div>			
+			</div>
+
+           <div class="row">
+               <div class="span12">
+                 <!-- BODY -->
+                 <ui:insert name="body"/>
+                 <!-- BODY END -->
+               </div>
+           </div>
+
+
+
+	</div> <!-- /container -->
+
+
+
+
+
+
+<!-- begin eloqua tracking --> 
+<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script> 
+<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script> 
+<!-- end eloqua tracking -->
+<!-- SiteCatalyst code version: H.21.
+Copyright 1996-2010 Adobe, Inc. All Rights Reserved
+More info available at http://www.omniture.com -->
+<div id="oTags">
+<!-- // **************************** CHANGE PAT BELOW TO YOUR SERVERS PATH -->
+<script type="text/javascript" src="#{requestUtils.scheme}://www.redhat.com/j/s_code.js"></script>
+
+<script><!--
+/* You may give each page an identifying name, server, and channel on
+the next lines. */
+/* E-commerce Variables */
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var s_code=s.t();if(s_code)document.write(s_code)//-->
+</script>
+
+<script type="text/javascript"><!--
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+
+//--></script><noscript><a href="http://www.omniture.com" title="Web
+Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatjbossorg/1/H.21--NS/0?[AQB]%26cdp=3%26[AQE]"
+height="1" width="1" border="0" alt="" /></a></noscript>
+
+<!--/DO NOT REMOVE/-->
+</div>
+
+<!-- End SiteCatalyst code version: H.21. -->
+
+<ui:insert name="page-end"/>
+
+</body>
+</html>

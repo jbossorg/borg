@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.navbar {
+  display: none !important;
+}
+
+body {
+  color: black;
+  background: white;
+  padding-top: 0;
+}
+
+a {
+  text-decoration : underline;
+  color : #336699;
+}

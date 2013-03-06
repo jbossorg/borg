@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html">
+  <ul class="nav nav-list" data-role="listview" data-inset="true" data-dividertheme="b" data-theme="c">
+      <li class="nav-header" data-role="list-divider">#{msg['browse.navigation']}</li>
+      <li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
+  </ul>
+
+	<ui:fragment rendered="#{userController.loggedIn}">
+  <ul class="nav nav-list" data-role="listview" data-inset="true" data-dividertheme="b" data-theme="c">
+      <li class="nav-header" data-role="list-divider">#{msg['browse.management']}</li>
+      <li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" rendered="#{userController.admin}" /></li>
+      <li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" rendered="#{userController.admin}" /></li>
+      <li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.groups.name']}" rendered="#{userController.groupAdmin}" /></li>
+      <li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.feeds.name']}" propagation="none" /></li>
+  </ul>
+	</ui:fragment>
+
+  <ul class="nav nav-list" data-role="listview" data-inset="true" data-dividertheme="b" data-theme="c">
+      <li class="nav-header" data-role="list-divider">#{msg['browse.account']}</li>
+      <ui:fragment rendered="#{!userController.loggedIn}">
+          <li><a href="#{facesContext.externalContext.requestContextPath}/login" data-ajax="false">#{msg['browse.login']}</a></li>
+      </ui:fragment>
+      <ui:fragment rendered="#{userController.loggedIn}">
+          <li><a href="#{facesContext.externalContext.requestContextPath}/logout" data-ajax="false">#{msg['browse.logout']}</a></li>
+      </ui:fragment>
+  </ul>
+</ui:composition>

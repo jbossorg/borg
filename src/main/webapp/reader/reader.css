@@ -1,0 +1,194 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: "Helvetica", "Arial", "sans-serif";
+	margin: 0;
+	background-color: #fafafa;
+	font-size: 11pt;
+	/* Removes highlighting of tapped element - can be used for changing color of navigation links*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+article {
+	background-color: #222;
+}
+
+header {
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	padding: 0;
+}
+
+footer {
+	position: fixed;
+	z-index: 2;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	padding: 0;
+	border-top: 1px solid #444;
+	background-color: #eee;
+}
+
+header,footer {
+	font-size: 16px;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+	line-height: 30px;
+	color: white;
+}
+
+header a,footer a {
+	text-decoration: none;
+}
+
+header {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(99, 99, 99, 0.7) ),
+		color-stop(0.25, rgba(66, 66, 66, 0.7) ), color-stop(0.5, rgba(32, 32, 32, 0.7) ), color-stop(0.5, rgba(0, 0, 0, 0.7)
+		) );
+	background: -moz-linear-gradient(rgba(99, 99, 99, 0.7) 0%, rgba(66, 66, 66, 0.7) 50%, rgba(32, 32, 32, 0.7) 25%,
+		rgba(0, 0, 0, 0.7) 100% );
+	border-bottom: 1px solid #858585;
+	border-top: 1px solid #858585;
+}
+
+.page {
+	z-index: 1;
+	padding-top: 30px;
+	height: 100%;
+	width: 100%;
+	background-color: #fafafa;
+}
+
+.grid2 div {
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+
+.header-navbar {
+	padding: 0 10px;
+}
+
+.header-navbar div {
+	float: left;
+}
+
+.header-navbar .left {
+	text-align: left;
+	width: 15%;
+}
+
+.header-navbar .center {
+	text-align: center;
+	width: 70%;
+}
+
+.header-navbar .right {
+	text-align: right;
+	width: 15%;
+	float: right;
+}
+
+.header-navbar.nocenter .left {
+	width: 50%;
+}
+
+.header-navbar.nocenter .right {
+	width: 50%;
+}
+
+.navbar a {
+	display: block;
+}
+
+#elm-to-animate {
+	/* Flash Fix. More info: http://stackoverflow.com/questions/4570067/webkit-transition-property-for-translation*/
+	-webkit-transition: all .5s ease-in-out;
+	-webkit-transform: translate3d(0, 0, 0);
+}
+
+.mobile_list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	text-align: left;
+}
+
+.mobile_list li {
+	padding: 0 0 0 10px;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #fff;
+	background-color: #fafafa;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+.post-list-preview .post-link {
+	color: #2F3E46;
+	text-decoration: none !important;
+}
+
+img.ui-li-thumb {
+	margin: 14px 7px 0 10px;
+	border-radius: 0;
+}
+
+.ui-li-thumb {
+	float: left;
+}
+
+.ui-li-heading {
+	font-size: 16px;
+	font-weight: bold;
+	display: block;
+	margin: .6em 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.ui-li-desc {
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+	margin: -.5em 0 .6em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.post-list-preview.active {
+	background-color: #ddd;
+}
+
+.blog-post-list-date,.publishedwrapper,#updated-wrapper {
+	color: #9FA0A0;
+}
+
+.publishedwrapper {
+	font-size: 10pt;
+}
+
+#updated-wrapper {
+	text-align: center;
+	width: 100%;
+	margin-top: 5px;
+	font-size: 10pt;
+}
+
+#loading {
+	text-align: center;
+	padding: 10px 0;
+	height: 30px;
+}
+
+#postwrapper {
+	padding: 10px;
+}

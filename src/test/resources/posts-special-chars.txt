@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
+  <title>In Relation To - Site</title>
+  <link rel="alternate" href="http://in.relation.to/" />
+  <id>http://in.relation.to/servlets/feeds/atom.seam?feedId=1</id>
+  <updated>2012-07-13T07:04:55Z</updated>
+  <dc:creator>System Administrator</dc:creator>
+  <dc:date>2012-07-13T07:04:55Z</dc:date>
+  <entry>
+    <title>Hibernate OGM 实战</title>
+    <link rel="alternate" href="http://in.relation.to/Bloggers/HibernateOGM" />
+    <author>
+      <name>Strong Liu</name>
+    </author>
+    <id>http://in.relation.to/Bloggers/HibernateOGM</id>
+    <updated>2012-07-13T07:04:55Z</updated>
+    <published>2012-07-13T07:04:55Z</published>
+    <summary type="html">&lt;p class="wikiPara"&gt;本文是&lt;a href="http://in.relation.to/Bloggers/HibernateOGMNOSQL"&gt;上文&lt;/a&gt;的延续.&lt;/p&gt;</summary>
+    <dc:creator>Strong Liu</dc:creator>
+    <dc:date>2012-07-13T07:04:55Z</dc:date>
+  </entry>
+</feed>

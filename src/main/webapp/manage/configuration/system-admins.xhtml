@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+
+	<ui:param name="pageId" value="edit-system-admins" />
+	<ui:param name="section" value="management" />
+
+	<ui:define name="header">
+    #{msg['manage.system.admin.name']}
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml" />
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['manage.system.admin.name']}
+		<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="admins" styleClass="well">
+			<f:validateBean>
+				<fieldset>
+					<div class="control-group #{!user.valid ? 'error' : ''} required">
+						<h:outputLabel for="user" value="#{msg['manage.systemAdmins.user']}:" styleClass="control-label" />
+						<div class="controls">
+							<h:inputText id="user" value="#{systemAdminController.adminToUpdate}" binding="#{user}" required="true"
+								label="#{msg['manage.systemAdmins.user']}" />
+							<h:message for="user" styleClass="help-inline" />
+						</div>
+					</div>
+				</fieldset>
+			</f:validateBean>
+
+			<h:commandLink action="#{systemAdminController.addAdmin}" styleClass="btn btn-success">
+				<i class="icon-plus icon-white"></i>
+  					#{msg['common.add']}
+	  			</h:commandLink>
+	  			&#160;
+				<h:link value="#{msg['common.back']}" outcome="/manage/index.jsf" styleClass="btn" />
+		</h:form>
+	
+		<table id="manage-system-admins-table" class="manage-admins-table table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>#{msg['manage.systemAdmins.column.username']}</th>
+					<th>#{msg['manage.systemAdmins.column.action']}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="admin" value="#{permissionService.systemAdministartors}">
+					<tr>
+						<td><h:outputText value="#{admin.externalId}" /></td>
+						<td><ui:fragment rendered="#{admin.externalId != userController.username}">
+								<h:form id="admins-action">
+									<h:commandLink id="delete" action="#{systemAdminController.removeAdmin}" styleClass="btn btn-danger"
+										onclick="if (!confirm('#{msg['manage.systemAdmins.text.deleteConfirm']}')) return false">
+										<f:setPropertyActionListener target="#{systemAdminController.adminToUpdate}" value="#{admin.externalId}" />
+										<i class="icon-minus icon-white"></i>
+										#{msg['manage.systemAdmins.remove']}
+									</h:commandLink>
+								</h:form>
+							</ui:fragment> <ui:fragment rendered="#{admin.externalId == userController.username and !userController.admin}">
+								#{msg['manage.systemAdmins.text.cannotDelete']}
+							</ui:fragment></td>
+					</tr>
+				</ui:repeat>
+			</tbody>
+		</table>
+
+	</ui:define>
+
+</ui:composition>
