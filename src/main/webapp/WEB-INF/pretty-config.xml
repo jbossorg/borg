@@ -8,6 +8,12 @@
 		<view-id value="/home.jsf" />
 	</url-mapping>
 
+	<url-mapping id="post">
+		<pattern value="/post/#{titleAsId : postController.titleAsId}" />
+		<view-id value="/view/post.jsf" />
+		<action>#{postController.loadPost}</action>
+	</url-mapping>
+
 	<url-mapping id="reader">
 		<pattern value="/reader" />
 		<view-id value="/reader/index.jsf" />

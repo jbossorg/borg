@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../layout/template.xhtml">
+
+	<ui:param name="pageId" value="post-#{postController.post.titleAsId}" />
+
+	<ui:define name="page_title">#{postController.post.title}<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="header">
+		<a href="#{postController.post.link}">#{postController.post.title}</a>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="body">
+		<div class="blogpost-content" data-post-id="#{postController.post.titleAsId}">
+			<div class="blog-post-header-info">
+				<img id="blog-post-avatar" src="" class="ui-li-thumb img-polaroid" height="46px" width="46px" /> <span
+					class="blog-post-list-date">#{postController.post.publishedDate} <br />by
+					#{postController.post.effectiveAuthor}
+				</span>
+			</div>
+			<h:outputText value="#{postController.post.content}" escape="false" />
+			<div class="blog-post-tags">
+				<!-- 
+				TODO: Add tags
+				<a href="../#tags=#{tag.name}"><span class="label">#{tag.name}</span></a>
+				 -->
+			</div>
+		</div>
+		<script type="text/javascript">
+  		//<![CDATA[
+		$(document).ready(function() {
+			var postId = $(".blogpost-content").attr("data-post-id");
+			var p = new Post();
+			p.getPost(postId, function(data) {
+				p.data = {
+					_source : data
+				};
+				if (p.data._source.dcp_project != null) {
+					planet.getProjectNames(function() {
+						var projectName = planet.getProjectName(p.data._source.dcp_project);
+						if (projectName != "") {
+							var projectInfo = '<span class="divider">/</span> <li><a href="../#project=' + p.data._source.dcp_project + '">' + projectName + '</a></li>';
+							$(".breadcrumb").last().append(projectInfo);
+						}
+					});
+				}
+				$("#blog-post-avatar").attr("src", p.getAuthorAvatarUrl());
+			});
+		});
+		//]]>	
+		</script>
+	</ui:define>
+
+</ui:composition>

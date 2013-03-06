@@ -18,6 +18,7 @@
 		var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
 		//var syncServer = "https://dcp-jbossorgdev.rhcloud.com"
 		var syncServer = "#{configurationService.syncServerOnView}";
+		var syncContentType = "#{configurationService.configuration.syncContentType}"
 	</SCRIPT>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

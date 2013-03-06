@@ -90,12 +90,11 @@ Post = function(val, format) {
 	/* Get post based on ID */
 	this.getPost = function(id, callback) {
 		$.ajax({
-			url : planet.dcpRestApi + "content/" + id,
+			url : planet.dcpRestApi + "content/" + planet.dcpContentType + "/" + id + "?field=_source",
 			type : "get",
 			dataType : 'json',
 			success : function(data) {
-				this.data = data;
-				callback(this.data);
+				callback(data);
 			}
 		});
 	},
@@ -113,15 +112,11 @@ Post = function(val, format) {
 		if (projectName != "") {
 			projectInfo = ' in <a href="#project=' + this.data._source.dcp_project + '">' + projectName + '</a>';
 		}
-		var authorAvatarUrl = this.data._source.avatar_link;
-		if (this.getAuthor().email != null) {
-			var emailMd5 = md5(this.getAuthor().email);
-			authorAvatarUrl = "http://www.gravatar.com/avatar/" + emailMd5 + "?s=46";
-		}
+
 		var tags = this.getTagsRow();
 		preview += '<header><h2 class="ui-li-heading"><a href="' + this.data._source.dcp_url_view + '" data-id="'
 				+ this.data._id + '">' + this.data._source.dcp_title
-				+ '</a></h2><div class="blog-post-header-info"><img src="' + authorAvatarUrl
+				+ '</a></h2><div class="blog-post-header-info"><img src="' + this.getAuthorAvatarUrl()
 				+ '" class="ui-li-thumb img-polaroid" height="46px" width="46px"/>'
 				+ '<span class="blog-post-list-date">' + util.dateToString(this.getPublished()) + '<br/>by '
 				+ this.getAuthor().name + projectInfo + '</span>' + addThisTempl + '</div></header>';
@@ -162,6 +157,16 @@ Post = function(val, format) {
 		}
 		return author;
 
+	};
+
+	this.getAuthorAvatarUrl = function() {
+		if (this.getAuthor().email != null) {
+			var emailMd5 = md5(this.getAuthor().email);
+			return "http://www.gravatar.com/avatar/" + emailMd5 + "?s=46&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
+					+ emailMd5 + "/46.png";
+		} else {
+			return this.data._source.avatar_link;
+		}
 	};
 
 	this.getPublished = function() {
@@ -207,6 +212,7 @@ Post = function(val, format) {
 var planet = {
 	resourcesPrefix : contextRoot,
 	dcpRestApi : syncServer + "/v1/rest/",
+	dcpContentType : syncContentType,
 
 	layout : 1,
 

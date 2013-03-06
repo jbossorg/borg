@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
 
 import org.jboss.planet.model.Post;
@@ -27,6 +28,21 @@ public class PostService extends EntityServiceJpa<Post> {
 
 	public PostService() {
 		super(Post.class);
+	}
+
+	/**
+	 * Find post based on its titleAsId
+	 * 
+	 * @param titleAsId
+	 * @return post or null
+	 */
+	public Post find(String titleAsId) {
+		try {
+			return (Post) getEntityManager().createQuery("select post from Post post WHERE post.titleAsId = ?1")
+					.setParameter(1, titleAsId).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	/**
