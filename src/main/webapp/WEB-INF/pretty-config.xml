@@ -29,11 +29,6 @@
 		<view-id value="/view/feeds-list.jsf" />
 	</url-mapping>
 
-	<url-mapping id="browse">
-		<pattern value="/browse" />
-		<view-id value="/view/browse.jsf" />
-	</url-mapping>
-
 	<url-mapping id="manage-index">
 		<pattern value="/manage/" />
 		<view-id value="/manage/index.jsf" />
