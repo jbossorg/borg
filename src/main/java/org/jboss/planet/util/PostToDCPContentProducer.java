@@ -91,6 +91,11 @@ public class PostToDCPContentProducer implements ContentProducer {
 		for (Category cat : p.getCategories()) {
 			g.writeString(cat.getName());
 		}
+
+		// Add special tag telling name of feed and name of group
+		g.writeString("feed_name_" + p.getFeed().getName());
+		g.writeString("feed_group_name_" + p.getFeed().getGroup().getName());
+
 		g.writeEndArray();
 
 		g.writeEndObject();
