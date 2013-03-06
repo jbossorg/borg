@@ -43,7 +43,7 @@
 				<ui:repeat var="feed" value="#{feedController.userFeeds}" varStatus="status">
 					<tr>
 						<td><strong>#{feed.title}</strong></td>
-						<td><h:link outcome="/home.xhtml" fragment="feedId=#{feed.name}" propagation="none">#{feed.name}</h:link></td>
+						<td><h:link outcome="/home.xhtml" fragment="tags=feed_name_#{feed.name}" propagation="none">#{feed.name}</h:link></td>
 						<td>#{feed.group.displayName}</td>
 						<td>
 							<div class="manage-feeds-list-url">
