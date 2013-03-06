@@ -3,6 +3,10 @@
                                    		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
 
 
+	<!-- URL backward compatibility -->
+	<!-- TODO: Move from static redirect to business logic and support aggregated feeds -->
+	<rewrite match="/feed/(.*)" substitute="/#tags=feed_name_$1" trailingSlash="remove" redirect="301" />
+
 	<url-mapping id="home">
 		<pattern value="/" />
 		<view-id value="/home.jsf" />
