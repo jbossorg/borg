@@ -50,6 +50,9 @@ Util = function() {
 			email : null
 		};
 	};
+	this.stringStartWith = function(str, startWithStr) {
+		return str.lastIndexOf(startWithStr) == 0;
+	};
 };
 var util = new Util();
 
@@ -141,7 +144,9 @@ Post = function(val, format) {
 	this.getTagsRow = function() {
 		var tags = "";
 		$.each(this.data._source.tags, function(i, val) {
-			tags += '<a href="#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
+			if (!util.stringStartWith(val, "feed_name_") && !util.stringStartWith(val, "feed_group_name_")) {
+				tags += '<a href="#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
+			}
 		});
 		return tags;
 	};
