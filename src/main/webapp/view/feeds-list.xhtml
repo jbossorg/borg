@@ -32,7 +32,7 @@
 	             <li class="group-name" data-role="list-divider"><h2>#{group.displayName}</h2></li>
 	                 <ui:repeat var="feed" value="#{feedsService.getAcceptedFeeds(group.id)}">
 	                   <li>
-	                     <h:link outcome="/home.xhtml" fragment="feed=#{feed.name}" propagation="none">
+	                     <h:link outcome="/home.xhtml" fragment="tags=feed_name_#{feed.name}" propagation="none">
 	                       <img src="#{feed.effectiveAvatarLink}" class="ui-li-thumb" alt="#{feed.author}" height="46px" width="46px"/>
 	                       <h3 class="ui-li-heading"><h:outputText value="#{feed.title}" /></h3>
 	                       <p class="ui-li-desc">#{feed.author}</p>
