@@ -1,6 +1,10 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+*~
+.classpath
+.project
+target
+.settings
+.DS_Store
+.faces-config.xml.jsfdia
+.idea
+.settings/*
+.externalToolBuilders
