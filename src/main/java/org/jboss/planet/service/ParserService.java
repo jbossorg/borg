@@ -52,6 +52,8 @@ public class ParserService {
 	@Inject
 	private ConfigurationService configurationManager;
 
+	public static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.17 (KHTML, like Gecko) Ubuntu Chromium/24.0.1312.56 Chrome/24.0.1312.56 Safari/537.17";
+
 	/**
 	 * Parse feed from defined address
 	 * 
@@ -71,6 +73,7 @@ public class ParserService {
 			URLConnection conn = new URL(link).openConnection();
 			conn.setReadTimeout(conf.getReadTimeout());
 			conn.setConnectTimeout(conf.getConnectionTimeout());
+			conn.setRequestProperty("User-Agent", USER_AGENT);
 
 			if (username != null && password != null) {
 				String encoding = Base64.encode(username + ":" + password);
