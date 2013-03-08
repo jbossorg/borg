@@ -67,13 +67,7 @@ public class ParserService {
 	 */
 	public RemoteFeed parse(String link, String username, String password) throws ParserException {
 		try {
-
-			Configuration conf = configurationManager.getConfiguration();
-
-			URLConnection conn = new URL(link).openConnection();
-			conn.setReadTimeout(conf.getReadTimeout());
-			conn.setConnectTimeout(conf.getConnectionTimeout());
-			conn.setRequestProperty("User-Agent", USER_AGENT);
+			URLConnection conn = getConnection(link);
 
 			if (username != null && password != null) {
 				String encoding = Base64.encode(username + ":" + password);
@@ -90,12 +84,7 @@ public class ParserService {
 	}
 
 	public SyndFeed getRemoteFeed(String link) throws IllegalArgumentException, FeedException, IOException {
-		Configuration conf = configurationManager.getConfiguration();
-
-		URLConnection conn = new URL(link).openConnection();
-		conn.setReadTimeout(conf.getReadTimeout());
-		conn.setConnectTimeout(conf.getConnectionTimeout());
-		conn.connect();
+		URLConnection conn = getConnection(link);
 
 		InputStream is = conn.getInputStream();
 
@@ -105,6 +94,18 @@ public class ParserService {
 		is.close();
 
 		return syndFeed;
+	}
+
+	protected URLConnection getConnection(String link) throws IOException {
+		Configuration conf = configurationManager.getConfiguration();
+
+		URLConnection conn = new URL(link).openConnection();
+		conn.setReadTimeout(conf.getReadTimeout());
+		conn.setConnectTimeout(conf.getConnectionTimeout());
+		conn.setRequestProperty("User-Agent", USER_AGENT);
+		conn.connect();
+
+		return conn;
 	}
 
 	public RemoteFeed parse(InputStream is) throws ParserException {
