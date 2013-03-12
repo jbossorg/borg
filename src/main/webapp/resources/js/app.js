@@ -53,6 +53,26 @@ Util = function() {
 	this.stringStartWith = function(str, startWithStr) {
 		return str.lastIndexOf(startWithStr) == 0;
 	};
+	this.stringToArray = function(str) {
+		if (str == null) {
+			return null;
+		}
+		if ($.isArray(str)) {
+			return str;
+		} else {
+			return str.split(",");
+		}
+	};
+	this.arrayToString = function(array) {
+		if (array == null) {
+			return "";
+		}
+		if ($.isArray(array)) {
+			return array;
+		} else {
+			return array;
+		}
+	};
 };
 var util = new Util();
 
@@ -269,12 +289,20 @@ var planet = {
 		var url = planet.dcpRestApi + "search?dcp_type=blogpost&from=" + currentFrom + "&size=" + count
 				+ "&sortBy=new&field=_source";
 		if (typeof tags != "undefined" && tags != "" && tags != null) {
-			url += "&tag=" + tags;
+			if ($.isArray(tags)) {
+				$.each(tags, function(index, value) {
+					url += "&tag=" + $.trim(value);
+				});
+			} else {
+				url += "&tag=" + tags;
+			}
 		}
 
 		if (typeof projectCode != "undefined" && projectCode != null && projectCode != "") {
 			url += "&project=" + projectCode;
 		}
+
+		url = encodeURI(url);
 
 		$.ajax({
 			url : url,
@@ -498,10 +526,10 @@ var home = {
 		home.data.tags = home.getTagsFromUrl();
 		tagsFilter = $("#home-tags-filter", page);
 
-		tagsFilter.val(home.data.tags);
+		tagsFilter.val(util.arrayToString(home.data.tags));
 
 		tagsFilter.change(function() {
-			home.changeTags($(this).val());
+			home.changeTags($(this).val().split(","));
 		});
 
 		$("#home-tags-filter-remove", page).bind('click', function() {
@@ -527,10 +555,10 @@ var home = {
 		$(window).bind('hashchange', function(e) {
 			var state = $.bbq.getState();
 			home.data.feedId = state.project;
-			home.data.tags = state.tags;
+			home.data.tags = util.stringToArray(state.tags);
 
-			$("#home-tags-filter", page).val(home.data.tags);
 			$("#home-feed-filter", page).val(planet.getProjectName(home.data.feedId));
+			$("#home-tags-filter", page).val(util.arrayToString(home.data.tags));
 
 			if (home.data.feedId != null || home.data.tags != null) {
 				home.showFilter();
@@ -714,7 +742,7 @@ var home = {
 		return util.getHashParam("project");
 	},
 	getTagsFromUrl : function() {
-		return util.getHashParam("tags");
+		return util.stringToArray(util.getHashParam("tags"));
 	},
 	destroy : function() {
 		$(window).unbind("scroll");
