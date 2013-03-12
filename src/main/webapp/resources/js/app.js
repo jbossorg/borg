@@ -718,13 +718,12 @@ var home = {
 		if (elm.css('display') == 'none') {
 			elm.css('height', 0);
 			elm.show();
+			home.toogleButton("#filter-link");
 			elm.animate({
 				height : '35px',
 				useTranslate3d : true,
 				leaveTransforms : false
-			}, 200, function() {
-				home.toogleButton("#filter-link");
-			});
+			}, 200);
 		} else {
 			elm.animate({
 				height : '0px',
