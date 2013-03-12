@@ -68,7 +68,14 @@ Util = function() {
 			return "";
 		}
 		if ($.isArray(array)) {
-			return array;
+			var ret = "";
+			for ( var i = 0; i < array.length; i++) {
+				ret += $.trim(array[i]);
+				if (i < (array.length - 1)) {
+					ret += ", ";
+				}
+			}
+			return ret;
 		} else {
 			return array;
 		}
@@ -529,7 +536,7 @@ var home = {
 		tagsFilter.val(util.arrayToString(home.data.tags));
 
 		tagsFilter.change(function() {
-			home.changeTags($(this).val().split(","));
+			home.changeTags($(this).val());
 		});
 
 		$("#home-tags-filter-remove", page).bind('click', function() {
