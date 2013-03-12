@@ -4,11 +4,33 @@
 
 
 	<!-- URL backward compatibility -->
-	<!-- TODO: Move from static redirect to business logic and support aggregated feeds 
-	<rewrite match="/feed/(.*)" substitute="/#tags=feed_name_$1" trailingSlash="remove" redirect="301" />
-	-->
+	<rewrite match="^/feed/all" substitute="/" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/jbossjbpm" substitute="/#project=jbpm" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/jbosscache" substitute="/#project=jbosscache" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/jbossmessaging" substitute="/#project=jbossmessaging" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/remoting" substitute="/#project=jbossremoting" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/xnio" substitute="/#project=xnio" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/envers" substitute="/#project=envers" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/on_aggregate" substitute="/#project=jopr" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/jbossmarshalling" substitute="/#project=jbossmarshalling" trailingSlash="remove"
+		redirect="301" />
+	<rewrite match="^/feed/jbossmc" substitute="/#project=jbossmc" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/richfacesall" substitute="/#project=richfaces" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/aergear_agg" substitute="/#project=aerogear" trailingSlash="remove" redirect="301" />
+
+	<rewrite match="^/feed/jbosscentral" substitute="/#tags=jbosscentral" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/events" substitute="/#tags=jbug,workshop,conference,jug,event" trailingSlash="remove"
+		redirect="301" />
+	<rewrite match="^/feed/jbossas7" substitute="/#tags=as7,jbossas7" trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/events" substitute="/#tags=jbug,workshop,conference,jug,event" trailingSlash="remove"
+		redirect="301" />
+	<rewrite match="^/feed/communityhome"
+		substitute="/#tags=feed_group_name_droolscommunity,feed_group_name_global_community,feed_group_name_jbossascommunity,feed_group_name_jbossjbpmcommunity,feed_group_name_jbossseamcommunity,feed_group_name_jboss_portal_community"
+		trailingSlash="remove" redirect="301" />
+	<rewrite match="^/feed/(.*)" substitute="/#tags=feed_name_$1" trailingSlash="remove" redirect="301" />
 
 
+	<!-- Pretty URL mappings -->
 	<url-mapping id="home">
 		<pattern value="/" />
 		<view-id value="/home.jsf" />
@@ -136,5 +158,6 @@
 		<pattern value="/error/unknown" />
 		<view-id value="/error/unknown.jsf" />
 	</url-mapping>
+
 
 </pretty-config>
