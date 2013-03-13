@@ -4,7 +4,9 @@ Borg Development Guide
 ## Technologies used
 
 * JBoss EAP 6 - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
+* JSF2, [PrettyFaces](http://ocpsoft.org/prettyfaces/)
 * JUnit for unit tests
+* [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
 
 ## Build
 
