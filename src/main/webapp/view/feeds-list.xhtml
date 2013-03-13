@@ -1,52 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                template="../layout/template.xhtml">
-    <ui:define name="header">
-        Feeds list
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../layout/template.xhtml">
+
+	<ui:param name="pageId" value="feed-list" />
+	<ui:param name="datatables" value="true" />
+	<ui:param name="section" value="browse" />
+
+
+	<ui:define name="header">
+        #{msg['list.name']}
     </ui:define>
 
-    <ui:define name="breadcrumb">
-    	<ui:include src="../breadcrumb.xhtml" />
-    </ui:define>
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml" />
+	</ui:define>
 
-    <ui:define name="page_title">Feeds list<ui:include src="/layout/page-title-suffix.xhtml" /></ui:define>
+	<ui:define name="page_title">#{msg['list.name']}<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
 
-    <ui:define name="body">
-      <div class="columns-wrapper">
-
-        <div class="columnright">
-          <div id="propose-blog">
-            <h:link value="" view="/manage/remote/remote_propose.xhtml" propagation="none">
-              <div id="propose-blog-img"></div>
-            </h:link>
-          </div>
-        </div>
-
-        <div class="columnleft">
-            <!-- TODO: Add search list powered by HTML5 search stuff -->
-            <ul id="feed-list-ul" class="ui-listview" data-role="listview" data-filter="true" data-inset="true" data-theme="c">
-            <ui:repeat var="group" value="#{groups}">
-	             <li class="group-name" data-role="list-divider"><h2>#{group.displayName}</h2></li>
-	                 <ui:repeat var="feed" value="#{feedsService.getAcceptedFeeds(group.id)}">
-	                   <li>
-	                     <h:link outcome="/home.xhtml" fragment="tags=feed_name_#{feed.name}" propagation="none">
-	                       <img src="#{feed.effectiveAvatarLink}" class="ui-li-thumb" alt="#{feed.author}" height="46px" width="46px"/>
-	                       <h3 class="ui-li-heading"><h:outputText value="#{feed.title}" /></h3>
-	                       <p class="ui-li-desc">#{feed.author}</p>
-	                       <span class="ui-li-count">#{feedsService.getFeedPostsCount(feed)}</span>
-	                     </h:link>
-	                   </li>
-	                 </ui:repeat>
-
-            </ui:repeat>
-            </ul>
-        </div>
-        
-        <div class="clearfix"></div>
-      
-      </div>
-    </ui:define>
+	<ui:define name="body">
+		<table id="list-table" class="table table-hover">
+			<thead>
+				<tr>
+					<th>#{msg['list.feed.name']}</th>
+					<th>#{msg['list.feed.author']}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="feed" value="#{feedsService.acceptedFeeds}">
+					<tr>
+						<td><h:link outcome="/home.xhtml" fragment="tags=feed_name_#{feed.name}" value="#{feed.title}"
+								propagation="none" /></td>
+						<td><h:outputText value="#{feed.author}" /></td>
+					</tr>
+				</ui:repeat>
+			</tbody>
+		</table>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				initDataTable($('#list-table'));
+			} );
+		</script>
+	</ui:define>
 </ui:composition>
