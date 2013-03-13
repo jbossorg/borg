@@ -66,7 +66,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="#{pageId == 'home' ? 'active' : ''}"><h:link outcome="/home.jsf" value="Home" propagation="none" /></li>
-              <li class="dropdown">
+              <li class="dropdown #{section == 'browse' ? 'active' : ''}">
 			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			      <b class="caret"></b>
 			      #{msg['browse.name']}
