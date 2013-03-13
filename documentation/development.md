@@ -1,14 +1,16 @@
 Borg Development Guide
 ======================
 
-## Technologies used
+Technologies and frameworks used
+--------------------------------
 
 * JBoss EAP 6 - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
-* JSF2, [PrettyFaces](http://ocpsoft.org/prettyfaces/)
+* JSF2, [PrettyFaces](http://ocpsoft.org/prettyfaces/), [Rome Feeds parser](https://rometools.jira.com/wiki/display/ROME/Home)
 * JUnit for unit tests
-* [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
+* [Twitter Bootstrap](http://twitter.github.com/bootstrap/), [jQuery](http://jquery.com/), [Datatables](http://www.datatables.net/)
 
-## Build
+How to build
+------------
 
 It's necessary to use **Maven 3** to build this project! To build it simply use:
 
@@ -30,7 +32,8 @@ used to build for different target environments (the `localhost` profile is acti
 * MySQL OpenShift cartridge provided database for persistence.
 
 
-## Deployment
+How to deploy
+-------------
 
 #### localhost development
 
