@@ -65,11 +65,11 @@
           <a class="brand" href="http://www.jboss.org">JBoss Community</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="#{pageId == 'home' ? 'active' : ''}"><h:link outcome="/home.jsf" value="Home" /></li>
+              <li class="#{pageId == 'home' ? 'active' : ''}"><h:link outcome="/home.jsf" value="Home" propagation="none" /></li>
               <li class="dropdown">
 			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			      <b class="caret"></b>
-			      Browse
+			      #{msg['browse.name']}
 			    </a>
 			    <ul class="dropdown-menu">
 				    <li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
@@ -81,12 +81,12 @@
 			      #{msg['browse.yourstuff']}
 			    </a>
 			    <ul class="dropdown-menu">
-					<li><h:link outcome="/manage/feed/feed-new.jsf" value="#{msg['management.feeds.new']}" /></li>
+					<li><h:link outcome="/manage/feed/feed-new.jsf" value="#{msg['management.feeds.new']}" propagation="none" /></li>
 					<ui:fragment rendered="#{userController.loggedIn}">
-						<li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.feeds.name']}" /></li>
+						<li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.feeds.name']}" propagation="none" /></li>
 				    	<ui:fragment rendered="#{userController.groupAdmin}">
 							<li class="divider"></li>
-							<li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.groups.name']}"  /></li>
+							<li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.groups.name']}" propagation="none" /></li>
 				    	</ui:fragment>
 					</ui:fragment>
 			    </ul>
@@ -98,9 +98,9 @@
 				      #{msg['browse.management']}
 				    </a>
 				    <ul class="dropdown-menu">
-						<li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" /></li>
-						<li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" /></li>
-						<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}" /></li>
+						<li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" propagation="none" /></li>
+						<li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" propagation="none" /></li>
+						<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}" propagation="none" /></li>
 				    </ul>
 				    </li>
 				</ui:fragment>
