@@ -1,5 +1,5 @@
 Borg
 ====
 
-Borg is the Blog aggregator
+[Documentation main page](documentation/README.md).
 
