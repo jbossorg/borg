@@ -33,16 +33,19 @@ used to build for different target environments (the `localhost` profile is acti
 #### localhost development
 
 Create borg database in local Mysql database and user with appropriate access:
+
 		CREATE DATABASE borg;
 		CREATE USER borg@localhost;
 		GRANT ALL PRIVILEGES ON borg.* TO borg@localhost;
 
 Add Mysql module to JBoss EAP
 Create directories `{JBOSS_EAP}/modules/com/mysql/jdbc/main/` containing:
+
                               module.xml
                               mysql-connector-java-5.1.20-bin.jar
 
 Content of `module.xml`:
+
 		<module xmlns="urn:jboss:module:1.0" name="com.mysql">
 		  <resources>
 		    <resource-root path="mysql-connector-java-5.1.20-bin.jar"/>
@@ -53,6 +56,7 @@ Content of `module.xml`:
 		</module>
 
 Add Mysql datasource to JBoss EAP in `standalone/configuration/standalone.xml`
+
                 <datasource jndi-name="java:jboss/datasources/MysqlDS" pool-name="MysqlDS">
                     <connection-url>jdbc:mysql://localhost:3306/borg</connection-url>
                     <driver>mysql</driver>
@@ -78,5 +82,5 @@ You can use [Eclipse with JBoss Tools](http://www.jboss.org/tools) or
 [JBoss Developer Studio](https://devstudio.jboss.com) for this.
 
 
-The Borg application is then available at [`http://localhost:8080/borg/`](http://localhost:8080/borg/)
+The Borg application is then available at [http://localhost:8080/borg/](http://localhost:8080/borg/)
 
