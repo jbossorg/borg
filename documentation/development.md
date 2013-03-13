@@ -90,3 +90,16 @@ You can use [Eclipse with JBoss Tools](http://www.jboss.org/tools) or
 
 The Borg application is then available at [http://localhost:8080/borg/](http://localhost:8080/borg/)
 
+
+DCP Integration
+---------------
+
+Borg using DCP as back-end. Content is identified as [blogpost](https://github.com/jbossorg/dcp-api/blob/master/documentation/rest-api/content/blogpost.md).
+
+During pushing data to DCP data is normalized by DCP input preprocessors especially:
+
+* Feed to Project mapping
+* Post author to Contributor mapping
+
+Check out [jboss.org example](https://github.com/jbossorg/dcp-api/blob/master/configuration/data/provider/jbossorg.json) how input processors are configured in jboss.org case.
+
