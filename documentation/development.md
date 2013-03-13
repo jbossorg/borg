@@ -43,8 +43,8 @@ Create borg database in local Mysql database and user with appropriate access:
 Add Mysql module to JBoss EAP
 Create directories `{JBOSS_EAP}/modules/com/mysql/jdbc/main/` containing:
 
-                              module.xml
-                              mysql-connector-java-5.1.20-bin.jar
+		module.xml
+		mysql-connector-java-5.1.20-bin.jar
 
 Content of `module.xml`:
 
@@ -57,31 +57,32 @@ Content of `module.xml`:
 		  </dependencies>
 		</module>
 
-Add Mysql datasource to JBoss EAP in `standalone/configuration/standalone.xml`
+Add Mysql datasource to JBoss EAP in `{JBOSS_EAP}/standalone/configuration/standalone.xml`
 
-                <datasource jndi-name="java:jboss/datasources/MysqlDS" pool-name="MysqlDS">
-                    <connection-url>jdbc:mysql://localhost:3306/borg</connection-url>
-                    <driver>mysql</driver>
-                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
-                    <pool>
-                        <min-pool-size>10</min-pool-size>
-                        <max-pool-size>100</max-pool-size>
-                        <prefill>true</prefill>
-                    </pool>
-                    <security>
-                        <user-name>borg</user-name>
-                    </security>
-                    <statement>
-                        <prepared-statement-cache-size>32</prepared-statement-cache-size>
-                        <share-prepared-statements>true</share-prepared-statements>
-                    </statement>
-                </datasource>
+		<datasource jndi-name="java:jboss/datasources/MysqlDS" pool-name="MysqlDS">
+			<connection-url>jdbc:mysql://localhost:3306/borg</connection-url>
+			<driver>mysql</driver>
+			<transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+			<pool>
+				<min-pool-size>10</min-pool-size>
+				<max-pool-size>100</max-pool-size>
+				<prefill>true</prefill>
+			</pool>
+			<security>
+				<user-name>borg</user-name>
+			</security>
+			<statement>
+				<prepared-statement-cache-size>32</prepared-statement-cache-size>
+				<share-prepared-statements>true</share-prepared-statements>
+			</statement>
+		</datasource>
 
 Build project with `localhost` development profile. 
 Deploy `borg.war` to the JBoss EAP 6 `standalone` configuration, i.e. copy it 
-to the `$EAP6HOME/standalone/deployments` folder. 
+to the `{JBOSS_EAP}/standalone/deployments` folder. 
+
 You can use [Eclipse with JBoss Tools](http://www.jboss.org/tools) or 
-[JBoss Developer Studio](https://devstudio.jboss.com) for this.
+[JBoss Developer Studio](https://devstudio.jboss.com) for this as well.
 
 
 The Borg application is then available at [http://localhost:8080/borg/](http://localhost:8080/borg/)
