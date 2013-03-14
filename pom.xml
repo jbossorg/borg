@@ -54,7 +54,7 @@
 	</developers>
 
 	<properties>
-		<compileSource>1.6</compileSource>
+		<compileSource>1.7</compileSource>
 		<filter.name>localhost</filter.name>
 
 		<!-- Explicitly declaring the source encoding eliminates the following message: -->
