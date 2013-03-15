@@ -348,6 +348,7 @@
 							<filtering>true</filtering>
 							<includes>
 								<include>WEB-INF/web.xml</include>
+								<include>WEB-INF/urlrewrite.xml</include>
 							</includes>
 						</resource>
 					</webResources>
