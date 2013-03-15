@@ -58,13 +58,13 @@ public class JBossSyncCheckService {
 	public void start() {
 		// First update fired 10 minutes after server startup
 		int startupInMin = 10;
-		log.log(Level.INFO, "Initializating first new content to sync check in {0} min", startupInMin);
+		log.log(Level.INFO, "Initiating the first new content to sync check in {0} min", startupInMin);
 		timerService.createSingleActionTimer(startupInMin * 60 * 1000, new TimerConfig(null, false));
 	}
 
 	private void initTimer() {
 		int intervalInSec = configurationService.getConfiguration().getUpdateInterval();
-		log.log(Level.INFO, "Initializating next content to sync in {0} min", intervalInSec / 60);
+		log.log(Level.INFO, "Initiating next content to sync in {0} min", intervalInSec / 60);
 		timerService.createSingleActionTimer(intervalInSec * 1000, new TimerConfig(null, false));
 	}
 
