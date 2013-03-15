@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+		"http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://www.tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+
+	<!-- Backward compatibility for feeds pages -->
+	<rule>
+		<from>^/feed/all(|/)$</from>
+		<to type="permanent-redirect" last="true" context="">/</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbossjbpm(|/)$</from>
+		<to type="permanent-redirect" last="true">#project=jbpm</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbosscache(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jbosscache</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbossmessaging(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jbossmessaging</to>
+	</rule>
+	<rule>
+		<from>^/feed/remoting(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jbossremoting</to>
+	</rule>
+	<rule>
+		<from>^/feed/xnio(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=xnio</to>
+	</rule>
+	<rule>
+		<from>^/feed/envers(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=envers</to>
+	</rule>
+	<rule>
+		<from>^/feed/on_aggregate(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jopr</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbossmarshalling(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jbossmarshalling</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbossmc(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=jbossmc</to>
+	</rule>
+	<rule>
+		<from>^/feed/richfacesall(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=richfaces</to>
+	</rule>
+	<rule>
+		<from>^/feed/aergear_agg(|/)$</from>
+		<to type="permanent-redirect" last="true">/#project=aerogear</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbosscentral(|/)$</from>
+		<to type="permanent-redirect" last="true">/#tags=jbosscentral</to>
+	</rule>
+	<rule>
+		<from>^/feed/events(|/)$</from>
+		<to type="permanent-redirect" last="true">/#tags=jbug,workshop,conference,jug,event</to>
+	</rule>
+	<rule>
+		<from>^/feed/jbossas7(|/)$</from>
+		<to type="permanent-redirect" last="true">/##tags=as7,jbossas7</to>
+	</rule>
+	<rule>
+		<from>^/feed/events(|/)$</from>
+		<to type="permanent-redirect" last="true">/#tags=jbug,workshop,conference,jug,event</to>
+	</rule>
+	<rule>
+		<from>^/feed/communityhome(|/)$</from>
+		<to type="permanent-redirect" last="true">
+			/#tags=feed_group_name_droolscommunity,feed_group_name_global_community,feed_group_name_jbossascommunity,feed_group_name_jbossjbpmcommunity,feed_group_name_jbossseamcommunity,feed_group_name_jboss_portal_community
+		</to>
+	</rule>
+
+	<rule>
+		<from>^/feed/(.*)$</from>
+		<to type="permanent-redirect" last="true">/#tags=feed_name_$1</to>
+	</rule>
+
+	<!-- Feed URLs -->
+	<rule>
+		<from>^/xml/all(|/)$</from>
+		<to type="proxy" last="true">http://localhost:8090/dcp-api/v1/rest/feed/?dcp_type=blogpost&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
+	</rule>
+</urlrewrite>
