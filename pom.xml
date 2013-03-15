@@ -246,6 +246,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
+		<!-- Needed by Proxy rule. Would be great to support http client 4.x which is already used -->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
 			<version>3.2.1</version>
