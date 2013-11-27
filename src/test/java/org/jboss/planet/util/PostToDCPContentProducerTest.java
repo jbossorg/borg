@@ -61,11 +61,11 @@ public class PostToDCPContentProducerTest {
 		producer.writeTo(outstream);
 
 		assertEquals("{" + "\"author\":\"Post Author\""
-				+ ",\"avatar_link\":\"https://community.jboss.org/people/test/avatar/46.png\"" + ",\"dcp_created\":\""
+				+ ",\"avatar_link\":\"https://community.jboss.org/people/test/avatar/46.png\"" + ",\"sys_created\":\""
 				+ dateStr + "\",\"modified\":\"" + dateStr + "\",\"feed\":\"FeedName\""
-				+ ",\"dcp_description\":\"Post C...\"" + ",\"dcp_content\":\"Post Content\""
-				+ ",\"dcp_title\":\"Post Title\"" + ",\"dcp_url_view\":\"http://jboss.org/post\""
-				+ ",\"dcp_activity_dates\":[\"" + dateStr + "\",\"" + dateStr
+				+ ",\"sys_description\":\"Post C...\"" + ",\"sys_content\":\"Post Content\""
+				+ ",\"sys_title\":\"Post Title\"" + ",\"sys_url_view\":\"http://jboss.org/post\""
+				+ ",\"sys_activity_dates\":[\"" + dateStr + "\",\"" + dateStr
 				+ "\"],\"tags\":[\"tag1\",\"feed_name_FeedName\",\"feed_group_name_GroupName\"]" + "}",
 				outstream.toString(producer.getEncoding().getJavaName()));
 

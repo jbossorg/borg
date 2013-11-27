@@ -136,30 +136,30 @@ Post = function(val, format) {
 			return this.previewElm;
 		}
 		var preview = '<article id="home-post-li-' + this.data._id + '" class="blog-post-article">';
-		var addThisTempl = planet.addThisTemplate(this.data._source.dcp_url_view, this.data._source.dcp_title);
-		var projectName = planet.getProjectName(this.data._source.dcp_project);
+		var addThisTempl = planet.addThisTemplate(this.data._source.sys_url_view, this.data._source.sys_title);
+		var projectName = planet.getProjectName(this.data._source.sys_project);
 		var projectInfo = "";
 		if (projectName != "") {
-			projectInfo = ' in <a href="#project=' + this.data._source.dcp_project + '">' + projectName + '</a>';
+			projectInfo = ' in <a href="#project=' + this.data._source.sys_project + '">' + projectName + '</a>';
 		}
 
 		var tags = this.getTagsRow();
-		preview += '<header><h2 class="ui-li-heading"><a href="' + this.data._source.dcp_url_view + '" data-id="'
-				+ this.data._id + '">' + this.data._source.dcp_title
+		preview += '<header><h2 class="ui-li-heading"><a href="' + this.data._source.sys_url_view + '" data-id="'
+				+ this.data._id + '">' + this.data._source.sys_title
 				+ '</a></h2><div class="blog-post-header-info"><img src="' + this.getAuthorAvatarUrl()
 				+ '" class="ui-li-thumb img-polaroid" height="46px" width="46px"/>'
 				+ '<span class="blog-post-list-date">' + util.dateToString(this.getPublished()) + '<br/>by '
 				+ this.getAuthor().name + projectInfo + '</span>' + addThisTempl + '</div></header>';
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
-					+ this.data._source.dcp_description
+					+ this.data._source.sys_description
 					+ '</div>'
 					+ '<footer><div class="blog-post-tags">'
 					+ tags
 					+ '</div>'
 					+ '<div class="blog-post-show-more"><a href="" class="show-more btn btn-small">Read more</a></div></footer>';
 		} else {
-			preview += '<div class="blog-post-content">' + this.data._source.dcp_content + '</div>'
+			preview += '<div class="blog-post-content">' + this.data._source.sys_content + '</div>'
 					+ '<footer><div class="blog-post-tags">' + tags + '</div></footer>';
 		}
 		preview += '</article>';
@@ -181,8 +181,8 @@ Post = function(val, format) {
 	var author = null;
 	this.getAuthor = function() {
 		if (author == null) {
-			if (this.data._source.dcp_contributors != null) {
-				author = util.parseEmail(this.data._source.dcp_contributors);
+			if (this.data._source.sys_contributors != null) {
+				author = util.parseEmail(this.data._source.sys_contributors);
 			} else {
 				author = util.parseEmail(this.data._source.author);
 			}
@@ -202,14 +202,14 @@ Post = function(val, format) {
 	};
 
 	this.getPublished = function() {
-		return util.parseISODateString(this.data._source.dcp_created);
+		return util.parseISODateString(this.data._source.sys_created);
 	};
 
 	this.showFullPost = function() {
 		var contentElm = $(".blog-post-content", this.previewElm);
 		contentElm.empty();
 		contentElm.hide();
-		contentElm.append(this.data._source.dcp_content);
+		contentElm.append(this.data._source.sys_content);
 		$(".blog-post-show-more", this.previewElm).empty();
 
 		contentElm.animate({
@@ -293,7 +293,7 @@ var planet = {
 	/* Global method for retrieving new posts */
 	retrieveNewPosts : function(currentFrom, count, callback, projectCode, tags) {
 		planet.canRetrieveNewPosts = false;
-		var url = planet.dcpRestApi + "search?dcp_type=blogpost&from=" + currentFrom + "&size=" + count
+		var url = planet.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
 				+ "&sortBy=new&field=_source";
 		if (typeof tags != "undefined" && tags != "" && tags != null) {
 			if ($.isArray(tags)) {

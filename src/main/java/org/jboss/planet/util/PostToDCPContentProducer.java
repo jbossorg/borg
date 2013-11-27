@@ -61,7 +61,7 @@ public class PostToDCPContentProducer implements ContentProducer {
 		g.writeStringField("author", p.getEffectiveAuthor());
 		g.writeStringField("avatar_link", p.getEffectiveAvatarLink());
 		String published = dateToString(p.getPublished());
-		g.writeStringField("dcp_created", published);
+		g.writeStringField("sys_created", published);
 		String modified = dateToString(p.getModified());
 		g.writeStringField("modified", modified);
 
@@ -70,14 +70,14 @@ public class PostToDCPContentProducer implements ContentProducer {
 		if (p.getContentPreview() == null) {
 			p.setContentPreview(StringTools.createSummary(p.getContent(), 400));
 		}
-		g.writeStringField("dcp_description", p.getContentPreview());
+		g.writeStringField("sys_description", p.getContentPreview());
 
-		g.writeStringField("dcp_content", p.getContent());
+		g.writeStringField("sys_content", p.getContent());
 
-		g.writeStringField("dcp_title", p.getTitle());
-		g.writeStringField("dcp_url_view", p.getLink());
+		g.writeStringField("sys_title", p.getTitle());
+		g.writeStringField("sys_url_view", p.getLink());
 
-		g.writeFieldName("dcp_activity_dates");
+		g.writeFieldName("sys_activity_dates");
 		g.writeStartArray();
 		if (p.getModified() != null) {
 			g.writeString(modified);
