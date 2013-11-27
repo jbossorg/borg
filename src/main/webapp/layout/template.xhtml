@@ -21,7 +21,7 @@
 		var syncContentType = "#{configurationService.configuration.syncContentType}"
 	</SCRIPT>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <h:outputScript library="bbq/js" name="jquery.ba-bbq.min.js" />
     <h:outputScript library="datatables/js" name="jquery.dataTables.min.js" rendered="#{datatables == 'true'}" />
     <h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
@@ -31,21 +31,21 @@
     <h:outputScript library="js" name="md5.js" />
     <h:outputScript library="js" name="app.js" />
     <h:outputScript library="animate-enhanced/js" name="jquery.animate-enhanced.min.js" />
-    
+
 	<script type="text/javascript">
-	
+
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-29404929-1']);
 	  _gaq.push(['_trackPageview']);
-	
+
 	  (function() {
 	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
-	
+
 	</script>
-    
+
     <ui:insert name="additional_headers" />
     <ui:fragment rendered="#{ajaxPage == 'true'}">
       <ui:include src="../common/header-resources-ajax.xhtml" />
@@ -153,7 +153,7 @@
 			<div class="row">
                <div class="span12">
                  <div class="content-title page-header" id="content-title-#{pageId}"><h1><ui:insert name="header"/></h1></div>
-               </div>			
+               </div>
 			</div>
 
            <div class="row">
@@ -173,9 +173,9 @@
 
 
 
-<!-- begin eloqua tracking --> 
-<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script> 
-<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script> 
+<!-- begin eloqua tracking -->
+<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script>
+<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script>
 <!-- end eloqua tracking -->
 <!-- SiteCatalyst code version: H.21.
 Copyright 1996-2010 Adobe, Inc. All Rights Reserved
@@ -193,10 +193,13 @@ the next lines. */
 var s_code=s.t();if(s_code)document.write(s_code)//-->
 </script>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
+//<![CDATA[
 if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
 
-//--></script><noscript><a href="http://www.omniture.com" title="Web
+//]]>
+</script>
+<noscript><a href="http://www.omniture.com" title="Web
 Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatjbossorg/1/H.21--NS/0?[AQB]%26cdp=3%26[AQE]"
 height="1" width="1" border="0" alt="" /></a></noscript>
 
