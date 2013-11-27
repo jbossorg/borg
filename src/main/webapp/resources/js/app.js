@@ -314,7 +314,7 @@ var planet = {
 		$.ajax({
 			url : url,
 			type : "get",
-			dataType : 'jsonp',
+			dataType : 'json',
 			success : function(data) {
 				// must be before callback because it can turn off retrieving new posts in case of "no more posts"
 				planet.canRetrieveNewPosts = true;
@@ -336,7 +336,7 @@ var planet = {
 		$.ajax({
 			url : projectsRestUrl,
 			type : "get",
-			dataType : 'jsonp',
+			dataType : 'json',
 			success : function(data) {
 				planet.projects = [];
 				planet.projectNames = [];
