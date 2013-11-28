@@ -5,7 +5,7 @@ Technologies and frameworks used
 --------------------------------
 
 * Java 7
-* JBoss EAP 6 - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
+* [JBoss EAP 6.1](http://www.jboss.org/jbossas/downloads) - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
 * JSF2, [PrettyFaces](http://ocpsoft.org/prettyfaces/), [Rome Feeds parser](https://rometools.jira.com/wiki/display/ROME/Home)
 * JUnit for unit tests
 * [Twitter Bootstrap](http://twitter.github.com/bootstrap/), [jQuery](http://jquery.com/), [Datatables](http://www.datatables.net/)
