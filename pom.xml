@@ -134,6 +134,13 @@
 			<artifactId>infinispan-cdi</artifactId>
 			<version>${infinispan.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<!-- Avoid not working Injection HttpRequestServlet from Solder -->
+				<exclusion>
+					<groupId>org.jboss.solder</groupId>
+					<artifactId>solder-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Artifacts needed by application -->
