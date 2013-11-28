@@ -52,18 +52,18 @@ Create directories `{JBOSS_EAP}/modules/com/mysql/jdbc/main/` containing:
 
 Content of `module.xml`:
 
-		<module xmlns="urn:jboss:module:1.0" name="com.mysql">
+		<module xmlns="urn:jboss:module:1.0" name="com.mysql.jdbc">
 		  <resources>
-		    <resource-root path="mysql-connector-java-5.1.20-bin.jar"/>
+			<resource-root path="mysql-connector-java-5.1.20-bin.jar"/>
 		  </resources>
 		  <dependencies>
-		    <module name="javax.api"/>
+			<module name="javax.api"/>
 		  </dependencies>
 		</module>
 
 Add Mysql datasource to JBoss EAP in `{JBOSS_EAP}/standalone/configuration/standalone.xml`
 
-		<datasource jndi-name="java:jboss/datasources/MysqlDS" pool-name="MysqlDS">
+		<datasource jndi-name="java:jboss/datasources/MysqlDS" pool-name="MysqlDS" enabled="true" use-java-context="true">
 			<connection-url>jdbc:mysql://localhost:3306/borg</connection-url>
 			<driver>mysql</driver>
 			<transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
@@ -80,6 +80,14 @@ Add Mysql datasource to JBoss EAP in `{JBOSS_EAP}/standalone/configuration/stand
 				<share-prepared-statements>true</share-prepared-statements>
 			</statement>
 		</datasource>
+
+and driver
+
+		<driver name="mysql" module="com.mysql.jdbc">
+			<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+		</driver>
+
+
 
 Build project with `localhost` development profile. 
 Deploy `borg.war` to the JBoss EAP 6 `standalone` configuration, i.e. copy it 

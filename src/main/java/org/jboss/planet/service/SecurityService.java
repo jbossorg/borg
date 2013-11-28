@@ -5,9 +5,14 @@
  */
 package org.jboss.planet.service;
 
-import java.io.Serializable;
-import java.security.Principal;
-import java.util.ArrayList;
+import org.jasig.cas.client.util.AbstractCasFilter;
+import org.jasig.cas.client.validation.Assertion;
+import org.jboss.planet.model.*;
+import org.jboss.planet.model.RemoteFeed.FeedStatus;
+import org.jboss.planet.security.CRUDOperationType;
+import org.jboss.planet.security.PermissionCRUDException;
+import org.jboss.planet.security.UserNotLoggedInException;
+import org.jboss.planet.service.qualifier.Updated;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -16,25 +21,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
-import javax.servlet.http.HttpSession;
-
-import org.jasig.cas.client.util.AbstractCasFilter;
-import org.jasig.cas.client.validation.Assertion;
-import org.jboss.planet.model.Configuration;
-import org.jboss.planet.model.FeedGroup;
-import org.jboss.planet.model.FeedsSecurityRole;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.model.RemoteFeed.FeedStatus;
-import org.jboss.planet.model.SecurityMapping;
-import org.jboss.planet.model.SecurityUser;
-import org.jboss.planet.security.CRUDOperationType;
-import org.jboss.planet.security.PermissionCRUDException;
-import org.jboss.planet.security.UserNotLoggedInException;
-import org.jboss.planet.service.qualifier.Updated;
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.security.Principal;
+import java.util.ArrayList;
 
 /**
  * Security service which keeps authenticated user
- * 
+ *
  * @author Libor Krzyzanek
  */
 @SessionScoped
@@ -47,7 +41,7 @@ public class SecurityService implements Serializable {
 	private EntityManager em;
 
 	@Inject
-	private HttpSession session;
+	private HttpServletRequest request;
 
 	private SecurityUser currentUser;
 
@@ -58,7 +52,7 @@ public class SecurityService implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		final Assertion assertion = (Assertion) session.getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
+		final Assertion assertion = (Assertion) request.getSession().getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
 		if (assertion == null) {
 			setCurrentUser(null);
 		} else {
@@ -67,7 +61,7 @@ public class SecurityService implements Serializable {
 	}
 
 	public Assertion getUserFromSession() {
-		return (Assertion) session.getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
+		return (Assertion) request.getSession().getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
 	}
 
 	public void observeUserChange(@Observes @Updated SecurityUser updatedUser) {
@@ -78,7 +72,7 @@ public class SecurityService implements Serializable {
 
 	/**
 	 * Get security user if any exist
-	 * 
+	 *
 	 * @param username
 	 * @return user with defined roles (if any)
 	 */
@@ -132,13 +126,11 @@ public class SecurityService implements Serializable {
 
 	/**
 	 * Check if user has permission
-	 * 
+	 *
 	 * @param entity
 	 * @param operation
-	 * @throws UserNotLoggedInException
-	 *             if user is not logged in
-	 * @throws PermissionCRUDException
-	 *             if user doesn't have sufficient permissions
+	 * @throws UserNotLoggedInException if user is not logged in
+	 * @throws PermissionCRUDException  if user doesn't have sufficient permissions
 	 */
 	public void checkPermission(Object entity, CRUDOperationType operation) throws UserNotLoggedInException,
 			PermissionCRUDException {
