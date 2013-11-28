@@ -212,13 +212,11 @@
 			<version>4.2.1</version>
 		</dependency>
 
-		<!-- It's needed otherwise annotation @JsonIgnore it unknown and needed because @XmlTransient doesn't work. More info: 
-			https://community.jboss.org/thread/196107 -->
+		<!-- Openshift doesn't provide Jackson module so better bundle dependency into war -->
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>2.3.6.Final</version>
-			<scope>provided</scope>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
 		</dependency>
 
 		<!-- Needed for running tests (you may also use TestNG) -->
