@@ -74,9 +74,9 @@ Post = function(val) {
 		preview += '<a href="#content" class="post-link">'
 		// + '<img src="' + this.data._source.avatar_link
 		// + '" class="ui-li-thumb" height="46px" width="46px"/>'
-		+ '<h2 class="ui-li-heading">' + this.data._source.dcp_title + '</h2>'
+		+ '<h2 class="ui-li-heading">' + this.data._source.sys_title + '</h2>'
 				+ '<p class="ui-li-desc"><span class="blog-post-list-date">' + this.getPublishedAndAuthor()
-				+ '</span><br/>' + this.data._source.dcp_description + '</p></a></li>';
+				+ '</span><br/>' + this.data._source.sys_description + '</p></a></li>';
 		previewElm = $(preview);
 
 		return previewElm;
@@ -87,15 +87,15 @@ Post = function(val) {
 	};
 
 	this.getContent = function() {
-		return this.data._source.dcp_content;
+		return this.data._source.sys_content;
 	};
 
 	this.getTitle = function() {
-		return this.data._source.dcp_title;
+		return this.data._source.sys_title;
 	};
 
 	this.getPublished = function() {
-		return util.parseISODateString(this.data._source.dcp_created);
+		return util.parseISODateString(this.data._source.sys_created);
 	};
 
 	this.getPublishedAndAuthor = function() {
@@ -337,13 +337,13 @@ Home = function() {
 	this.retrievePosts = function(history, callback) {
 		$("#loading", page).text("Loading ...");
 		retrievingNewPosts = true;
-		var url = reader.dcpRestApi + "search?dcp_type=blogpost&from=" + currentFrom + "&size=" + count
+		var url = reader.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
 				+ "&sortBy=new&field=_source";
 
 		$.ajax({
 			url : url,
 			type : "get",
-			dataType : 'jsonp',
+			dataType : 'json',
 			success : function(data) {
 				if (!history) {
 					nav.setHomeUpdated(util.dateToString(new Date()));
