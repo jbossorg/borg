@@ -112,7 +112,7 @@ pre {
 }
 
 #home-filter .input-append {
-	
+
 }
 
 #home-filter div.filter-item {
@@ -121,7 +121,7 @@ pre {
 }
 
 #home-display-btn-span {
-	
+
 }
 
 .home-controls {
@@ -238,7 +238,7 @@ img.ui-li-thumb {
 }
 
 #feed-list-ul .group-name { /*	background-color: blue; */
-	
+
 }
 
 /* ************* Page specifics ******************/
@@ -280,6 +280,11 @@ img.ui-li-thumb {
 	.manage-feeds-list-url {
 		max-width: 100px;
 	}
+}
+
+/* ************* POST Preview ******************/
+.blogpost-content {
+	margin-bottom: 30px;
 }
 
 /* ************* POSTS layout ******************/
