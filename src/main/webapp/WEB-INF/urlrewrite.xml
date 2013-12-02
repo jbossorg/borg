@@ -90,6 +90,6 @@
 	<!-- Feed URLs -->
 	<rule>
 		<from>^/xml/all(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?dcp_type=blogpost&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
 	</rule>
 </urlrewrite>

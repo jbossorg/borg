@@ -41,11 +41,11 @@
 				p.data = {
 					_source : data
 				};
-				if (p.data._source.dcp_project != null) {
+				if (p.data._source.sys_project != null) {
 					planet.getProjectNames(function() {
-						var projectName = planet.getProjectName(p.data._source.dcp_project);
+						var projectName = planet.getProjectName(p.data._source.sys_project);
 						if (projectName != "") {
-							var projectInfo = '<span class="divider">/</span> <li><a href="../#project=' + p.data._source.dcp_project + '">' + projectName + '</a></li>';
+							var projectInfo = '<span class="divider">/</span> <li><a href="../#project=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
 							$(".breadcrumb").last().append(projectInfo);
 						}
 					});

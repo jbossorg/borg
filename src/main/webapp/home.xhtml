@@ -10,7 +10,7 @@
 	</ui:define>
 
 	<ui:define name="additional_headers">
-		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}" href="#{configurationService.syncServerOnView}/v1/rest/feed/?dcp_type=blogpost&amp;feed_title=#{msg['home.feed.name']}" />
+		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}" href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}" />
 	</ui:define>
 
 	<ui:define name="body">
@@ -61,7 +61,7 @@
 
 		<div class="row home-feed-row">
 			<div class="span12">
-				<a id="home-feed-link" class="atom-feed-link" href="#{configurationService.syncServerOnView}/v1/rest/feed/?dcp_type=blogpost&amp;feed_title=#{msg['home.feed.name']}" 
+				<a id="home-feed-link" class="atom-feed-link" href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"
 					data-title-base="#{msg['home.feed.name']}">#{msg['home.feed.subscribe']}</a>
 			</div>
 		</div>	
