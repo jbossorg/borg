@@ -1,0 +1,47 @@
+%define  _deploy_dir /services/borg
+
+Name:           borg
+Version:        3.0.0
+Release:        2.el5
+Summary:        Blog post aggregator - planet.jboss.org
+
+Group:          System Environment/Daemons
+License:        Apache License, Version 2.0
+URL:            http://planet.jboss.org
+
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}.%{release}-root-%(%{__id_u} -n)
+BuildArch:      noarch
+
+#set $i = 0
+#for $artifact in $all_artifacts
+  #if $artifact.startswith('ROOT') and $artifact.endswith('.war')
+Source0: $artifact
+  #end if
+#end for
+
+Requires(post): chkconfig
+Requires(preun): chkconfig
+# This is for /sbin/service
+Requires(preun): initscripts
+
+%description
+Blog post aggregator - planet.jboss.org
+
+%install
+rm -rf %{buildroot}
+/usr/bin/install -d %{buildroot}%{_deploy_dir}
+cp %{SOURCE0} %{buildroot}%{_deploy_dir}/
+
+
+%clean
+rm -rf %{buildroot}
+
+%files
+%defattr(-,jboss,jboss,-)
+%{_deploy_dir}
+
+
+%changelog
+* Tue Feb 11 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.0.0
+- Initial release
