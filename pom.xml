@@ -60,9 +60,21 @@
 		<!-- Explicitly declaring the source encoding eliminates the following message: -->
 		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<infinispan.version>5.2.6.Final</infinispan.version>
 	</properties>
 
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Dependency management for JBoss EAP 6.2 artifacts -->
+			<dependency>
+				<groupId>org.jboss.bom</groupId>
+				<artifactId>eap6-supported-artifacts</artifactId>
+				<version>6.2.0.GA</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!--
@@ -85,7 +97,7 @@
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>3.0.2.Final-redhat-4</version>
+			<version>3.0.2.Final-redhat-7</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
@@ -97,7 +109,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final-redhat-1</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -110,7 +121,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.2.0.Final-redhat-1</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -124,7 +134,6 @@
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-core</artifactId>
-			<version>${infinispan.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -132,7 +141,8 @@
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-cdi</artifactId>
-			<version>${infinispan.version}</version>
+			<!-- Missing in BOM -->
+			<version>5.2.7.Final</version>
 			<scope>provided</scope>
 			<exclusions>
 				<!-- Avoid not working Injection HttpRequestServlet from Solder -->
@@ -147,7 +157,6 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6-redhat-2</version>
 		</dependency>
 
 		<dependency>
