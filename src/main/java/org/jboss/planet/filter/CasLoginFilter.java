@@ -5,6 +5,7 @@
  */
 package org.jboss.planet.filter;
 
+import org.apache.commons.lang.StringUtils;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.validation.Assertion;
@@ -13,7 +14,6 @@ import org.jboss.planet.service.SecurityService;
 
 import javax.inject.Inject;
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.util.logging.Logger;
  *
  * @author Libor Krzyzanek
  */
-@WebFilter(filterName = "CAS App Login Filter")
 public class CasLoginFilter implements Filter {
 
 	@Inject
@@ -34,10 +33,16 @@ public class CasLoginFilter implements Filter {
 	@Inject
 	private SecurityService securityService;
 
+	private boolean forceSSL = true;
+
 	public static final String BACK_URL_PARAM_NAME = "backurl";
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
+		String ssl = config.getInitParameter("forceSSL");
+		if ("false".equalsIgnoreCase(ssl)) {
+			forceSSL = false;
+		}
 	}
 
 	protected AttributePrincipal retrievePrincipalFromSession(HttpServletRequest httpRequest) {
@@ -89,17 +94,27 @@ public class CasLoginFilter implements Filter {
 	 * @param httpRequest
 	 * @return original URL or null if not defined in described methods above
 	 */
-	private String getOriginalUrl(HttpServletRequest httpRequest) {
+	protected String getOriginalUrl(HttpServletRequest httpRequest) {
 		String backUrl = httpRequest.getParameter(BACK_URL_PARAM_NAME);
-		if (backUrl != null) {
-			return backUrl;
-		} else {
-			return httpRequest.getHeader("referer");
+		log.log(Level.FINEST, "Backurl from parameter: {0}", backUrl);
+		if (backUrl == null) {
+			backUrl = httpRequest.getHeader("referer");
+			log.log(Level.FINEST, "Backurl from referer: {0}", backUrl);
 		}
+
+		if (forceSSL) {
+			return StringUtils.replace(backUrl, "http", "https", 1);
+		}
+
+		return backUrl;
 	}
 
 	@Override
 	public void destroy() {
+	}
+
+	public boolean isForceSSL() {
+		return forceSSL;
 	}
 
 }

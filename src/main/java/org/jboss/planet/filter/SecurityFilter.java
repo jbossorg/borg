@@ -5,22 +5,15 @@
  */
 package org.jboss.planet.filter;
 
+import org.jboss.planet.controller.UserController;
+
+import javax.inject.Inject;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.inject.Inject;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.jboss.planet.controller.UserController;
-import org.jboss.planet.util.RequestUtils;
 
 /**
  * Application filter for securing content. It does:<br/>
@@ -43,9 +36,6 @@ public class SecurityFilter implements Filter {
 
 	private boolean forceSSL = true;
 
-	@Inject
-	private RequestUtils requestUtils;
-
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		String ssl = config.getInitParameter("forceSSL");
@@ -62,7 +52,7 @@ public class SecurityFilter implements Filter {
 
 		// Secure https for logged in users
 		if (forceSSL && userController.isLoggedIn()) {
-			if (!"https".equalsIgnoreCase(requestUtils.getScheme())) {
+			if (!request.isSecure()) {
 				String httpsUrl = "https://" + httpRequest.getServerName() + path;
 				log.log(Level.INFO, "Redirecting user to https URL: {0}", httpsUrl);
 

@@ -26,7 +26,7 @@
     <h:outputScript library="datatables/js" name="jquery.dataTables.min.js" rendered="#{datatables == 'true'}" />
     <h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
     <ui:fragment rendered="#{addthis == 'true'}">
-		<script type="text/javascript" src="#{requestUtils.scheme}://s7.addthis.com/js/250/addthis_widget.js#username=ra-4fe82e7237a0e8c4"></script>
+		<script type="text/javascript" src="#{request.scheme}://s7.addthis.com/js/250/addthis_widget.js#username=ra-4fe82e7237a0e8c4"></script>
     </ui:fragment>
     <h:outputScript library="js" name="md5.js" />
     <h:outputScript library="js" name="app.js" />
@@ -174,15 +174,15 @@
 
 
 <!-- begin eloqua tracking -->
-<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script>
-<script type='text/javascript' src='#{requestUtils.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script>
+<script type='text/javascript' src='#{request.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script>
+<script type='text/javascript' src='#{request.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script>
 <!-- end eloqua tracking -->
 <!-- SiteCatalyst code version: H.21.
 Copyright 1996-2010 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com -->
 <div id="oTags">
 <!-- // **************************** CHANGE PAT BELOW TO YOUR SERVERS PATH -->
-<script type="text/javascript" src="#{requestUtils.scheme}://www.redhat.com/j/s_code.js"></script>
+<script type="text/javascript" src="#{request.scheme}://www.redhat.com/j/s_code.js"></script>
 
 <script><!--
 /* You may give each page an identifying name, server, and channel on

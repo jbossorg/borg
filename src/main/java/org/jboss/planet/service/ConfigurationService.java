@@ -5,13 +5,13 @@
  */
 package org.jboss.planet.service;
 
+import org.jboss.planet.model.Configuration;
+import org.jboss.planet.security.AdminAllowed;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.jboss.planet.model.Configuration;
-import org.jboss.planet.security.AdminAllowed;
-import org.jboss.planet.util.RequestUtils;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Application Configuration service
@@ -23,7 +23,7 @@ import org.jboss.planet.util.RequestUtils;
 public class ConfigurationService extends EntityServiceJpa<Configuration> {
 
 	@Inject
-	protected RequestUtils requestUtils;
+	private HttpServletRequest request;
 
 	public ConfigurationService() {
 		super(Configuration.class);
@@ -54,7 +54,7 @@ public class ConfigurationService extends EntityServiceJpa<Configuration> {
 		Configuration config = getConfiguration();
 		if (config.getSyncServerHttpInViewLayer() != null && config.getSyncServerHttpInViewLayer()) {
 			// Allows http only if request is not https
-			if (config.getSyncServer().startsWith("https") && !requestUtils.getScheme().equals("https")) {
+			if (config.getSyncServer().startsWith("https") && !request.isSecure()) {
 				return config.getSyncServer().replace("https", "http");
 			}
 		}
