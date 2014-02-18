@@ -15,7 +15,7 @@ BuildArch:      noarch
 
 #set $i = 0
 #for $artifact in $all_artifacts
-  #if $artifact.startswith('ROOT') and $artifact.endswith('.war')
+  #if $artifact.startswith('borg') and $artifact.endswith('.war')
 Source0: $artifact
   #end if
 #end for
