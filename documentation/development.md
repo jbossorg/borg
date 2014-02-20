@@ -96,8 +96,14 @@ to the `{JBOSS_EAP}/standalone/deployments` folder.
 You can use [Eclipse with JBoss Tools](http://www.jboss.org/tools) or 
 [JBoss Developer Studio](https://devstudio.jboss.com) for this as well.
 
+Make sure that enable-welcome-root parameter is set to false in standalone.xml because context of app is mapped to root by default in JBoss AS
 
-The Borg application is then available at [http://localhost:8080/borg/](http://localhost:8080/borg/)
+        <subsystem xmlns="urn:jboss:domain:web:1.0" default-virtual-server="default-host">
+            <connector name="http" protocol="HTTP/1.1" socket-binding="http" scheme="http"/>
+            <virtual-server name="default-host" enable-welcome-root="false">
+        </subsystem>
+
+The Borg application is then available at [http://localhost:8080/](http://localhost:8080/)
 
 
 DCP Integration
