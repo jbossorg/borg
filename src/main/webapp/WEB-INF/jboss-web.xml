@@ -11,7 +11,8 @@
     language governing permissions and limitations under the License. -->
 
 <!-- Configure usage of the security domain "planet" -->
-<jboss-web>
-   <security-domain>other</security-domain>
-   <disable-audit>true</disable-audit>
+<jboss-web >
+	<security-domain>other</security-domain>
+	<disable-audit>true</disable-audit>
+	<context-root>/</context-root>
 </jboss-web>
