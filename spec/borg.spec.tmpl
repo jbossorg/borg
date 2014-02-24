@@ -2,7 +2,7 @@
 
 Name:           borg
 Version:        3.0.0
-Release:        3.el6
+Release:        4.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
 Group:          System Environment/Daemons
@@ -31,7 +31,8 @@ Blog post aggregator - planet.jboss.org
 %install
 rm -rf %{buildroot}
 /usr/bin/install -d %{buildroot}%{_deploy_dir}
-cp %{SOURCE0} %{buildroot}%{_deploy_dir}/
+mkdir %{buildroot}%{_deploy_dir}/%{SOURCE0}
+unzip -d %{buildroot}%{_deploy_dir}/%{SOURCE0} %{SOURCE0}
 
 
 %clean
