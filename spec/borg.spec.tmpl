@@ -30,8 +30,8 @@ Blog post aggregator - planet.jboss.org
 
 %install
 rm -rf %{_deploy_dir}
-/usr/bin/install -d %{_deploy_dir}
-unzip -d %{_deploy_dir} %{SOURCE0}
+/usr/bin/install -d %{_deploy_dir}/%{name}.war
+unzip -d %{_deploy_dir}/%{name}.war %{SOURCE0}
 
 
 %clean
