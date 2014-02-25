@@ -2,7 +2,7 @@
 
 Name:           borg
 Version:        3.0.0
-Release:        4.el6
+Release:        5.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
 Group:          System Environment/Daemons
@@ -29,13 +29,13 @@ Requires(preun): initscripts
 Blog post aggregator - planet.jboss.org
 
 %install
-rm -rf %{buildroot}
-/usr/bin/install -d %{buildroot}%{_deploy_dir}/%{SOURCE0}
-unzip -d %{buildroot}%{_deploy_dir}/%{SOURCE0} %{SOURCE0}
+rm -rf %{_deploy_dir}
+/usr/bin/install -d %{_deploy_dir}
+unzip -d %{_deploy_dir} %{SOURCE0}
 
 
 %clean
-rm -rf %{buildroot}
+rm -rf %{_deploy_dir}
 
 %files
 %defattr(-,jboss,jboss,-)
