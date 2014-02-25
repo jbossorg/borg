@@ -29,13 +29,13 @@ Requires(preun): initscripts
 Blog post aggregator - planet.jboss.org
 
 %install
-rm -rf %{_deploy_dir}
-/usr/bin/install -d %{_deploy_dir}/%{name}.war
-unzip -d %{_deploy_dir}/%{name}.war %{SOURCE0}
+rm -rf %{buildroot}
+/usr/bin/install -d %{buildroot}%{_deploy_dir}/%{name}.war
+unzip -d %{buildroot}%{_deploy_dir}/%{name}.war %{SOURCE0}
 
 
 %clean
-rm -rf %{_deploy_dir}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,jboss,jboss,-)
