@@ -5,17 +5,16 @@
  */
 package org.jboss.planet.model;
 
-import java.io.Serializable;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.URL;
+import org.jboss.planet.model.RemoteFeed.FeedStatus;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.URL;
-import org.jboss.planet.model.RemoteFeed.FeedStatus;
+import java.io.Serializable;
 
 @Entity
 @Cacheable(true)
@@ -29,20 +28,20 @@ public class Configuration implements Serializable {
 
 	@Column
 	@NotNull
-	private int readTimeout;
+	private Integer readTimeout;
 
 	@Column
 	@NotNull
-	private int connectionTimeout;
+	private Integer connectionTimeout;
 
 	@Column
 	@NotNull
-	private int updateInterval;
+	private Integer updateInterval;
 
 	/**
 	 * Threshold for updating feeds. If update feeds has any problem then it's counted and if this threshold is reached
 	 * then feed is disabled
-	 * 
+	 *
 	 * @see FeedStatus
 	 */
 	private Integer updateFeedFailsThreshold;
@@ -82,27 +81,27 @@ public class Configuration implements Serializable {
 		this.id = id;
 	}
 
-	public int getReadTimeout() {
+	public Integer getReadTimeout() {
 		return readTimeout;
 	}
 
-	public void setReadTimeout(int readTimeout) {
+	public void setReadTimeout(Integer readTimeout) {
 		this.readTimeout = readTimeout;
 	}
 
-	public int getConnectionTimeout() {
+	public Integer getConnectionTimeout() {
 		return connectionTimeout;
 	}
 
-	public void setConnectionTimeout(int connectionTimeout) {
+	public void setConnectionTimeout(Integer connectionTimeout) {
 		this.connectionTimeout = connectionTimeout;
 	}
 
-	public int getUpdateInterval() {
+	public Integer getUpdateInterval() {
 		return updateInterval;
 	}
 
-	public void setUpdateInterval(int updateInterval) {
+	public void setUpdateInterval(Integer updateInterval) {
 		this.updateInterval = updateInterval;
 	}
 
@@ -160,6 +159,25 @@ public class Configuration implements Serializable {
 		result = 31 * result + updateInterval;
 		result = 31 * result + (adminEmail != null ? adminEmail.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Configuration{" +
+				"id=" + id +
+				", readTimeout=" + readTimeout +
+				", connectionTimeout=" + connectionTimeout +
+				", updateInterval=" + updateInterval +
+				", updateFeedFailsThreshold=" + updateFeedFailsThreshold +
+				", adminEmail='" + adminEmail + '\'' +
+				", serverAddress='" + serverAddress + '\'' +
+				", contextName='" + contextName + '\'' +
+				", syncServer='" + syncServer + '\'' +
+				", syncServerHttpInViewLayer=" + syncServerHttpInViewLayer +
+				", syncUsername='" + syncUsername + '\'' +
+				", syncPassword=******" +
+				", syncContentType='" + syncContentType + '\'' +
+				'}';
 	}
 
 	public String getSyncServer() {

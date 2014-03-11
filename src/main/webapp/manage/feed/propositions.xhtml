@@ -1,69 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="../../layout/template.xhtml">
 
-	<ui:param name="pageId" value="manage-feeds-propositions" />
-	<ui:param name="datatables" value="true" />
+	<ui:param name="pageId" value="manage-feeds-propositions"/>
+	<ui:param name="datatables" value="true"/>
 
 	<ui:define name="header">
-	  #{msg['management.feeds.propositions.name']}
-  </ui:define>
+		#{msg['management.feeds.propositions.name']}
+	</ui:define>
 
 	<ui:define name="breadcrumb">
-		<ui:include src="./breadcrumb.xhtml" />
+		<ui:include src="./breadcrumb.xhtml"/>
 	</ui:define>
 
 	<ui:define name="page_title">#{msg['management.feeds.propositions.name']}<ui:include
-			src="/layout/page-title-suffix.xhtml" />
+			src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
 	<ui:define name="body">
-		<table id="manage-propositions-table" class="table table-striped table-bordered table-condensed">
+		<table id="manage-propositions-table">
 			<thead>
-				<tr>
-					<th>#{msg['management.feeds.column.title']}</th>
-					<th>#{msg['management.feeds.column.name']}</th>
-					<th>#{msg['management.feeds.column.group']}</th>
-					<th>#{msg['management.feeds.column.url']}</th>
-					<th>#{msg['management.group.column.admins']}</th>
-					<th>#{msg['management.feeds.column.action']}</th>
-				</tr>
+			<tr>
+				<th>#{msg['management.feeds.column.title']}</th>
+				<th>#{msg['management.feeds.column.name']}</th>
+				<th>#{msg['management.feeds.column.group']}</th>
+				<th>#{msg['management.feeds.column.url']}</th>
+				<th>#{msg['management.group.column.admins']}</th>
+				<th>#{msg['management.feeds.column.action']}</th>
+			</tr>
 			</thead>
 			<tbody>
-				<ui:repeat var="feed" value="#{feedController.proposedFeeds}" varStatus="status">
-					<tr>
-						<td><strong>#{feed.title}</strong></td>
-						<td>#{feed.name}</td>
-						<td>#{feed.group.displayName}</td>
-						<td><h:outputLink value="#{feed.remoteLink}">#{feed.remoteLink}</h:outputLink></td>
-						<td><ui:repeat var="feedAdmin" value="#{permissionService.getFeedAdministrators(feed.id)}">
-								<h:outputText value="#{feedAdmin.name}" />
-								<br />
-							</ui:repeat></td>
-						<td><h:form id="proposition-action">
-								<h:commandLink id="accept" action="#{feedController.acceptFeed}" styleClass="btn btn-success"
-									onclick="if (!confirm('Accept this feed?')) return false">
-									<f:setPropertyActionListener target="#{feedController.feedToUpdate}" value="#{feed}" />
-									<i class="icon-ok icon-white"></i>
-									<h:outputText value="#{msg['management.feeds.propositions.accept']}" />
-								</h:commandLink>
-								&#160;
-								<h:commandLink id="decline" action="#{feedController.declineFeed}" styleClass="btn btn-danger"
-									onclick="if (!confirm('Decline this feed?')) return false">
-									<f:setPropertyActionListener target="#{feedController.feedToUpdate}" value="#{feed}" />
-									<i class="icon-remove icon-white"></i>
-									<h:outputText value="#{msg['management.feeds.propositions.decline']}" />
-								</h:commandLink>
-							</h:form></td>
-					</tr>
-				</ui:repeat>
+			<ui:repeat var="feed" value="#{feedController.proposedFeeds}" varStatus="status">
+				<tr>
+					<td><strong>#{feed.title}</strong></td>
+					<td>#{feed.name}</td>
+					<td>#{feed.group.displayName}</td>
+					<td><h:outputLink value="#{feed.remoteLink}">#{feed.remoteLink}</h:outputLink></td>
+					<td>
+						<ui:repeat var="feedAdmin" value="#{permissionService.getFeedAdministrators(feed.id)}">
+							<h:outputText value="#{feedAdmin.name}"/>
+							<br/>
+						</ui:repeat>
+					</td>
+					<td class="table-actions-column">
+						<h:form id="proposition-action">
+							<h:commandLink id="accept" action="#{feedController.acceptFeed}"
+										   styleClass="button expand small green"
+										   onclick="if (!confirm('Accept this feed?')) return false">
+								<f:setPropertyActionListener target="#{feedController.feedToUpdate}" value="#{feed}"/>
+								<i class="fa fa-check"></i>&#160;
+								<h:outputText value="#{msg['management.feeds.propositions.accept']}"/>
+							</h:commandLink>
+
+							<h:commandLink id="decline" action="#{feedController.declineFeed}"
+										   styleClass="button expand small alert"
+										   onclick="if (!confirm('Decline this feed?')) return false">
+								<f:setPropertyActionListener target="#{feedController.feedToUpdate}" value="#{feed}"/>
+								<i class="fa fa-times"></i>&#160;
+								<h:outputText value="#{msg['management.feeds.propositions.decline']}"/>
+							</h:commandLink>
+						</h:form>
+					</td>
+				</tr>
+			</ui:repeat>
 			</tbody>
 		</table>
 		<script type="text/javascript" charset="utf-8">
 			function appLoadedOnDesktop() {
-				$(document).ready(function() {
+				$(document).ready(function () {
 					initDataTable($('#manage-propositions-table'));
-				} );
+				});
 			}
 		</script>
 

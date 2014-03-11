@@ -144,23 +144,25 @@ Post = function(val, format) {
 		}
 
 		var tags = this.getTagsRow();
-		preview += '<header><h2 class="ui-li-heading"><a href="' + this.data._source.sys_url_view + '" data-id="'
+		preview += '<header><h3 class="ui-li-heading"><a href="' + this.data._source.sys_url_view + '" data-id="'
 				+ this.data._id + '">' + this.data._source.sys_title
-				+ '</a></h2><div class="blog-post-header-info"><img src="' + this.getAuthorAvatarUrl()
-				+ '" class="ui-li-thumb img-polaroid" height="46px" width="46px"/>'
-				+ '<span class="blog-post-list-date">' + util.dateToString(this.getPublished()) + '<br/>by '
-				+ this.getAuthor().name + projectInfo + '</span>' + addThisTempl + '</div></header>';
+				+ '</a></h3>'
+				+ '<p>' + addThisTempl + '</p>'
+				+ '<div class="blog-post-header-info"><ul class="planet-avatar"><li><img src="' + this.getAuthorAvatarUrl()
+				+ '" class="ui-li-thumb img-polaroid" height="80px" width="80px"/></li>'
+				+ '<li>' + util.dateToString(this.getPublished()) + ' by '
+				+ this.getAuthor().name + projectInfo + '</li>' + '</ul></div></header>';
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
 					+ this.data._source.sys_description
 					+ '</div>'
-					+ '<footer><div class="blog-post-tags">'
+					+ '<footer><div class="blog-post-tags"><h5>'
 					+ tags
-					+ '</div>'
-					+ '<div class="blog-post-show-more"><a href="" class="show-more btn btn-small">Read more</a></div></footer>';
+					+ '</h5></div>'
+					+ '<div class="blog-post-show-more"><a href="" class="show-more button blue">Read more</a></div></footer>';
 		} else {
 			preview += '<div class="blog-post-content">' + this.data._source.sys_content + '</div>'
-					+ '<footer><div class="blog-post-tags">' + tags + '</div></footer>';
+					+ '<footer><div class="blog-post-tags"><h5>' + tags + '</h5></div></footer>';
 		}
 		preview += '</article>';
 		this.previewElm = $(preview);
@@ -194,8 +196,8 @@ Post = function(val, format) {
 	this.getAuthorAvatarUrl = function() {
 		if (this.getAuthor().email != null) {
 			var emailMd5 = md5(this.getAuthor().email);
-			return "http://www.gravatar.com/avatar/" + emailMd5 + "?s=46&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
-					+ emailMd5 + "/46.png";
+			return "http://www.gravatar.com/avatar/" + emailMd5 + "?s=80&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
+					+ emailMd5 + "/80.png";
 		} else {
 			return this.data._source.avatar_link;
 		}
@@ -521,12 +523,17 @@ var home = {
 				planet.getProjectNames(process);
 			}
 		};
-		feedFilter.typeahead(feedFilterOptions);
+		// Disalbed auto complete because of missing plugin in Zurb 5
+		// feedFilter.typeahead(feedFilterOptions);
 
-		$("#home-feed-filter-remove", page).bind('click', function() {
-			var filter = $("#home-feed-filter");
-			filter.val("");
-			filter.change();
+		$("#home-filter-clearall", page).bind('click', function() {
+			var filterFeed = $("#home-feed-filter");
+			filterFeed.val("");
+			filterFeed.change();
+
+			var filterTags = $("#home-tags-filter");
+			filterTags.val("");
+			filterTags.change();
 			return false;
 		});
 
@@ -537,13 +544,6 @@ var home = {
 
 		tagsFilter.change(function() {
 			home.changeTags($(this).val());
-		});
-
-		$("#home-tags-filter-remove", page).bind('click', function() {
-			var filter = $("#home-tags-filter");
-			filter.val("");
-			filter.change();
-			return false;
 		});
 
 		if (home.data.feedId != null || home.data.tags != null) {
@@ -698,19 +698,19 @@ var home = {
 		home.data.currentFrom = home.data.currentFrom + size;
 	},
 	toogleButton : function(selector) {
-		var elm = $(selector);
-		$("i", elm).toggleClass("icon-white");
-		elm.toggleClass("btn-info");
+		// Zurb doesn't use classes so there is no way how to toogle button.
 	},
 	refresh : function() {
 		home.toogleButton("#home-refresh");
 		home.data.currentFrom = 0;
+		$("#home-refresh i").addClass("fa-spin");
 		$("#home-posts").empty();
 		$("#loading-div-home").show();
 		navigation.clearSearchUrls();
 		planet.retrieveNewPosts(home.data.currentFrom, home.data.count, function(data) {
 			home.addPosts(data);
 			home.toogleButton("#home-refresh");
+			$("#home-refresh i").removeClass("fa-spin");
 		}, home.data.feedId, home.data.tags);
 	},
 	toggleFilter : function() {
@@ -720,7 +720,7 @@ var home = {
 			elm.show();
 			home.toogleButton("#filter-link");
 			elm.animate({
-				height : '35px',
+				height : '135px',
 				useTranslate3d : true,
 				leaveTransforms : false
 			}, 200);
@@ -739,7 +739,7 @@ var home = {
 		if ($("#home-filter").css("display") == "none") {
 			home.toogleButton("#filter-link");
 			$("#home-filter").css({
-				'height' : '35px',
+				'height' : '135px',
 				'display' : 'block'
 			});
 		}
@@ -757,7 +757,10 @@ var home = {
 
 /** *********** PLUGINS ************* */
 /**
- * DataTable for bootstrap Source: http://datatables.net/media/blog/bootstrap_2/DT_bootstrap.js
+ * DataTable for bootstrap Source: http://datatables.github.io/Plugins/integration/foundation/dataTables.foundation.js
+ * See: https://www.datatables.net/forums/discussion/14408/zurb-foundation-integration-for-datatables/p1
+ *
+ * Tuned to be 24 columns and using collapse rows
  */
 function initDataTable(table) {
 	dataTable.init();
@@ -771,113 +774,202 @@ DataTable = function() {
 		if (this.initialized) {
 			return;
 		}
-		/* Default class modification */
-		$.extend($.fn.dataTableExt.oStdClasses, {
-			"sWrapper" : "dataTables_wrapper form-inline"
-		});
+		/* Set the defaults for DataTables initialisation */
+		$.extend( true, $.fn.dataTable.defaults, {
+			"sDom":
+				"<'row collapse'<'large-12 columns'l><'large-12 columns'f>r>"+
+					"t"+
+					"<'row collapse'<'large-12 columns'i><'large-12 columns'p>>",
+			"sPaginationType": "foundation",
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			}
+		} );
+
 
 		/* API method to get paging information */
-		$.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
+		$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+		{
 			return {
-				"iStart" : oSettings._iDisplayStart,
-				"iEnd" : oSettings.fnDisplayEnd(),
-				"iLength" : oSettings._iDisplayLength,
-				"iTotal" : oSettings.fnRecordsTotal(),
-				"iFilteredTotal" : oSettings.fnRecordsDisplay(),
-				"iPage" : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
-				"iTotalPages" : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+				"iStart":         oSettings._iDisplayStart,
+				"iEnd":           oSettings.fnDisplayEnd(),
+				"iLength":        oSettings._iDisplayLength,
+				"iTotal":         oSettings.fnRecordsTotal(),
+				"iFilteredTotal": oSettings.fnRecordsDisplay(),
+				"iPage":          oSettings._iDisplayLength === -1 ?
+					0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+				"iTotalPages":    oSettings._iDisplayLength === -1 ?
+					0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
 			};
 		};
 
+
 		/* Bootstrap style pagination control */
-		$.extend($.fn.dataTableExt.oPagination, {
-			"bootstrap" : {
-				"fnInit" : function(oSettings, nPaging, fnDraw) {
+		$.extend( $.fn.dataTableExt.oPagination, {
+			"foundation": {
+				"fnInit": function( oSettings, nPaging, fnDraw ) {
 					var oLang = oSettings.oLanguage.oPaginate;
-					var fnClickHandler = function(e) {
+					var fnClickHandler = function ( e ) {
 						e.preventDefault();
-						if (oSettings.oApi._fnPageChange(oSettings, e.data.action)) {
-							fnDraw(oSettings);
+						if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+							fnDraw( oSettings );
 						}
 					};
 
-					$(nPaging).addClass('pagination').append(
-							'<ul>' + '<li class="prev disabled"><a href="#">&larr; ' + oLang.sPrevious + '</a></li>'
-									+ '<li class="next disabled"><a href="#">' + oLang.sNext + ' &rarr; </a></li>'
-									+ '</ul>');
+					$(nPaging).append(
+						'<ul class="pagination">'+
+							'<li class="prev arrow unavailable"><a href="">&laquo;</a></li>'+
+							'<li class="next arrow unavailable"><a href="">&raquo;</a></li>'+
+							'</ul>'
+					);
 					var els = $('a', nPaging);
-					$(els[0]).bind('click.DT', {
-						action : "previous"
-					}, fnClickHandler);
-					$(els[1]).bind('click.DT', {
-						action : "next"
-					}, fnClickHandler);
+					$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+					$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
 				},
 
-				"fnUpdate" : function(oSettings, fnDraw) {
+				"fnUpdate": function ( oSettings, fnDraw ) {
 					var iListLength = 5;
 					var oPaging = oSettings.oInstance.fnPagingInfo();
 					var an = oSettings.aanFeatures.p;
-					var i, j, sClass, iStart, iEnd, iHalf = Math.floor(iListLength / 2);
+					var pages = [];
+					var i, ien, klass, host;
 
-					if (oPaging.iTotalPages < iListLength) {
-						iStart = 1;
-						iEnd = oPaging.iTotalPages;
-					} else if (oPaging.iPage <= iHalf) {
-						iStart = 1;
-						iEnd = iListLength;
-					} else if (oPaging.iPage >= (oPaging.iTotalPages - iHalf)) {
-						iStart = oPaging.iTotalPages - iListLength + 1;
-						iEnd = oPaging.iTotalPages;
-					} else {
-						iStart = oPaging.iPage - iHalf + 1;
-						iEnd = iStart + iListLength - 1;
+					// This could use some improving - however, see
+					// https://github.com/DataTables/DataTables/issues/163 - this will
+					// be changing in the near future, so not much point in doing too
+					// much just now
+					if ( oPaging.iTotalPages <= 6 ) {
+						for ( i=0 ; i<oPaging.iTotalPages ; i++ ) {
+							pages.push( i );
+						}
+					}
+					else {
+						// Current page
+						pages.push( oPaging.iPage );
+
+						// After current page
+						var pagesAfter = oPaging.iPage + 2 >= oPaging.iTotalPages ?
+							oPaging.iTotalPages :
+							oPaging.iPage + 2;
+						for ( i=oPaging.iPage+1 ; i<pagesAfter ; i++ ) {
+							pages.push( i );
+						}
+
+						// After gap
+						if ( pagesAfter < oPaging.iTotalPages-2 ) {
+							pages.push( null );
+						}
+
+						// End
+						if ( $.inArray( oPaging.iTotalPages-2, pages ) === -1 && oPaging.iPage < oPaging.iTotalPages-2 ) {
+							pages.push( oPaging.iTotalPages-2 );
+						}
+						if ( $.inArray( oPaging.iTotalPages-1, pages ) === -1 ) {
+							pages.push( oPaging.iTotalPages-1 );
+						}
+
+						// Pages before
+						var pagesBefore = oPaging.iPage - 2 > 0 ?
+							oPaging.iPage - 2 :
+							0;
+						for ( i=oPaging.iPage-1 ; i>pagesBefore ; i-- ) {
+							pages.unshift( i );
+						}
+
+						// Before gap
+						if ( pagesBefore > 1 ) {
+							pages.unshift( null );
+						}
+
+						// Start
+						if ( $.inArray( 1, pages ) === -1 && oPaging.iTotalPages > 1 ) {
+							pages.unshift( 1 );
+						}
+						if ( $.inArray( 0, pages ) === -1 ) {
+							pages.unshift( 0 );
+						}
 					}
 
-					for (i = 0, iLen = an.length; i < iLen; i++) {
+					for ( i=0, ien=an.length ; i<ien ; i++ ) {
 						// Remove the middle elements
-						$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+						host = an[i];
+						$('li:gt(0)', host).filter(':not(:last)').remove();
 
 						// Add the new list items and their event handlers
-						for (j = iStart; j <= iEnd; j++) {
-							sClass = (j == oPaging.iPage + 1) ? 'class="active"' : '';
-							$('<li ' + sClass + '><a href="#">' + j + '</a></li>').insertBefore($('li:last', an[i])[0])
-									.bind(
-											'click',
-											function(e) {
-												e.preventDefault();
-												oSettings._iDisplayStart = (parseInt($('a', this).text(), 10) - 1)
-														* oPaging.iLength;
-												fnDraw(oSettings);
-											});
-						}
+						$.each( pages, function( i, page ) {
+							klass = page === null ? 'unavailable' :
+								page === oPaging.iPage ? 'current' : '';
+							$('<li class="'+klass+'"><a href="">'+(page===null? '&hellip;' : page+1)+'</a></li>')
+								.insertBefore( $('li:last', host) )
+								.bind('click', function (e) {
+									e.preventDefault();
+									var pageNum = parseInt($('a', this).text(),10);
+									if ( ! isNaN(pageNum)) {
+										oSettings._iDisplayStart = (pageNum-1) * oPaging.iLength;
+										fnDraw( oSettings );
+									}
+								} );
+						} );
 
 						// Add / remove disabled classes from the static elements
-						if (oPaging.iPage === 0) {
-							$('li:first', an[i]).addClass('disabled');
+						if ( oPaging.iPage === 0 ) {
+							$('li:first', host).addClass('unavailable');
 						} else {
-							$('li:first', an[i]).removeClass('disabled');
+							$('li:first', host).removeClass('unavailable');
 						}
 
-						if (oPaging.iPage === oPaging.iTotalPages - 1 || oPaging.iTotalPages === 0) {
-							$('li:last', an[i]).addClass('disabled');
+						if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+							$('li:last', host).addClass('unavailable');
 						} else {
-							$('li:last', an[i]).removeClass('disabled');
+							$('li:last', host).removeClass('unavailable');
 						}
 					}
 				}
 			}
-		});
+		} );
+
+
+		/*
+		 * TableTools Foundation compatibility
+		 * Required TableTools 2.1+
+		 */
+		if ( $.fn.DataTable.TableTools ) {
+			// Set the classes that TableTools uses to something suitable for Foundation
+			$.extend( true, $.fn.DataTable.TableTools.classes, {
+				"container": "DTTT button-group",
+				"buttons": {
+					"normal": "button",
+					"disabled": "disabled"
+				},
+				"collection": {
+					"container": "DTTT_dropdown dropdown-menu",
+					"buttons": {
+						"normal": "",
+						"disabled": "disabled"
+					}
+				},
+				"select": {
+					"row": "active"
+				}
+			} );
+
+			// Have the collection use a bootstrap compatible dropdown
+			$.extend( true, $.fn.DataTable.TableTools.DEFAULTS.oTags, {
+				"collection": {
+					"container": "ul",
+					"button": "li",
+					"liner": "a"
+				}
+			} );
+		}
+
 
 	};
 
 	this.initDataTable = function(table) {
 		table.dataTable({
 			"bStateSave" : true,
-			"sPaginationType" : "bootstrap",
-			"oLanguage" : {
-				"sLengthMenu" : "_MENU_ records per page"
-			}
+			"sPaginationType" : "foundation"
 		});
 	};
 };

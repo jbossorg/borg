@@ -2,7 +2,6 @@
 
 /* ******** Main desing *****************/
 body {
-	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
 
 .page-header {
@@ -10,33 +9,9 @@ body {
 	border-bottom: none !important;
 }
 
-.atom-feed-link {
-	background: url("../img/feed-icon-14x14.png") no-repeat scroll 0 0 transparent;
-	padding-left: 19px;
-}
-
-.loading {
-	background: url("../img/wait-small.gif") no-repeat scroll 0 0 transparent;
-	height: 30px;
-	width: 30px;
-}
-
-.loading-full-width {
-	width: 100%;
+.loading-wrapper {
 	margin-top: 30px;
 	margin-bottom: 20px;
-}
-
-.loading-full-width .loading {
-	margin: 0px auto;
-}
-
-.loading-small {
-	background: url("../img/wait-small.gif") no-repeat scroll 0 0 transparent;
-	height: 16px;
-	width: 16px;
-	display: inline;
-	padding-left: 23px;
 }
 
 .blogauthortag {
@@ -107,25 +82,20 @@ pre {
 	display: none;
 }
 
+#home-filters {
+	margin-bottom: 30px;
+}
+
 #home-filter {
-	overflow: hidden;
+	margin-top: 20px;
 }
 
-#home-filter .input-append {
-
-}
-
-#home-filter div.filter-item {
-	float: left;
-	margin-right: 10px;
-}
-
-#home-display-btn-span {
-
-}
-
-.home-controls {
-	margin-bottom: 0 !important;
+#home-filter-clearall {
+	font-size: 14px;
+	text-decoration: underline;
+	padding-left: 5px;
+	position: relative;
+	top: -2px;
 }
 
 .home-feed-row {
@@ -258,16 +228,19 @@ img.ui-li-thumb {
 	clear: both;
 }
 
-.feed-action-form a {
-	width: 70px;
-	text-align: left;
-	white-space: nowrap;
-}
-
 .manage-feeds-list-url {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	max-width: 250px;
+}
+
+td.table-actions-column {
+	width: 110px;
+}
+
+td.table-actions-column .button + .button {
+	margin-left: 0;
+
 }
 
 @media ( min-width : 1200px) {
@@ -311,9 +284,23 @@ img.jive-image {
 /* ******************** PLUGINS *********************** */
 /* 
  * Data Tables.
- * Source: http://datatables.net/media/blog/bootstrap_2/DT_bootstrap.css
- * See: http://datatables.net/blog/Twitter_Bootstrap_2
+ * Source: http://datatables.github.io/Plugins/integration/foundation/dataTables.foundation.css
+ * See: https://www.datatables.net/forums/discussion/14408/zurb-foundation-integration-for-datatables/p1
  */
+div.dataTables_wrapper {
+	margin-bottom: 1.25em;
+}
+
+div.dataTables_length label,
+div.dataTables_filter label,
+div.dataTables_info {
+	color: #999;
+	font-weight: normal;
+}
+
+div.dataTables_length {
+	padding-top: 6px;
+}
 div.dataTables_length label {
 	float: left;
 	text-align: left;
@@ -326,9 +313,14 @@ div.dataTables_length select {
 div.dataTables_filter label {
 	float: right;
 }
+div.dataTables_filter input {
+	display: inline-block !important;
+	width: auto !important;
+}
 
 div.dataTables_info {
-	padding-top: 8px;
+	padding-top: 2px;
+	font-size: 0.875em;
 }
 
 div.dataTables_paginate {
@@ -336,37 +328,48 @@ div.dataTables_paginate {
 	margin: 0;
 }
 
-table.table {
+table.dataTable {
 	clear: both;
-	margin-bottom: 6px !important;
+	margin-bottom: 0.5em !important;
+	max-width: none !important;
+	width: 100%;
 }
 
-table.table thead .sorting,table.table thead .sorting_asc,table.table thead .sorting_desc,table.table thead .sorting_asc_disabled,table.table thead .sorting_desc_disabled
-	{
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
 	cursor: pointer;
 	*cursor: hand;
 }
 
-table.table thead .sorting {
-	background: url('../datatables/images/sort_both.png') no-repeat center right;
-}
+table.dataTable thead .sorting { background: url('../datatables/images/sort_both.png') no-repeat center right; }
+table.dataTable thead .sorting_asc { background: url('../datatables/images/sort_asc.png') no-repeat center right; }
+table.dataTable thead .sorting_desc { background: url('../datatables/images/sort_desc.png') no-repeat center right; }
 
-table.table thead .sorting_asc {
-	background: url('../datatables/images/sort_asc.png') no-repeat center right;
-}
-
-table.table thead .sorting_desc {
-	background: url('../datatables/images/sort_desc.png') no-repeat center right;
-}
-
-table.table thead .sorting_asc_disabled {
-	background: url('../datatables/images/sort_asc_disabled.png') no-repeat center right;
-}
-
-table.table thead .sorting_desc_disabled {
-	background: url('../datatables/images/sort_desc_disabled.png') no-repeat center right;
-}
+table.dataTable thead .sorting_asc_disabled { background: url('../datatables/images/sort_asc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_desc_disabled { background: url('../datatables/images/sort_desc_disabled.png') no-repeat center right; }
 
 table.dataTable th:active {
 	outline: none;
+}
+
+/* Scrolling */
+div.dataTables_scrollHead table {
+	margin-bottom: 0 !important;
+}
+
+div.dataTables_scrollBody table {
+	border-top: none;
+	margin-bottom: 0 !important;
+}
+
+div.dataTables_scrollBody tbody tr:first-child th,
+div.dataTables_scrollBody tbody tr:first-child td {
+	border-top: none;
+}
+
+div.dataTables_scrollFoot table {
+	border-top: none;
 }

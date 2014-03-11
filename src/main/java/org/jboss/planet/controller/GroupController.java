@@ -5,14 +5,6 @@
  */
 package org.jboss.planet.controller;
 
-import java.util.List;
-
-import javax.enterprise.inject.Model;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-
 import org.jboss.planet.model.FeedGroup;
 import org.jboss.planet.model.FeedsSecurityRole;
 import org.jboss.planet.model.SecurityUser;
@@ -22,9 +14,16 @@ import org.jboss.planet.service.GroupService;
 import org.jboss.planet.service.SecurityService;
 import org.jboss.planet.util.ApplicationMessages;
 
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import java.util.List;
+
 /**
  * Controller for {@link FeedGroup}
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Model
@@ -90,9 +89,9 @@ public class GroupController extends AdminController {
 
 	@LoggedIn
 	public String update() {
-		// if (!validate()) {
-		// return null;
-		// }
+		if (!validate()) {
+			return null;
+		}
 
 		groupService.update(groupToUpdate);
 		if (groupToUpdate.getId() == null) {

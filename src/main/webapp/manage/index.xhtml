@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="../layout/template.xhtml">
 
-	<ui:param name="pageId" value="manage-feeds-index" />
+	<ui:param name="pageId" value="manage-feeds-index"/>
 
 	<ui:define name="header">
-    #{msg['management.name']}
-  </ui:define>
+		#{msg['management.name']}
+	</ui:define>
 
-	<ui:define name="page_title">#{msg['management.name']}<ui:include src="/layout/page-title-suffix.xhtml" />
+	<ui:define name="page_title">#{msg['management.name']}<ui:include src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
 	<ui:define name="breadcrumb">
-		<ui:include src="../breadcrumb.xhtml" />
+		<ui:include src="../breadcrumb.xhtml"/>
 	</ui:define>
 
 	<ui:define name="body">
 		<div class="row">
-			<div class="span4">
-				<div class="well">
-					<ul class="nav nav-list">
-						<li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.link.groups']}" rendered="#{userController.groupAdmin}"/></li>
-						<li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.link.feeds']}" /></li>
-					</ul>
-				</div>
+			<div class="large-7 columns panel radius">
+				<ul class="no-bullet">
+					<li><h:link outcome="/manage/group/list.jsf" value="#{msg['management.link.groups']}"
+								rendered="#{userController.groupAdmin}" styleClass="button expand small"/></li>
+					<li><h:link outcome="/manage/feed/list.jsf" value="#{msg['management.link.feeds']}"
+								styleClass="button expand small"/></li>
+				</ul>
 			</div>
 			<ui:fragment rendered="#{userController.admin}">
-				<div class="span4">
-					<div class="well">
-						<ul class="nav nav-list">
-							<li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" /></li>
-							<li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" /></li>
-						</ul>
-					</div>
+				<div class="large-8 large-offset-1 columns panel radius">
+					<ul class="no-bullet">
+						<li><h:link outcome="/manage/configuration/config-edit.jsf"
+									value="#{msg['management.config.name']}" styleClass="button expand small"/></li>
+						<li><h:link outcome="/manage/configuration/system-admins.jsf"
+									value="#{msg['manage.system.admin.name']}" styleClass="button expand small"/></li>
+					</ul>
 				</div>
 			</ui:fragment>
 			<ui:fragment rendered="#{userController.admin}">
-				<div class="span4">
-					<div class="well">
-						<ul class="nav nav-list">
-							<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}" /></li>
-						</ul>
-					</div>
+				<div class="large-7 large-offset-1 columns panel radius">
+					<ul class="no-bullet">
+						<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}"
+									styleClass="button expand small"/>
+						</li>
+					</ul>
 				</div>
 			</ui:fragment>
 		</div>

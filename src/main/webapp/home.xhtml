@@ -1,78 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:form="http://www.springframework.org/tags/form"
+				template="layout/template.xhtml">
 
-	<ui:param name="pageId" value="home" />
-	<ui:param name="addthis" value="true" />
+	<ui:param name="pageId" value="home"/>
+	<ui:param name="addthis" value="true"/>
 
 	<ui:define name="header">
-    	#{msg['home.name']}
+		#{msg['home.name']}
 	</ui:define>
 
 	<ui:define name="additional_headers">
-		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}" href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}" />
+		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}"
+			  href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"/>
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="well home-controls">
-			<div class="row">
-				<div class="span3">
-					<div class="btn-toolbar">
-						<div class="btn-group">
-							<a href="#" id="home-refresh" class="btn"> <i class="icon-refresh"></i> #{msg['home.control.refresh']}
-							</a> <a id="filter-link" href="#" class="btn"> <i class="icon-filter"></i> #{msg['home.control.filter']}
-							</a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="span12">
-							<div id="home-filter" style="display: none;">
-								<div class="filter-item">
-									#{msg['home.control.filter.project']}:
-									<div class="input-append">
-										<input type="text" id="home-feed-filter" class="home-feed-filter"></input> <span
-											class="add-on add-on-btn-wrapper"><a href="#" id="home-feed-filter-remove" class="add-on-btn btn"><i
-												class="icon-remove"></i></a></span>
-									</div>
-								</div>
-								<div class="filter-item">
-									#{msg['home.control.filter.tag']}:
-									<div class="input-append">
-										<INPUT type="text" name="tags" id="home-tags-filter" /> <span class="add-on add-on-btn-wrapper"><a
-											id="home-tags-filter-remove" href="#" class="add-on-btn btn"><i class="icon-remove"></i></a></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="pull-right home-display-btn-span">
-					<div class="btn-toolbar">
-						<div class="btn-group">
-							<a href="#compact" id="layout-compact" class="btn" onclick="home.switchDisplay(1); return false;">#{msg['home.control.compact']}</a>
-							<a href="#full" id="layout-full" class="btn" onclick="home.switchDisplay(2); return false;">#{msg['home.control.full']}</a>
-							<a href="reader" class="btn">#{msg['home.control.mobile']}</a>
-						</div>
-					</div>
-				</div>
+		<div class="row">
+			<div class="large-24 columns"><p>
+				<a id="home-feed-link"
+				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"
+				   data-title-base="#{msg['home.feed.name']}"><i
+						class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}</a></p>
 			</div>
-			<div class="row"></div>
 		</div>
 
-		<div class="row home-feed-row">
-			<div class="span12">
-				<a id="home-feed-link" class="atom-feed-link" href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"
-					data-title-base="#{msg['home.feed.name']}">#{msg['home.feed.subscribe']}</a>
-			</div>
-		</div>	
-		
-
 		<div class="row">
-			<div class="span12">
-				<div>
-					<div id="home-posts"></div>
-					<div id="loading-div-home" class="loading-full-width" style="display: none">
-						<div class="loading"></div>
+			<div id="home-filters-panel" class="large-6 large-offset-2 push-16 columns panel radius">
+				<div id="home-filters">
+					<a id="filter-link" href="#" class="filter button blue expand"> <i
+							class="fa fa-filter"></i> #{msg['home.control.filter']}
+					</a>
+					<a href="#" id="home-refresh" class="filter button blue expand"> <i
+							class="fa fa-refresh"></i> #{msg['home.control.refresh']}
+					</a>
+
+					<div id="home-filter" style="display: none;">
+
+						<h5><a id="home-filter-clearall">Clear All</a></h5>
+						<input id="home-feed-filter" type="text"
+							   placeholder="#{msg['home.control.filter.project']}"
+							   name="filter-text"></input>
+						<input id="home-tags-filter" type="text"
+							   placeholder="#{msg['home.control.filter.tag']}"
+							   name="filter-text"> </input>
+
+					</div>
+				</div>
+				<ul class="button-group radius">
+					<li class="button blue tiny">
+						<a href="#compact" id="layout-compact" class="btn"
+						   onclick="home.switchDisplay(1); return false;">#{msg['home.control.compact']}</a>
+					</li>
+					<li class="button blue tiny">
+						<a href="#full" id="layout-full" class="btn"
+						   onclick="home.switchDisplay(2); return false;">#{msg['home.control.full']}</a>
+					</li>
+					<li class="button blue tiny">
+						<a href="reader" class="btn">#{msg['home.control.mobile']}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="large-16 pull-8 columns">
+				<div id="home-posts"></div>
+				<div class="row collapse">
+					<div id="loading-div-home" class="small-2 small-centered columns loading-wrapper"
+						 style="display: none">
+						<i class="fa fa-refresh fa-spin fa-2x"></i>
 					</div>
 				</div>
 			</div>
@@ -81,14 +76,14 @@
 
 	<ui:define name="page-end">
 		<script type="text/javascript">
-		    //<![CDATA[
-		    function appLoadedOnDesktop() {
-		       $(document).ready(function() {
-		         home.init();
-		       });
-		    }
-		    //]]>
-		  </script>
+			//<![CDATA[
+			function appLoadedOnDesktop() {
+				$(document).ready(function () {
+					home.init();
+				});
+			}
+			//]]>
+		</script>
 	</ui:define>
 
 

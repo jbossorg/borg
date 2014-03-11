@@ -38,7 +38,7 @@
 	<url-mapping id="manage-configuration">
 		<pattern value="/manage/configuration/edit" />
 		<view-id value="/manage/configuration/config-edit.jsf" />
-		<action>#{configurationController.load}</action>
+		<action onPostback="false">#{configurationController.load}</action>
 	</url-mapping>
 
 	<url-mapping id="manage-statistics">

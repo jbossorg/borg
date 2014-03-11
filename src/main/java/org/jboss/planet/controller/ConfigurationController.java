@@ -5,18 +5,17 @@
  */
 package org.jboss.planet.controller;
 
-import java.util.logging.Logger;
-
-import javax.enterprise.inject.Model;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.jboss.planet.model.Configuration;
 import org.jboss.planet.security.AdminAllowed;
 import org.jboss.planet.service.ConfigurationService;
 import org.jboss.planet.util.ApplicationMessages;
+
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import java.util.logging.Logger;
 
 /**
  * @author Libor Krzyzanek
@@ -37,6 +36,10 @@ public class ConfigurationController {
 
 	@Inject
 	private Logger log;
+
+	public ConfigurationController() {
+		config = new Configuration();
+	}
 
 	@AdminAllowed
 	public void load() {

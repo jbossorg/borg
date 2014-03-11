@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="../../layout/template.xhtml">
 
-	<ui:param name="pageId" value="manage-groups" />
-	<ui:param name="section" value="yourstuff" />
-	<ui:param name="datatables" value="true" />
+	<ui:param name="pageId" value="manage-groups"/>
+	<ui:param name="section" value="yourstuff"/>
+	<ui:param name="datatables" value="true"/>
 
 	<ui:define name="header">
-	  #{msg['management.groups.name']}
-  </ui:define>
+		#{msg['management.groups.name']}
+	</ui:define>
 
 	<ui:define name="breadcrumb">
-		<ui:include src="../breadcrumb-yourstuff.xhtml" />
+		<ui:include src="../breadcrumb-yourstuff.xhtml"/>
 	</ui:define>
 
 	<ui:define name="page_title">#{msg['management.groups.name']}<ui:include
-			src="/layout/page-title-suffix.xhtml" />
+			src="/layout/page-title-suffix.xhtml"/>
+	</ui:define>
+
+	<ui:define name="additional_headers">
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function () {
+				initDataTable($('#manage-groups-table'));
+			});
+		</script>
 	</ui:define>
 
 	<ui:define name="body">
-		<h:link outcome="/manage/group/group-new.xhtml" value="#{msg['management.group.new']}"
-			rendered="#{userController.admin}" />
-		<br />
-		<br />
+		<h:link outcome="/manage/group/group-new.xhtml" value="#{msg['management.group.new']}" styleClass="button"
+				rendered="#{userController.admin}"/>
 
-		<table id="manage-groups-table" class="table table-striped table-bordered table-condensed">
+		<p></p>
+
+		<table id="manage-groups-table">
 			<thead>
-				<tr>
-					<th>#{msg['management.group.column.name']}</th>
-					<th>#{msg['management.group.column.displayName']}</th>
-					<th>#{msg['management.group.column.adminEmail']}</th>
-					<th>#{msg['management.group.column.admins']}</th>
-					<th>#{msg['management.group.column.action']}</th>
-				</tr>
+			<tr>
+				<th>#{msg['management.group.column.name']}</th>
+				<th>#{msg['management.group.column.displayName']}</th>
+				<th>#{msg['management.group.column.adminEmail']}</th>
+				<th>#{msg['management.group.column.admins']}</th>
+				<th>#{msg['management.group.column.action']}</th>
+			</tr>
 			</thead>
 			<tbody>
 			<ui:repeat var="group" value="#{groupController.userGroups}" varStatus="status">
@@ -41,25 +50,28 @@
 					<td>#{group.displayName}</td>
 					<td>#{group.adminEmail}</td>
 					<td>
-					<ui:repeat var="groupAdmin" value="#{permissionService.getGroupAdministrators(group.id)}">
-						<h:outputText value="#{groupAdmin.name}" /><br />
-					</ui:repeat>
+						<ui:repeat var="groupAdmin" value="#{permissionService.getGroupAdministrators(group.id)}">
+							<h:outputText value="#{groupAdmin.name}"/><br/>
+						</ui:repeat>
 					</td>
-					<td><h:form id="group-action" styleClass="group-action-form">
-							<h:link outcome="/manage/group/group-edit.jsf" styleClass="btn">
-								<f:param name="name" value="#{group.name}" />
-								<i class="icon-pencil"></i>
+					<td class="table-actions-column">
+						<h:form id="group-action" styleClass="group-action-form">
+							<h:link outcome="/manage/group/group-edit.jsf" styleClass="button small expand">
+								<f:param name="name" value="#{group.name}"/>
+								<i class="fa fa-edit"></i>
 								#{msg['management.group.edit']}
 							</h:link>
-							<h:link outcome="/manage/group/group-admins.jsf" styleClass="btn">
-								<f:param name="name" value="#{group.name}" />
-								<i class="icon-pencil"></i>
+							<h:link outcome="/manage/group/group-admins.jsf" styleClass="button small expand">
+								<f:param name="name" value="#{group.name}"/>
+								<i class="fa fa-user"></i>
 								#{msg['management.group.admins']}
 							</h:link>
-							<h:commandLink id="delete" action="#{groupController.deleteGroup}" styleClass="btn"
-								onclick="if (!confirm('#{msg['management.group.text.delete.confirm']}')) return false">
-								<f:setPropertyActionListener target="#{groupController.groupName}" value="#{group.name}" />
-								<i class="icon-trash"></i>
+							<h:commandLink id="delete" action="#{groupController.deleteGroup}"
+										   styleClass="button small expand alert"
+										   onclick="if (!confirm('#{msg['management.group.text.delete.confirm']}')) return false">
+								<f:setPropertyActionListener target="#{groupController.groupName}"
+															 value="#{group.name}"/>
+								<i class="fa fa-trash-o"></i>
 								#{msg['management.group.delete']}
 							</h:commandLink>
 						</h:form></td>
@@ -68,17 +80,6 @@
 			</tbody>
 		</table>
 
-		<script type="text/javascript" charset="utf-8">
-		
-			function appLoadedOnDesktop() {
-
-			/* Table initialisation */
-			$(document).ready(function() {
-				initDataTable($('#manage-groups-table'));
-			} );
-
-			}
-		</script>	
 	</ui:define>
-	
+
 </ui:composition>
