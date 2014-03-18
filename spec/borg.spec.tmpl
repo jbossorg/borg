@@ -1,8 +1,8 @@
 %define  _deploy_dir /services/borg
 
 Name:           borg
-Version:        3.0.0
-Release:        6.el6
+Version:        3.1.0
+Release:        ${release}.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
 Group:          System Environment/Daemons
@@ -43,5 +43,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 18 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.1.0
+- JBoss Developer Theme (powered by Zurb Foundation 4)
+
 * Tue Feb 11 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.0.0
 - Initial release
