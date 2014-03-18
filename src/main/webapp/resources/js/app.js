@@ -54,8 +54,8 @@ Util = function() {
 		return str.lastIndexOf(startWithStr) == 0;
 	};
 	this.stringToArray = function(str) {
-		if (str == null) {
-			return null;
+		if (util.isEmpty(str)) {
+			return [];
 		}
 		if ($.isArray(str)) {
 			return str;
@@ -63,6 +63,9 @@ Util = function() {
 			return str.split(",");
 		}
 	};
+	this.isEmpty = function(str) {
+		return (!str || 0 === str.length);
+	}
 	this.arrayToString = function(array) {
 		if (array == null) {
 			return "";
@@ -140,7 +143,7 @@ Post = function(val, format) {
 		var projectName = planet.getProjectName(this.data._source.sys_project);
 		var projectInfo = "";
 		if (projectName != "") {
-			projectInfo = ' in <a href="#project=' + this.data._source.sys_project + '">' + projectName + '</a>';
+			projectInfo = ' in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
 		}
 
 		var tags = this.getTagsRow();
@@ -293,7 +296,7 @@ var planet = {
 	canRetrieveNewPosts : true,
 
 	/* Global method for retrieving new posts */
-	retrieveNewPosts : function(currentFrom, count, callback, projectCode, tags) {
+	retrieveNewPosts : function(currentFrom, count, callback, projects, tags) {
 		planet.canRetrieveNewPosts = false;
 		var url = planet.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
 				+ "&sortBy=new&field=_source";
@@ -307,8 +310,14 @@ var planet = {
 			}
 		}
 
-		if (typeof projectCode != "undefined" && projectCode != null && projectCode != "") {
-			url += "&project=" + projectCode;
+		if (typeof projects != "undefined" && projects != "" && projects != null) {
+			if ($.isArray(projects)) {
+				$.each(projects, function(i, value) {
+					url += "&project=" + $.trim(value);
+				});
+			} else {
+				url += "&project=" + projects;
+			}
 		}
 
 		url = encodeURI(url);
@@ -330,11 +339,11 @@ var planet = {
 
 	projectNames : null,
 
-	getProjectNames : function(callback) {
+	getProjectItems : function(callback) {
 		if (planet.projectNames != null) {
 			return callback(planet.projectNames);
 		}
-		var projectsRestUrl = planet.dcpRestApi + "project?size=200";
+		var projectsRestUrl = planet.dcpRestApi + "search?sys_type=project_info&from=0&size=200&sortBy=new";
 		$.ajax({
 			url : projectsRestUrl,
 			type : "get",
@@ -342,28 +351,28 @@ var planet = {
 			success : function(data) {
 				planet.projects = [];
 				planet.projectNames = [];
-				$.each(data.hits, function(index, item) {
-					planet.projects.push([ item.data.code, item.data.name ]);
-					planet.projectNames.push(item.data.name);
+				$.each(data.hits.hits, function(index, item) {
+					planet.projects.push({ "id" : item.fields.sys_project, "name" : item.fields.sys_title });
+					planet.projectNames.push(item.fields.sys_title);
 				});
 
-				callback(planet.projectNames);
+				callback(planet.projects);
 			}
 		});
 	},
 
-	getProjectCode : function(name) {
-		if (name == null || name == "") {
-			return "";
+	getProjectItem : function(code) {
+		if (code == null || code == "") {
+			return null;
 		}
-		for ( var i = 0; i < planet.projects.length; i++) {
+		for (var i = 0; i < planet.projects.length; i++) {
 			var p = planet.projects[i];
-			if (p[1] == name) {
-				return p[0];
+			if (p.id == code) {
+				return p;
 			}
 		}
 
-		return "";
+		return null;
 	},
 
 	getProjectName : function(code) {
@@ -375,8 +384,8 @@ var planet = {
 		}
 		for ( var i = 0; i < planet.projects.length; i++) {
 			var p = planet.projects[i];
-			if (p[0] == code) {
-				return p[1];
+			if (p.id == code) {
+				return p.name;
 			}
 		}
 		return "";
@@ -497,8 +506,10 @@ var home = {
 	data : {
 		currentFrom : 0,
 		count : 10,
-		feedId : "",
-		tags : ""
+		projects : [],
+		tags : "",
+		hashChangeByUser: false,
+		filterProjectNoAction: false
 	},
 	currentPage : null,
 	previewDiv : null,
@@ -510,21 +521,7 @@ var home = {
 
 		home.decorateLayoutLinks(planet.layout);
 
-		home.data.feedId = home.getFeedIdFromUrl();
-		feedFilter = $("#home-feed-filter", page);
-
-		feedFilter.change(function() {
-			var projectCode = planet.getProjectCode($(this).val());
-			home.changeFeed(projectCode);
-		});
-
-		var feedFilterOptions = {
-			source : function(query, process) {
-				planet.getProjectNames(process);
-			}
-		};
-		// Disalbed auto complete because of missing plugin in Zurb 5
-		// feedFilter.typeahead(feedFilterOptions);
+		home.data.projects = home.getProjectsFromUrl();
 
 		$("#home-filter-clearall", page).bind('click', function() {
 			var filterFeed = $("#home-feed-filter");
@@ -546,7 +543,7 @@ var home = {
 			home.changeTags($(this).val());
 		});
 
-		if (home.data.feedId != null || home.data.tags != null) {
+		if (home.data.projects.length > 0 || home.data.tags.length > 0) {
 			home.showFilter();
 		}
 		;
@@ -561,13 +558,24 @@ var home = {
 
 		$(window).bind('hashchange', function(e) {
 			var state = $.bbq.getState();
-			home.data.feedId = state.project;
+			home.data.projects = util.stringToArray(state.projects);
 			home.data.tags = util.stringToArray(state.tags);
 
-			$("#home-feed-filter", page).val(planet.getProjectName(home.data.feedId));
+			if (!home.data.hashChangeByUser) {
+				home.data.filterProjectNoAction = true;
+				var projectFilter = $("#home-feed-filter", page);
+				projectFilter.tokenInput("clear");
+				for (var i=0; i < home.data.projects.length; i++) {
+					var item = planet.getProjectItem(home.data.projects[i]);
+					projectFilter.tokenInput("add", item);
+				}
+				home.data.filterProjectNoAction = false;
+			}
+			home.data.hashChangeByUser = false;
+
 			$("#home-tags-filter", page).val(util.arrayToString(home.data.tags));
 
-			if (home.data.feedId != null || home.data.tags != null) {
+			if (home.data.projects.length > 0 || home.data.tags.length > 0) {
 				home.showFilter();
 			}
 
@@ -585,26 +593,50 @@ var home = {
 								.offset().top + $("#page-id-home", home.currentPage).height())) {
 							$("#loading-div-home", home.currentPage).show();
 							planet.retrieveNewPosts(home.data.currentFrom, home.data.count, home.addPosts,
-									home.data.feedId, home.data.tags);
+									home.data.projects, home.data.tags);
 						}
 					}
 				});
 
-		planet.getProjectNames(function() {
-			if (home.data.feedId != null) {
-				feedFilter.val(planet.getProjectName(home.data.feedId));
-			}
+		planet.getProjectItems(function(data) {
+			var initialProjects = [];
+			$.each(home.data.projects, function(i, val) {
+				initialProjects.push(planet.getProjectItem(val));
+			});
+			$("#home-feed-filter", page).tokenInput(data, {
+				propertyToSearch: "name",
+				theme: "jbdev",
+				preventDuplicates: true,
+				searchDelay: 0,
+				searchingText: "",
+				onAdd: home.changeProjectEvent,
+				onDelete: home.changeProjectEvent,
+				prePopulate: initialProjects
+			});
+
 			home.updateFeedLink();
 			home.refresh();
 		});
 	},
-	changeFeed : function(feedId) {
+	changeProjectEvent : function() {
+		if (home.data.filterProjectNoAction) {
+			return;
+		}
+		home.data.hashChangeByUser = true;
 		var state = $.bbq.getState();
 
-		if (feedId == "all" || feedId == "") {
-			state.project = "";
+		var projectItems = $("#home-feed-filter", home.page).tokenInput("get");
+		if (projectItems.length == 0) {
+			state.projects = "";
 		} else {
-			state.project = feedId;
+			var vals = "";
+			$.each(projectItems, function(i, val) {
+				if (i != 0) {
+					vals += ",";
+				}
+				vals += val.id;
+			} );
+			state.projects = vals;
 		}
 		$.bbq.pushState(state);
 	},
@@ -614,20 +646,21 @@ var home = {
 		$.bbq.pushState(state);
 	},
 	updateFeedLink : function() {
-		if (home.data.feedId == null && home.data.tags == null) {
+		if (home.data.projects.length > 0 && home.data.tags.length > 0) {
 			return;
 		}
 		var feedLink = $("#home-feed-link", home.currentPage);
 		var feedUrl = feedLink.attr('href');
 		var params = $.deparam.querystring(feedUrl);
 		var title = feedLink.attr('data-title-base');
-		if (home.data.feedId != null) {
-			params['project'] = home.data.feedId;
-			title += " for project " + planet.getProjectName(home.data.feedId);
+		if (home.data.projects.length > 0) {
+			params['project'] = home.data.projects;
+			// TODO: projects is array
+			title += " for project " + planet.getProjectName(home.data.projects);
 		}
-		if (home.data.tags != null) {
+		if (home.data.tags.length > 0) {
 			params['tag'] = home.data.tags;
-			if (home.data.feedId == null) {
+			if (home.data.tags.length > 0) {
 				title += " for";
 			} else {
 				title += " and";
@@ -711,7 +744,7 @@ var home = {
 			home.addPosts(data);
 			home.toogleButton("#home-refresh");
 			$("#home-refresh i").removeClass("fa-spin");
-		}, home.data.feedId, home.data.tags);
+		}, home.data.projects, home.data.tags);
 	},
 	toggleFilter : function() {
 		var elm = $("#home-filter");
@@ -744,8 +777,8 @@ var home = {
 			});
 		}
 	},
-	getFeedIdFromUrl : function() {
-		return util.getHashParam("project");
+	getProjectsFromUrl : function() {
+		return util.stringToArray(util.getHashParam("projects"));
 	},
 	getTagsFromUrl : function() {
 		return util.stringToArray(util.getHashParam("tags"));
