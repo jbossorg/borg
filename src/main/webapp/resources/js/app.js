@@ -143,18 +143,18 @@ Post = function(val, format) {
 		var projectName = planet.getProjectName(this.data._source.sys_project);
 		var projectInfo = "";
 		if (projectName != "") {
-			projectInfo = ' in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
+			projectInfo = 'in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
 		}
 
 		var tags = this.getTagsRow();
-		preview += '<header><h3 class="ui-li-heading"><a href="' + this.data._source.sys_url_view + '" data-id="'
-				+ this.data._id + '">' + this.data._source.sys_title
-				+ '</a></h3>'
-				+ '<p>' + addThisTempl + '</p>'
-				+ '<div class="blog-post-header-info"><ul class="planet-avatar"><li><img src="' + this.getAuthorAvatarUrl()
-				+ '" class="ui-li-thumb img-polaroid" height="80px" width="80px"/></li>'
-				+ '<li>' + util.dateToString(this.getPublished()) + ' by '
-				+ this.getAuthor().name + projectInfo + '</li>' + '</ul></div></header>';
+		preview += '<header><h3><a href="' + this.data._source.sys_url_view + '" data-id="'
+				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
+				+ '<div class="blog-post-header-info row collapse"><div class="small-3 columns"><img src="' + this.getAuthorAvatarUrl()
+				+ '" height="80px" width="80px"/></div>'
+				+ '<div class="small-10 columns">' + util.dateToString(this.getPublished()) + '<br/>by '
+				+ this.getAuthor().name
+				+ '<br/>' + projectInfo + '</div>'
+				+ '<div class="small-3 columns">' + addThisTempl + '</div>' + '</div></header>';
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
 					+ this.data._source.sys_description

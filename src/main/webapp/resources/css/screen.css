@@ -142,7 +142,6 @@ pre {
 }
 
 .blog-post-header-info {
-	height: 56px;
 	padding-bottom: 10px;
 }
 
@@ -162,58 +161,6 @@ pre {
 	position: relative;
 	float: right;
 	width: 85px;
-}
-
-/* *************** UI List View ****************/
-.ui-listview {
-	list-style: none outside none;
-	padding: 0;
-	margin-top: 0;
-}
-
-.ui-li-heading {
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	margin: 15px 0px 0px 0px;
-	/* 	white-space: nowrap; */
-}
-
-.ui-li-aside {
-	float: right;
-	text-align: right;
-	width: 25%;
-}
-
-.ui-listview a:hover {
-	text-decoration: none;
-}
-
-.ui-li-desc {
-	color: #555;
-}
-
-img.ui-li-thumb {
-	float: left;
-	margin-right: 10px;
-}
-
-#group-posts-ul li,#feed-list-ul li {
-	padding: 5px 10px;
-	margin: 0 0 10px 0;
-	/*	background-color: #F5FAF0;
-	border-radius: 4px;
-	box-shadow: 2px 2px 2px 0 #CCCCCC; */
-}
-
-#group-posts-ul .ui-li-count,#feed-list-ul .ui-li-count {
-	float: right;
-	position: relative;
-	top: -47px;
-}
-
-#feed-list-ul .group-name { /*	background-color: blue; */
-
 }
 
 /* ************* Page specifics ******************/
