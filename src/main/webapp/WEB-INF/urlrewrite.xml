@@ -87,9 +87,15 @@
 		<to type="permanent-redirect" last="true">/#tags=feed_name_$1</to>
 	</rule>
 
-	<!-- Feed URLs -->
+	<!-- Feed RSS/ATOM URLs -->
 	<rule>
 		<from>^/xml/all(|/)$</from>
 		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
 	</rule>
+
+	<rule>
+		<from>^/xml/(.*)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;tag=feed_name_$1&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20feed%20$1</to>
+	</rule>
+
 </urlrewrite>
