@@ -607,6 +607,7 @@ var home = {
 				propertyToSearch: "name",
 				theme: "jbdev",
 				preventDuplicates: true,
+				animateDropdown: false,
 				searchDelay: 0,
 				searchingText: "",
 				onAdd: home.changeProjectEvent,
