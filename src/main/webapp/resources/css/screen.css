@@ -112,6 +112,19 @@ pre {
 }
 
 /* ************* Page specifics ******************/
+.manage-feeds-list-url {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 250px;
+}
+
+@media ( min-width : 1200px) {
+	.manage-feeds-list-url {
+		max-width: 100%
+	}
+}
+
+
 td.table-actions-column {
 	width: 110px;
 }
