@@ -525,8 +525,7 @@ var home = {
 
 		$("#home-filter-clearall", page).bind('click', function() {
 			var filterFeed = $("#home-feed-filter");
-			filterFeed.val("");
-			filterFeed.change();
+			filterFeed.tokenInput("clear");
 
 			var filterTags = $("#home-tags-filter");
 			filterTags.val("");
