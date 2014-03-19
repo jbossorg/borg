@@ -21,8 +21,9 @@
 			<div class="large-24 columns"><p>
 				<a id="home-feed-link"
 				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"
-				   data-title-base="#{msg['home.feed.name']}"><i
-						class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}</a></p>
+				   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}">
+					<i class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}
+				</a></p>
 			</div>
 		</div>
 

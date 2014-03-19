@@ -60,7 +60,7 @@ Util = function() {
 		if ($.isArray(str)) {
 			return str;
 		} else {
-			return str.split(",");
+			return $.map(str.split(","), $.trim);
 		}
 	};
 	this.isEmpty = function(str) {
@@ -506,8 +506,10 @@ var home = {
 	data : {
 		currentFrom : 0,
 		count : 10,
+		// Array of project ids
 		projects : [],
-		tags : "",
+		// Array of tags
+		tags : [],
 		hashChangeByUser: false,
 		filterProjectNoAction: false
 	},
@@ -646,31 +648,56 @@ var home = {
 		$.bbq.pushState(state);
 	},
 	updateFeedLink : function() {
-		if (home.data.projects.length > 0 && home.data.tags.length > 0) {
+		if (home.data.projects.length == 0 && home.data.tags.length == 0) {
 			return;
 		}
 		var feedLink = $("#home-feed-link", home.currentPage);
-		var feedUrl = feedLink.attr('href');
-		var params = $.deparam.querystring(feedUrl);
-		var title = feedLink.attr('data-title-base');
+		var feedUrl = feedLink.attr('data-url-base');
+		var params = {
+			title: "",
+			paramString: ""
+		};
 		if (home.data.projects.length > 0) {
-			params['project'] = home.data.projects;
-			// TODO: projects is array
-			title += " for project " + planet.getProjectName(home.data.projects);
+			if (home.data.projects.length > 1) {
+				params.title += " for projects ";
+			} else {
+				params.title += " for project ";
+			}
+			params.project = [];
+			for (var i = 0; i < home.data.projects.length; i++) {
+				params.paramString += "&project=" + home.data.projects[i];
+				params.title += planet.getProjectName(home.data.projects[i]);
+				if (i + 1 < home.data.projects.length) {
+					params.title += ", ";
+				}
+			}
 		}
 		if (home.data.tags.length > 0) {
-			params['tag'] = home.data.tags;
-			if (home.data.tags.length > 0) {
-				title += " for";
+			if (home.data.projects.length == 0) {
+				params.title += " for ";
 			} else {
-				title += " and";
+				params.title += " and ";
 			}
-			title += " tag " + home.data.tags;
-		}
-		params['feed_title'] = title;
-		feedUrl = $.param.querystring(feedUrl, params);
+			if (home.data.tags.length > 1) {
+				params.title += "tags ";
+			} else {
+				params.title += "tag ";
+			}
 
-		feedLink.attr('href', feedUrl);
+			for (var i = 0; i < home.data.tags.length; i++) {
+				params.paramString += "&tag=" + home.data.tags[i];
+				params.title += home.data.tags[i];
+				if (i + 1 < home.data.tags.length) {
+					params.title += ", ";
+				}
+			}
+		}
+		feedUrl += params.title;
+		if (params.paramString.length > 0) {
+			feedUrl += params.paramString;
+		}
+
+		feedLink.attr('href', encodeURI(feedUrl));
 	},
 	switchDisplay : function(layout) {
 		planet.layout = layout;
