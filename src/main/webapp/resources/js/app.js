@@ -837,9 +837,9 @@ DataTable = function() {
 		/* Set the defaults for DataTables initialisation */
 		$.extend( true, $.fn.dataTable.defaults, {
 			"sDom":
-				"<'row collapse'<'large-12 columns'l><'large-12 columns'f>r>"+
+				"<'row collapse'<'small-12 columns'l><'small-12 columns'f>r>"+
 					"t"+
-					"<'row collapse'<'large-12 columns'i><'large-12 columns'p>>",
+					"<'row collapse'<'small-12 columns'i><'small-12 columns'p>>",
 			"sPaginationType": "foundation",
 			"oLanguage": {
 				"sLengthMenu": "_MENU_ records per page"
