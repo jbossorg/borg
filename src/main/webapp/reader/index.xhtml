@@ -12,13 +12,11 @@
 <link type="text/css" rel="stylesheet" href="reader.css" media="all"></link>
 <SCRIPT type="text/javascript">
 	var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
-	var syncServer = "https://dcp-jbossorgdev.rhcloud.com"
-	//var syncServer = "#{configurationService.configuration.syncServer}";
+	var syncServer = "#{configurationService.configuration.syncServer}";
 </SCRIPT>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/jquery.animate-enhanced.min.js"></script>
-<script src="js/hammer.js"></script>
-<script src="js/jquery.hammer.js"></script>
+<script src="js/jquery.hammer-full.min.js"></script>
 <script src="reader.js"></script>
 </head>
 <body>
@@ -42,7 +40,7 @@
 		</header>
 
 		<div id="home" class="page">
-			<div id="elm-to-animate">
+			<div id="home-elm-to-animate">
 				<div id="updated-wrapper">
 					updated: <span id="updated"></span>
 				</div>
@@ -55,7 +53,7 @@
 		</div>
 
 		<div id="preview" class="page">
-			<div id="elm-to-animate">
+			<div id="preview-elm-to-animate">
 				<div id="postwrapper">
 					<div class="publishedwrapper">
 						<span id="published"></span>

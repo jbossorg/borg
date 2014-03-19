@@ -237,7 +237,7 @@ Home = function() {
 	this.init = function() {
 		header = $("#header-home");
 		page = $("#home");
-		pageAnimationElm = $("#elm-to-animate", page);
+		pageAnimationElm = $("#home-elm-to-animate", page);
 
 		$("#refresh", header).bind('click', function() {
 			home.refresh();
@@ -427,7 +427,7 @@ Preview = function() {
 	this.init = function() {
 		header = $("#header-preview");
 		page = $("#preview");
-		pageAnimationElm = $("#elm-to-animate", page);
+		pageAnimationElm = $("#preview-elm-to-animate", page);
 		previewElm = $("#postpreview", page);
 		titleElm = $("#title", page);
 		publishedElm = $("#published", page);
