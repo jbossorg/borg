@@ -1,9 +1,6 @@
 @CHARSET "UTF-8";
 
-/* ******** Main desing *****************/
-body {
-}
-
+/* ******** Main design *****************/
 .page-header {
 	margin-bottom: 10px !important;
 	border-bottom: none !important;
@@ -21,32 +18,6 @@ body {
 
 .addthis_toolbox .atclear {
 	clear: none;
-}
-
-a.ui-disabled {
-	font-size: 1.3em;
-	text-transform: uppercase;
-	padding: 10px 25px;
-	background-color: #e0e0e0;
-	border: 1px solid #B1B1B1;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-}
-
-a.ui-disabled {
-	color: inherit !important;
-	pointer-events: none;
-	cursor: default;
-}
-
-/* ******** Bootstrap extensions ********/
-.add-on-btn-wrapper {
-	padding: 0 0 8px 0 !important;
-}
-
-.add-on-btn {
-	border: 0 !important;
 }
 
 /* ******** FORMS *************/
@@ -77,10 +48,12 @@ pre {
 	color: #9FA0A0;
 }
 
-/* *************** homepage   ************* */
-#page-id-home #breadcrumb-bootstrap {
-	display: none;
+/* ********** Breadcrumb ************/
+.breadcrumbs {
+	margin-bottom: 0;
 }
+
+/* *************** homepage   ************* */
 
 #home-filters {
 	margin-bottom: 30px;
@@ -103,11 +76,7 @@ pre {
 	margin-bottom: 2px;
 }
 
-.home-feed-row {
-	margin-top: 20px;
-}
-
-.blog-post-article h2 {
+.blog-post-article h3 {
 	padding-top: 18px;
 }
 
@@ -124,36 +93,15 @@ pre {
 	padding-top: 10px;
 }
 
-#home-left-panel .loading-full-width {
-	margin-top: 15px;
-}
-
-#group-posts-ul h3 {
-	padding-left: 10px;
-}
-
-#group-posts-ul .ui-li-desc {
-	margin-left: 55px;
-}
-
-#home-posts h2 {
-	padding-left: 0;
-	padding-bottom: 10px;
-}
-
 .blog-post-header-info {
 	padding-bottom: 10px;
-}
-
-.blog-post-content {
-	clear: both;
 }
 
 .blog-post-content ul li {
 	border: none;
 }
 
-.blog-post-content p,.blog-post-content ul {
+.blog-post-content p, .blog-post-content ul {
 	line-height: 1.5em;
 }
 
@@ -164,28 +112,6 @@ pre {
 }
 
 /* ************* Page specifics ******************/
-.search-result-nav {
-	padding: 20px 0;
-}
-
-.search-result-count {
-	float: left;
-}
-
-#search-result-nav {
-	float: right;
-}
-
-#search-result-list {
-	clear: both;
-}
-
-.manage-feeds-list-url {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	max-width: 250px;
-}
-
 td.table-actions-column {
 	width: 110px;
 }
@@ -193,18 +119,6 @@ td.table-actions-column {
 td.table-actions-column .button + .button {
 	margin-left: 0;
 
-}
-
-@media ( min-width : 1200px) {
-	.manage-feeds-list-url {
-		max-width: 100%
-	}
-}
-
-@media ( max-width : 979px) {
-	.manage-feeds-list-url {
-		max-width: 100px;
-	}
 }
 
 /* ************* POST Preview ******************/
@@ -228,11 +142,6 @@ img.jive-image {
 	margin: 12px;
 }
 
-/* *****************   Breadcrumb style ******************* */
-.breadcrumb {
-	margin-bottom: 0 !important;
-}
-
 /* ******************** PLUGINS *********************** */
 /* 
  * Data Tables.
@@ -253,6 +162,7 @@ div.dataTables_info {
 div.dataTables_length {
 	padding-top: 6px;
 }
+
 div.dataTables_length label {
 	float: left;
 	text-align: left;
@@ -265,6 +175,7 @@ div.dataTables_length select {
 div.dataTables_filter label {
 	float: right;
 }
+
 div.dataTables_filter input {
 	display: inline-block !important;
 	width: auto !important;
@@ -296,12 +207,25 @@ table.dataTable thead .sorting_desc_disabled {
 	*cursor: hand;
 }
 
-table.dataTable thead .sorting { background: url('../datatables/images/sort_both.png') no-repeat center right; }
-table.dataTable thead .sorting_asc { background: url('../datatables/images/sort_asc.png') no-repeat center right; }
-table.dataTable thead .sorting_desc { background: url('../datatables/images/sort_desc.png') no-repeat center right; }
+table.dataTable thead .sorting {
+	background: url('../datatables/images/sort_both.png') no-repeat center right;
+}
 
-table.dataTable thead .sorting_asc_disabled { background: url('../datatables/images/sort_asc_disabled.png') no-repeat center right; }
-table.dataTable thead .sorting_desc_disabled { background: url('../datatables/images/sort_desc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_asc {
+	background: url('../datatables/images/sort_asc.png') no-repeat center right;
+}
+
+table.dataTable thead .sorting_desc {
+	background: url('../datatables/images/sort_desc.png') no-repeat center right;
+}
+
+table.dataTable thead .sorting_asc_disabled {
+	background: url('../datatables/images/sort_asc_disabled.png') no-repeat center right;
+}
+
+table.dataTable thead .sorting_desc_disabled {
+	background: url('../datatables/images/sort_desc_disabled.png') no-repeat center right;
+}
 
 table.dataTable th:active {
 	outline: none;
@@ -326,13 +250,12 @@ div.dataTables_scrollFoot table {
 	border-top: none;
 }
 
-
 /* Example tokeninput style #2: JBoss Developer style based on facebook style */
 /*
  * Token Input.
  * See: http://loopj.com/jquery-tokeninput/
  */
-ul.token-input-list-jbdev input,  ul.token-input-list-jbdev input:focus {
+ul.token-input-list-jbdev input, ul.token-input-list-jbdev input:focus {
 	box-shadow: none;
 	border: none;
 	background: none;
