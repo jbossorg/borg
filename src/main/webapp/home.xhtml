@@ -37,15 +37,13 @@
 					</a>
 
 					<div id="home-filter" style="display: none;">
-
 						<h5><a id="home-filter-clearall">Clear All</a></h5>
-						<input id="home-feed-filter" type="text"
-							   placeholder="#{msg['home.control.filter.project']}"
-							   name="filter-text"></input>
-						<input id="home-tags-filter" type="text"
-							   placeholder="#{msg['home.control.filter.tag']}"
-							   name="filter-text"> </input>
 
+						<label for="token-input-home-feed-filter">#{msg['home.control.filter.project']}</label>
+						<input id="home-feed-filter" type="text" name="filter-text"></input>
+
+						<label for="home-tags-filter">#{msg['home.control.filter.tag']}</label>
+						<input id="home-tags-filter" type="text" name="filter-text"></input>
 					</div>
 				</div>
 				<ul class="button-group radius">
