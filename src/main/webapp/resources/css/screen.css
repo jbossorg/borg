@@ -16,6 +16,10 @@
 	margin-right: 30px;
 }
 
+.alert-box {
+	margin: 1.25em 0;
+}
+
 .addthis_toolbox .atclear {
 	clear: none;
 }
