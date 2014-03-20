@@ -358,6 +358,13 @@
 							<includes>
 								<include>**/*.css</include>
 							</includes>
+							<aggregations>
+								<aggregation>
+									<outputFile>
+										${project.build.directory}/generated-webapp/resources/css/all-min.css
+									</outputFile>
+								</aggregation>
+							</aggregations>
 						</resourcesSet>
 						<resourcesSet>
 							<inputDir>${project.build.directory}/generated-webapp/resources/js</inputDir>
