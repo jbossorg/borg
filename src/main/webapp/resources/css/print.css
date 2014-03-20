@@ -1,16 +1,17 @@
 @CHARSET "UTF-8";
+@media print {
+	.main, .top-bar, .dropup, #tabnav-panel {
+		display: none !important;
+	}
 
-.navbar {
-  display: none !important;
-}
+	body {
+		color: black;
+		background: white;
+		padding-top: 0;
+	}
 
-body {
-  color: black;
-  background: white;
-  padding-top: 0;
-}
-
-a {
-  text-decoration : underline;
-  color : #336699;
+	a {
+		text-decoration: underline;
+		color: #336699;
+	}
 }
