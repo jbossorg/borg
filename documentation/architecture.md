@@ -42,7 +42,7 @@ All static resources are located in [/src/main/webapp/resources](../src/main/web
 ### Third Party libraries
 
 * jQuery - jQuery Library - referenced directly in [template.xhtml](../src/main/webapp/layout/template.xhtml)
-* [bootstrap](../src/main/webapp/resources/bootstrap) - [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+* [tokeninpu](../src/main/webapp/resources/tokeninput) - [jQuery TokenInput Plugin](http://loopj.com/jquery-tokeninput/)
 * [bbq](../src/main/webapp/resources/bbq) - [jQuery BBQ Plugin](http://benalman.com/projects/jquery-bbq-plugin/)
 * [datatables](../src/main/webapp/resources/datatables) - [jQuery DataTables Plugin](https://datatables.net/)
 * [animate-enhanced](../src/main/webapp/resources/animate-enhanced) - [jQuery Animate Enhanced Plugin](http://github.com/benbarnett/jQuery-Animate-Enhanced)

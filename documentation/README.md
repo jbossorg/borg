@@ -13,7 +13,7 @@ The Borg application is Blog post aggregator and archiver.
 
 ### UI main features
 
-1. Responsive UI using [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+1. Responsive UI using [Zurb Foundation 4](http://foundation.zurb.com/docs/v/4.3.2/)
 2. Mobile friendly app with offline support using HTML5 standard
 3. Integration with [CAS single sign on server](http://www.jasig.org/cas) e.g. [jboss.org SSO server](https://sso.jboss.org).
 
