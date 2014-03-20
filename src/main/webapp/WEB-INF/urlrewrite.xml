@@ -69,11 +69,7 @@
 	</rule>
 	<rule>
 		<from>^/feed/jbossas7(|/)$</from>
-		<to type="permanent-redirect" last="true">/##tags=as7,jbossas7</to>
-	</rule>
-	<rule>
-		<from>^/feed/events(|/)$</from>
-		<to type="permanent-redirect" last="true">/#tags=jbug,workshop,conference,jug,event</to>
+		<to type="permanent-redirect" last="true">/#tags=as7,jbossas7</to>
 	</rule>
 	<rule>
 		<from>^/feed/communityhome(|/)$</from>
@@ -93,6 +89,70 @@
 		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
 	</rule>
 
+	<!-- Aggregated Feeds -->
+	<rule>
+		<from>^/xml/jbossjbpm(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbpm&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20jBPM</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbosscache(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbosscache&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20JBoss%20Cache</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbossmessaging(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbossmessaging&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20JBoss%20Messaging</to>
+	</rule>
+	<rule>
+		<from>^/xml/remoting(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbossremoting&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20Remoting</to>
+	</rule>
+	<rule>
+		<from>^/xml/xnio(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=xnio&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20XNIO</to>
+	</rule>
+	<rule>
+		<from>^/xml/envers(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=envers&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20Envers</to>
+	</rule>
+	<rule>
+		<from>^/xml/on_aggregate(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jopr&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20RHQ</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbossmarshalling(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbossmarshalling&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20JBoss%20Marshalling</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbossmc(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbossmc&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20JBoss%20MicroContainer</to>
+	</rule>
+	<rule>
+		<from>^/xml/richfacesall(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=richfaces&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20Richfaces</to>
+	</rule>
+	<rule>
+		<from>^/xml/aergear_agg(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=aerogear&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20Aerogear</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbosscentral(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbosscentral&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
+	</rule>
+	<rule>
+		<from>^/xml/events(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=jbug&amp;project=workshop&amp;project=conference&amp;project=jug&amp;project=event&amp;feed_title=JBoss%20Community%20Recent%20Posts%20forEvents</to>
+	</rule>
+	<rule>
+		<from>^/xml/jbossas7(|/)$</from>
+		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=as7&amp;project=jbossas7&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20Project%20JBoss%20AS7</to>
+	</rule>
+	<rule>
+		<from>^/xml/communityhome(|/)$</from>
+		<to type="proxy" last="true">
+			${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;project=feed_group_name_droolscommunity&amp;project=feed_group_name_global_community&amp;project=feed_group_name_jbossascommunity&amp;project=feed_group_name_jbossjbpmcommunity&amp;project=feed_group_name_jbossseamcommunity&amp;project=feed_group_name_jboss_portal_community&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
+	</rule>
+
+	<!-- Regular Remote Feeds -->
 	<rule>
 		<from>^/xml/(.*)$</from>
 		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;tag=feed_name_$1&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20feed%20$1</to>
