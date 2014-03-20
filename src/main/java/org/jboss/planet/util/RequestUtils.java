@@ -7,6 +7,7 @@ package org.jboss.planet.util;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,9 +17,8 @@ import java.util.List;
 
 /**
  * Utils related to Request scope
- * 
+ *
  * @author Libor Krzyzanek
- * 
  */
 @Named
 @RequestScoped
@@ -35,6 +35,10 @@ public class RequestUtils {
 			list.add(messages.next());
 		}
 		return list;
+	}
+
+	public boolean isDevelopment() {
+		return facesContext.getApplication().getProjectStage().compareTo(ProjectStage.Production) != 0;
 	}
 
 }

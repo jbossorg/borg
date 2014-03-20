@@ -295,16 +295,102 @@
 								<include>WEB-INF/urlrewrite.xml</include>
 							</includes>
 						</resource>
+						<resource>
+							<directory>${project.build.directory}/generated-webapp</directory>
+							<includes>
+								<include>**/*-min.css</include>
+								<include>**/*-min.js</include>
+							</includes>
+						</resource>
 					</webResources>
 				</configuration>
-
 			</plugin>
-			<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-			<!-- To use, run: mvn package jboss-as:deploy -->
+
+
 			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.1.1.Final</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/generated-webapp/resources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/main/webapp/resources</directory>
+									<includes>
+										<include>**/*.css</include>
+										<include>**/*.js</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.primefaces.extensions</groupId>
+				<artifactId>resources-optimizer-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<id>optimize</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>optimize</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<compilationLevel>WHITESPACE_ONLY</compilationLevel>
+					<warningLevel>VERBOSE</warningLevel>
+					<failOnWarning>true</failOnWarning>
+					<suffix>-min</suffix>
+					<useDataUri>false</useDataUri>
+					<resourcesSets>
+						<resourcesSet>
+							<inputDir>${project.build.directory}/generated-webapp/resources/css</inputDir>
+							<includes>
+								<include>**/*.css</include>
+							</includes>
+						</resourcesSet>
+						<resourcesSet>
+							<inputDir>${project.build.directory}/generated-webapp/resources/js</inputDir>
+							<includes>
+								<include>**/*.js</include>
+							</includes>
+							<aggregations>
+								<aggregation>
+									<outputFile>
+										${project.build.directory}/generated-webapp/resources/js/all-min.js
+									</outputFile>
+								</aggregation>
+							</aggregations>
+						</resourcesSet>
+						<resourcesSet>
+							<inputDir>${project.build.directory}/generated-webapp/resources</inputDir>
+							<includes>
+								<include>**/*.js</include>
+							</includes>
+							<excludes>
+								<exclude>js/**</exclude>
+							</excludes>
+							<aggregations>
+								<aggregation>
+									<withoutCompress>true</withoutCompress>
+									<outputFile>
+										${project.build.directory}/generated-webapp/resources/thirdparty-all-min.js
+									</outputFile>
+								</aggregation>
+							</aggregations>
+						</resourcesSet>
+					</resourcesSets>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

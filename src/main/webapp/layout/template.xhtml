@@ -10,8 +10,14 @@
     <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/favicon.ico"></link>
 
 	<link rel="stylesheet" type="text/css" href="#{request.scheme}://www-stg.jboss.org//stylesheets/app.css"></link>
+	<ui:fragment rendered="#{requestUtils.development}">
     <link id="sccs1" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/screen.css" media="screen"></link>
     <link id="sccs-print" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/print.css" media="print"></link>
+ 	</ui:fragment>
+	<ui:fragment rendered="#{!requestUtils.development}">
+		<link id="sccs1" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/screen-min.css" media="screen"></link>
+		<link id="sccs-print" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/print-min.css" media="print"></link>
+	</ui:fragment>
 	<link rel="stylesheet" type="text/css" href="#{request.scheme}://fonts.googleapis.com/css?family=Cabin:400"></link>
 
 	<SCRIPT type="text/javascript">
@@ -22,13 +28,21 @@
 
 	<!--[if lt IE 9]><script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><link rel="stylesheet" type="text/css" href="/stylesheets/ie8grid.css"><![endif]-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <h:outputScript library="bbq/js" name="jquery.ba-bbq.min.js" />
-    <h:outputScript library="datatables/js" name="jquery.dataTables.min.js" rendered="#{datatables == 'true'}" />
-    <ui:fragment rendered="#{addthis == 'true'}">
+	<ui:fragment rendered="#{addthis == 'true'}">
 		<script type="text/javascript" src="#{request.scheme}://s7.addthis.com/js/250/addthis_widget.js#username=ra-4fe82e7237a0e8c4"></script>
-    </ui:fragment>
-    <h:outputScript library="js" name="md5.js" />
-    <h:outputScript library="js" name="app.js" />
+	</ui:fragment>
+ 	<ui:fragment rendered="#{!requestUtils.development}">
+		<script src="#{facesContext.externalContext.requestContextPath}/resources/thirdparty-all-min.js"></script>
+		<script src="#{facesContext.externalContext.requestContextPath}/resources/js/all-min.js"></script>
+ 	</ui:fragment>
+	<ui:fragment rendered="#{requestUtils.development}">
+		<h:outputScript library="bbq/js" name="jquery.ba-bbq.min.js" />
+    	<h:outputScript library="datatables/js" name="jquery.dataTables.min.js" rendered="#{datatables == 'true'}" />
+		<script src="#{facesContext.externalContext.requestContextPath}/resources/animate-enhanced/js/jquery.animate-enhanced.min.js"></script>
+		<script src="#{facesContext.externalContext.requestContextPath}/resources/tokeninput/js/jquery.tokeninput.js"></script>
+		<h:outputScript library="js" name="md5.js" />
+		<h:outputScript library="js" name="app.js" />
+ 	</ui:fragment>
 
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
@@ -210,8 +224,6 @@
 	<script src="#{request.scheme}://www-stg.jboss.org/javascripts/foundation/foundation.js"></script>
 	<!--[if lt IE 9]><script src="#{request.scheme}://www-stg.jboss.org/javascripts/vendor/jQuery.XDomainRequest.js"></script><![endif]-->
 	<script src="#{request.scheme}://www-stg.jboss.org/javascripts/foundation/foundation.dropdown.js"></script>
-	<script src="/resources/animate-enhanced/js/jquery.animate-enhanced.min.js"></script>
-	<script src="/resources/tokeninput/js/jquery.tokeninput.js"></script>
 
 	<!-- Initialize Zurb and whole JBoss Developer theme -->
 	<script type='text/javascript'>
