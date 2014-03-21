@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="../layout/template.xhtml">
 
-	<ui:param name="pageId" value="post-#{postController.post.titleAsId}" />
+	<ui:param name="pageId" value="post-#{postController.post.titleAsId}"/>
+	<ui:param name="addthis" value="true"/>
 
-	<ui:define name="page_title">#{postController.post.title}<ui:include src="/layout/page-title-suffix.xhtml" />
+	<ui:define name="page_title">#{postController.post.title}<ui:include src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
 	<ui:define name="header">
@@ -12,45 +14,57 @@
 	</ui:define>
 
 	<ui:define name="breadcrumb">
-		<ui:include src="../breadcrumb.xhtml" />
+		<ui:include src="../breadcrumb.xhtml"/>
 	</ui:define>
 
 
 	<ui:define name="body">
 		<div class="blogpost-content" data-post-id="#{postController.post.titleAsId}">
-			<div class="blog-post-header-info">
-				<img id="blog-post-avatar" src="" class="ui-li-thumb img-polaroid" height="46px" width="46px" /> <span
-					class="blog-post-list-date">#{postController.post.publishedDate} <br />by
-					#{postController.post.effectiveAuthor}
-				</span>
+			<div class="blog-post-header-info row collapse">
+				<div class="small-2 columns">
+					<img id="blog-post-avatar" src="" height="80px" width="80px"/>
+				</div>
+				<div class="small-10 columns">
+					#{postController.post.publishedDate}
+					<br/>by #{postController.post.effectiveAuthor}
+				</div>
+				<div class="small-3 columns">
+					<div class="addthis_toolbox addthis_default_style">
+						<a class="addthis_button_preferred_1"></a>
+						<a class="addthis_button_preferred_2"></a>
+						<a class="addthis_button_preferred_3"></a>
+						<a class="addthis_button_compact"></a>
+					</div>
+				</div>
 			</div>
-			<h:outputText value="#{postController.post.content}" escape="false" />
+			<h:outputText value="#{postController.post.content}" escape="false"/>
+
 			<div class="blog-post-tags">
 			</div>
 		</div>
 		<script type="text/javascript">
-  		//<![CDATA[
-		$(document).ready(function() {
-			var postId = $(".blogpost-content").attr("data-post-id");
-			var p = new Post();
-			p.getPost(postId, function(data) {
-				p.data = {
-					_source : data
-				};
-				if (p.data._source.sys_project != null) {
-					planet.getProjectNames(function() {
-						var projectName = planet.getProjectName(p.data._source.sys_project);
-						if (projectName != "") {
-							var projectInfo = '<span class="divider">/</span> <li><a href="../#project=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
-							$(".breadcrumb").last().append(projectInfo);
-						}
-					});
-				}
-				$("#blog-post-avatar").attr("src", p.getAuthorAvatarUrl());
-				$(".blog-post-tags").html(p.getTagsRow());
+			//<![CDATA[
+			$(document).ready(function () {
+				var postId = $(".blogpost-content").attr("data-post-id");
+				var p = new Post();
+				p.getPost(postId, function (data) {
+					p.data = {
+						_source: data
+					};
+					if (p.data._source.sys_project != null) {
+						planet.getProjectItems(function () {
+							var projectName = planet.getProjectName(p.data._source.sys_project);
+							if (projectName != "") {
+								var projectInfo = '<li><a href="../#project=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
+								$(".breadcrumbs").last().append(projectInfo);
+							}
+						});
+					}
+					$("#blog-post-avatar").attr("src", p.getAuthorAvatarUrl());
+					$(".blog-post-tags").html("<h5>" + p.getTagsRow() + "</h5>");
+				});
 			});
-		});
-		//]]>	
+			//]]>
 		</script>
 	</ui:define>
 
