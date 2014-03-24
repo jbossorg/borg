@@ -5,6 +5,7 @@
  */
 package org.jboss.planet.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.URL;
 import org.jboss.planet.model.RemoteFeed.FeedStatus;
@@ -73,6 +74,13 @@ public class Configuration implements Serializable {
 
 	private String syncContentType;
 
+	/**
+	 * JBoss Developer / Zurb Theme
+	 */
+	@Column
+	@NotNull
+	private String themeUrl;
+
 	public Integer getId() {
 		return id;
 	}
@@ -129,35 +137,65 @@ public class Configuration implements Serializable {
 		this.contextName = contextName;
 	}
 
+	public String getThemeUrl() {
+		if (StringUtils.isBlank(themeUrl)) {
+			// Default value for initial configuration
+			return "static.jboss.org/www";
+		}
+		return themeUrl;
+	}
+
+	public void setThemeUrl(String themeUrl) {
+		this.themeUrl = themeUrl;
+	}
+
+	@Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof Configuration))
-			return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
 		Configuration that = (Configuration) o;
 
-		if (connectionTimeout != that.connectionTimeout)
+		if (!id.equals(that.id)) return false;
+		if (adminEmail != null ? !adminEmail.equals(that.adminEmail) : that.adminEmail != null) return false;
+		if (connectionTimeout != null ? !connectionTimeout.equals(that.connectionTimeout) : that.connectionTimeout != null)
 			return false;
-		if (readTimeout != that.readTimeout)
+		if (contextName != null ? !contextName.equals(that.contextName) : that.contextName != null) return false;
+		if (readTimeout != null ? !readTimeout.equals(that.readTimeout) : that.readTimeout != null) return false;
+		if (serverAddress != null ? !serverAddress.equals(that.serverAddress) : that.serverAddress != null)
 			return false;
-		if (updateInterval != that.updateInterval)
+		if (syncContentType != null ? !syncContentType.equals(that.syncContentType) : that.syncContentType != null)
 			return false;
-		if (adminEmail != null ? !adminEmail.equals(that.adminEmail) : that.adminEmail != null)
+		if (syncPassword != null ? !syncPassword.equals(that.syncPassword) : that.syncPassword != null) return false;
+		if (syncServer != null ? !syncServer.equals(that.syncServer) : that.syncServer != null) return false;
+		if (syncServerHttpInViewLayer != null ? !syncServerHttpInViewLayer.equals(that.syncServerHttpInViewLayer) : that.syncServerHttpInViewLayer != null)
 			return false;
-		if (id != null ? !id.equals(that.id) : that.id != null)
+		if (syncUsername != null ? !syncUsername.equals(that.syncUsername) : that.syncUsername != null) return false;
+		if (themeUrl != null ? !themeUrl.equals(that.themeUrl) : that.themeUrl != null) return false;
+		if (updateFeedFailsThreshold != null ? !updateFeedFailsThreshold.equals(that.updateFeedFailsThreshold) : that.updateFeedFailsThreshold != null)
+			return false;
+		if (updateInterval != null ? !updateInterval.equals(that.updateInterval) : that.updateInterval != null)
 			return false;
 
 		return true;
 	}
 
+	@Override
 	public int hashCode() {
-		int result;
-		result = (id != null ? id.hashCode() : 0);
-		result = 31 * result + readTimeout;
-		result = 31 * result + connectionTimeout;
-		result = 31 * result + updateInterval;
+		int result = id.hashCode();
+		result = 31 * result + (readTimeout != null ? readTimeout.hashCode() : 0);
+		result = 31 * result + (connectionTimeout != null ? connectionTimeout.hashCode() : 0);
+		result = 31 * result + (updateInterval != null ? updateInterval.hashCode() : 0);
+		result = 31 * result + (updateFeedFailsThreshold != null ? updateFeedFailsThreshold.hashCode() : 0);
 		result = 31 * result + (adminEmail != null ? adminEmail.hashCode() : 0);
+		result = 31 * result + (serverAddress != null ? serverAddress.hashCode() : 0);
+		result = 31 * result + (contextName != null ? contextName.hashCode() : 0);
+		result = 31 * result + (syncServer != null ? syncServer.hashCode() : 0);
+		result = 31 * result + (syncServerHttpInViewLayer != null ? syncServerHttpInViewLayer.hashCode() : 0);
+		result = 31 * result + (syncUsername != null ? syncUsername.hashCode() : 0);
+		result = 31 * result + (syncPassword != null ? syncPassword.hashCode() : 0);
+		result = 31 * result + (syncContentType != null ? syncContentType.hashCode() : 0);
+		result = 31 * result + (themeUrl != null ? themeUrl.hashCode() : 0);
 		return result;
 	}
 
@@ -177,6 +215,7 @@ public class Configuration implements Serializable {
 				", syncUsername='" + syncUsername + '\'' +
 				", syncPassword=******" +
 				", syncContentType='" + syncContentType + '\'' +
+				", themeUrl='" + themeUrl + '\'' +
 				'}';
 	}
 

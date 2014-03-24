@@ -9,7 +9,7 @@
     <title><ui:insert name="page_title">#{msg['app.title']}</ui:insert></title>
     <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/favicon.ico"></link>
 
-	<link rel="stylesheet" type="text/css" href="#{request.scheme}://www-stg.jboss.org//stylesheets/app.css"></link>
+	<link rel="stylesheet" type="text/css" href="#{request.scheme}://#{configurationService.configuration.themeUrl}/stylesheets/app.css"></link>
 	<ui:fragment rendered="#{requestUtils.development}">
     <link id="sccs1" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/screen.css" media="screen"></link>
     <link id="sccs-print" type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/print.css" media="print"></link>
@@ -220,9 +220,9 @@
 		</div>
 	</footer>
 
-	<script src="#{request.scheme}://www-stg.jboss.org/javascripts/foundation/foundation.js"></script>
-	<!--[if lt IE 9]><script src="#{request.scheme}://www-stg.jboss.org/javascripts/vendor/jQuery.XDomainRequest.js"></script><![endif]-->
-	<script src="#{request.scheme}://www-stg.jboss.org/javascripts/foundation/foundation.dropdown.js"></script>
+	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/foundation/foundation.js"></script>
+	<!--[if lt IE 9]><script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/vendor/jQuery.XDomainRequest.js"></script><![endif]-->
+	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/foundation/foundation.dropdown.js"></script>
 
 	<!-- Initialize Zurb and whole JBoss Developer theme -->
 	<script type='text/javascript'>
@@ -260,7 +260,7 @@
 		});
 		//]]>
 	</script>
-	<script src="#{request.scheme}://www-stg.jboss.org/javascripts/jbossorg-tabzilla.js"></script>
+	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/jbossorg-tabzilla.js"></script>
 
 
 

@@ -112,6 +112,21 @@
 									 label="#{msg['management.config.adminEmail']}" required="true"/>
 						<h:message for="adminEmail" errorClass="error"/>
 					</div>
+					<div class="row collapse required">
+						<h:outputLabel for="themeUrl" value="#{msg['management.config.themeUrl']}:"
+									   styleClass="#{!themeUrl.valid ? 'error' : ''}"/>
+						<div class="small-3 columns">
+								<span class="prefix radius #{!themeUrl.valid ? 'error' : ''}">
+									#{msg['management.config.preppend.https']}
+								</span>
+						</div>
+						<div class="small-21 columns">
+							<h:inputText id="themeUrl" value="#{configurationController.config.themeUrl}"
+										 binding="#{themeUrl}" styleClass="#{!themeUrl.valid ? 'error' : ''}"
+										 label="#{msg['management.config.themeUrl']}" required="true"/>
+							<h:message for="themeUrl" errorClass="error"/>
+						</div>
+					</div>
 				</div>
 
 				<div class="large-12 columns">
