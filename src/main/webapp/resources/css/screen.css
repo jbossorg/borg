@@ -102,6 +102,10 @@ pre {
 	padding-bottom: 10px;
 }
 
+.blog-post-content ul, .blog-post-content ol {
+	margin-left: 1.5em;
+}
+
 .blog-post-content ul li {
 	border: none;
 }
