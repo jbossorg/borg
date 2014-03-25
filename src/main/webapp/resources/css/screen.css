@@ -65,6 +65,7 @@ pre {
 
 #home-filter {
 	margin-top: 20px;
+ 	overflow: hidden;
 }
 
 #home-filter-clearall {

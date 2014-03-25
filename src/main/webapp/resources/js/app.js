@@ -776,22 +776,26 @@ var home = {
 	toggleFilter : function() {
 		var elm = $("#home-filter");
 		if (elm.css('display') == 'none') {
-			elm.css('height', 0);
+			elm.height(0);
 			elm.show();
 			home.toogleButton("#filter-link");
 			elm.animate({
-				height : '135px',
+				"min-height" : '135px',
 				useTranslate3d : true,
 				leaveTransforms : false
-			}, 200);
+			}, 200, function() {
+				$(this).css('height', '');
+			});
 		} else {
+			elm.height(elm.css("min-height"));
 			elm.animate({
-				height : '0px',
+				"height" : '0px',
 				useTranslate3d : true,
 				leaveTransforms : false
 			}, 200, function() {
 				home.toogleButton("#filter-link");
 				elm.hide();
+				elm.css('min-height', '');
 			});
 		}
 	},
@@ -799,7 +803,7 @@ var home = {
 		if ($("#home-filter").css("display") == "none") {
 			home.toogleButton("#filter-link");
 			$("#home-filter").css({
-				'height' : '135px',
+				'min-height' : '135px',
 				'display' : 'block'
 			});
 		}
