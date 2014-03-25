@@ -88,6 +88,7 @@ pre {
 .blog-post-article {
 	border-bottom: 1px solid #d5d5d5;
 	padding-bottom: 20px;
+	word-wrap: break-word;
 }
 
 .blog-post-tags {

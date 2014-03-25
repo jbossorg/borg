@@ -191,4 +191,6 @@ img.ui-li-thumb {
 
 #postwrapper {
 	padding: 10px;
+	word-wrap: break-word;
+	overflow: hidden;
 }
