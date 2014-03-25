@@ -444,7 +444,7 @@ Preview = function() {
 			showPrevPost();
 			return false;
 		});
-
+		/*
 		pageAnimationElm.hammer({
 			"drag" : false,
 			"transform" : false,
@@ -459,6 +459,7 @@ Preview = function() {
 				showPrevPost();
 			}
 		});
+		*/
 	};
 
 	var updateCurrentPostScrollTop = function() {
@@ -496,12 +497,12 @@ Preview = function() {
 			pageAnimationElm.animate({
 				left : "+=" + $(document).width() / 6 + "px",
 				useTranslate3d : true,
-				leaveTransforms : false
+				leaveTransforms : true
 			}, reader.effect.slideDuration, function() {
 				$(this).animate({
 					left : "-=" + $(document).width() / 6 + "px",
 					useTranslate3d : true,
-					leaveTransforms : false
+					leaveTransforms : true
 				}, reader.effect.slideDuration, function() {
 				});
 			});
