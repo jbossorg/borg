@@ -1,10 +1,10 @@
 Util = function() {
 	this.dateToString = function(date) {
-		return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
+		return date.toDateString();
 	};
 	this.parseISODateString = function(t) {
-		nativeParsedDate = new Date(t);
-		if (typeof nativeParsedDate != "undefined") {
+		var nativeParsedDate = new Date(t);
+		if (typeof nativeParsedDate != "undefined" && !isNaN(nativeParsedDate.getTime())) {
 			return nativeParsedDate;
 		}
 
@@ -26,7 +26,7 @@ Util = function() {
 	};
 	this.parseEmail = function(fullEmail) {
 		var emailRE = /([^<]+)\s<(.*)>/;
-		match = fullEmail.match(emailRE);
+		var match = fullEmail.match(emailRE);
 		if (match) {
 			return {
 				name : match[1],
