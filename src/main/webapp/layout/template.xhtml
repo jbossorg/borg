@@ -19,11 +19,11 @@
 	</ui:fragment>
 	<link rel="stylesheet" type="text/css" href="#{request.scheme}://fonts.googleapis.com/css?family=Cabin:400"></link>
 
-	<SCRIPT type="text/javascript">
+	<script type="text/javascript">
 		var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
 		var syncServer = "#{configurationService.syncServerOnView}";
 		var syncContentType = "#{configurationService.configuration.syncContentType}";
-	</SCRIPT>
+	</script>
 
 	<!--[if lt IE 9]><script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><link rel="stylesheet" type="text/css" href="/stylesheets/ie8grid.css"><![endif]-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -63,14 +63,8 @@
 
 <body class="planet">
 
-<div class="panel under-development status-green"><p>This site is currently under development, and may contain
-	inaccurate and misleading information.
-	<a class="button"
-	   href="https://issues.jboss.org/browse/ORG/component/12312393"
-	   target="_blank">Report an issue </a><br/>Status: Green. Known issues: </p>
-</div>
-
 <ui:insert name="page-start"/>
+
 	<div class="dropup">
 		<a class="tabnav-closed" href="https://www.jboss.org" id="tab">Red Hat</a>
 	</div>
@@ -237,9 +231,9 @@
 					wrapper = $('.wrapper');
 			if(bodyHeight < windowHeight) {
 				var headerHeight = $('header.main').outerHeight(),
-						footerHeight = $('footer.bottom').outerHeight(),
-						devHeight = $('.under-development').outerHeight(),
-						wrapperHeight = windowHeight - headerHeight - footerHeight - devHeight;
+					footerHeight = $('footer.bottom').outerHeight(),
+					navHeight = $('nav.top-bar').outerHeight();
+				var wrapperHeight = windowHeight - headerHeight - footerHeight - navHeight;
 				wrapper.css('min-height',wrapperHeight);
 			}
 		}
