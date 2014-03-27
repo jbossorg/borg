@@ -303,10 +303,10 @@ var planet = {
 		if (typeof tags != "undefined" && tags != "" && tags != null) {
 			if ($.isArray(tags)) {
 				$.each(tags, function(index, value) {
-					url += "&tag=" + $.trim(value);
+					url += "&tag=" + $.trim(value).toLowerCase();
 				});
 			} else {
-				url += "&tag=" + tags;
+				url += "&tag=" + tags.toLowerCase();
 			}
 		}
 
