@@ -338,10 +338,10 @@ Home = function() {
 		$("#loading", page).text("Loading ...");
 		retrievingNewPosts = true;
 		var url = reader.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
-				+ "&sortBy=new&field=_source";
+				+ "&sortBy=new-create&field=_source";
 
 		$.ajax({
-			url : url,
+			url : encodeURI(url),
 			type : "get",
 			dataType : 'json',
 			success : function(data) {

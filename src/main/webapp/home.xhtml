@@ -13,15 +13,15 @@
 
 	<ui:define name="additional_headers">
 		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}"
-			  href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"/>
+			  href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"/>
 	</ui:define>
 
 	<ui:define name="body">
 		<div class="row">
 			<div class="large-24 columns"><p>
 				<a id="home-feed-link"
-				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}"
-				   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;feed_title=#{msg['home.feed.name']}">
+				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
+				   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
 					<i class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}
 				</a></p>
 			</div>

@@ -299,7 +299,7 @@ var planet = {
 	retrieveNewPosts : function(currentFrom, count, callback, projects, tags) {
 		planet.canRetrieveNewPosts = false;
 		var url = planet.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
-				+ "&sortBy=new&field=_source";
+				+ "&sortBy=new-create&field=_source";
 		if (typeof tags != "undefined" && tags != "" && tags != null) {
 			if ($.isArray(tags)) {
 				$.each(tags, function(index, value) {
@@ -343,9 +343,9 @@ var planet = {
 		if (planet.projectNames != null) {
 			return callback(planet.projectNames);
 		}
-		var projectsRestUrl = planet.dcpRestApi + "search?sys_type=project_info&from=0&size=200&sortBy=new";
+		var projectsRestUrl = planet.dcpRestApi + "search?sys_type=project_info&from=0&size=200&sortBy=new-create";
 		$.ajax({
-			url : projectsRestUrl,
+			url : encodeURI(projectsRestUrl),
 			type : "get",
 			dataType : 'json',
 			success : function(data) {
