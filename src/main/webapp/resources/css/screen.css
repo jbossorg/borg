@@ -65,7 +65,7 @@ pre {
 
 #home-filter {
 	margin-top: 20px;
- 	overflow: hidden;
+	overflow: hidden;
 }
 
 #home-filter-clearall {
@@ -128,12 +128,32 @@ pre {
 	max-width: 250px;
 }
 
-@media ( min-width : 1200px) {
+@media only screen and ( min-width: 1200px) {
 	.manage-feeds-list-url {
 		max-width: 100%
 	}
 }
 
+/* Small Devices (See Zurb definition) */
+@media only screen and (max-width: 767px) {
+	.home-posts-column {
+		padding: 0;
+	}
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1100px) {
+	/* Tuning wrapping filter buttons group */
+	#home-filters-panel {
+		min-width: 262px;
+		margin: 0;
+	}
+
+	.home-posts-column {
+		padding: 0;
+		width: 63.66667%;
+		right: 36.33333%;
+	}
+}
 
 td.table-actions-column {
 	width: 110px;
@@ -166,7 +186,7 @@ img.jive-image {
 }
 
 /* ******************** PLUGINS *********************** */
-/* 
+/*
  * Data Tables.
  * Source: http://datatables.github.io/Plugins/integration/foundation/dataTables.foundation.css
  * See: https://www.datatables.net/forums/discussion/14408/zurb-foundation-integration-for-datatables/p1
