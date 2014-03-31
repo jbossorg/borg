@@ -97,7 +97,7 @@
 							<h:link outcome="/manage/feed/feed-admins.jsf" styleClass="button expand small"
 									rendered="#{feed.accepted}">
 								<f:param name="name" value="#{feed.name}"/>
-								<i class="fa fa-edit"></i>&#160;
+								<i class="fa fa-user"></i>&#160;
 								#{msg['management.feeds.admins']}
 							</h:link>
 							<h:commandLink id="delete" action="#{feedController.deleteFeed}"

@@ -1,91 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" template="../../layout/template.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="../../layout/template.xhtml">
 
-	<ui:param name="pageId" value="edit-feed-admins" />
-	<ui:param name="section" value="yourstuff" />
+	<ui:param name="pageId" value="edit-feed-admins"/>
+	<ui:param name="section" value="yourstuff"/>
 
 	<ui:define name="header">
-    #{msg['manage.feed.admin.name']} <h:outputText value="#{feedController.feedToUpdate.title}" />
+		#{msg['manage.feed.admin.name']} <h:outputText value="#{feedController.feedToUpdate.title}"/>
 	</ui:define>
 
 	<ui:define name="breadcrumb">
-		<ui:include src="./breadcrumb.xhtml" />
+		<ui:include src="./breadcrumb.xhtml"/>
 	</ui:define>
 
 	<ui:define name="page_title">#{msg['manage.feed.admin.name']} <h:outputText
-			value="#{feedController.feedToUpdate.title}" />
-		<ui:include src="/layout/page-title-suffix.xhtml" />
+			value="#{feedController.feedToUpdate.title}"/>
+		<ui:include src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
 	<ui:define name="body">
 		<h:form id="admins" styleClass="well">
 			<f:validateBean>
-				<fieldset>
-					<div class="control-group #{!user.valid ? 'error' : ''} required">
-						<h:outputLabel for="user" value="#{msg['manage.systemAdmins.user']}:" styleClass="control-label" />
-						<div class="controls">
-							<h:inputText id="user" value="#{feedController.adminToUpdate}" binding="#{user}" required="true"
-								label="#{msg['manage.systemAdmins.user']}" />
-							<h:message for="user" styleClass="help-inline" />
+				<div class="row">
+					<div class="large-12 columns panel radius">
+						<div class="required">
+							<h:outputLabel for="user" value="#{msg['manage.systemAdmins.user']}:"
+										   styleClass="#{!user.valid ? 'error' : ''}"/>
+							<h:inputText id="user" value="#{feedController.adminToUpdate}" binding="#{user}"
+										 required="true" styleClass="#{!user.valid ? 'error' : ''}"
+										 label="#{msg['manage.systemAdmins.user']}"/>
+							<h:message for="user" styleClass="error"/>
 						</div>
 					</div>
-				</fieldset>
+				</div>
 			</f:validateBean>
 
-			<h:commandLink action="#{feedController.addAdmin}" styleClass="btn btn-success">
-				<i class="icon-plus icon-white"></i>
-  					#{msg['common.add']}
-	  			</h:commandLink>
-	  			&#160;
-				<h:link value="#{msg['common.back']}" outcome="/manage/feed/list.jsf" styleClass="btn" />
+			<h:commandLink action="#{feedController.addAdmin}" styleClass="button">
+				<i class="fa fa-plus"></i>
+				#{msg['common.add']}
+			</h:commandLink>
+			<h:link value="#{msg['common.back']}" outcome="/manage/feed/list.jsf" styleClass="button blue"/>
 		</h:form>
 
 
-		<table id="manage-feed-admins-table" class="manage-admins-table table table-striped table-bordered table-condensed">
+		<table id="manage-feed-admins-table">
 			<thead>
-				<tr>
-					<th>#{msg['manage.systemAdmins.column.username']}</th>
-					<th>#{msg['manage.systemAdmins.column.action']}</th>
-				</tr>
+			<tr>
+				<th>#{msg['manage.systemAdmins.column.username']}</th>
+				<th>#{msg['manage.systemAdmins.column.action']}</th>
+			</tr>
 			</thead>
 			<tbody>
-				<ui:repeat var="admin" value="#{permissionService.getFeedAdministrators(feedController.feedToUpdate.id)}">
-					<tr>
-						<td><h:outputText value="#{admin.externalId}" /></td>
-						<td><ui:fragment rendered="#{userController.admin || admin.externalId != userController.username}">
-								<h:form id="admins-action">
-									<h:commandLink id="delete" action="#{feedController.removeAdmin}" styleClass="btn btn-danger"
-										onclick="if (!confirm('#{msg['manage.systemAdmins.text.deleteConfirm']}')) return false">
-										<f:setPropertyActionListener target="#{feedController.adminToUpdate}" value="#{admin.externalId}" />
-										<f:setPropertyActionListener target="#{feedController.feedName}" value="#{feedController.feedToUpdate.name}" />
-										<i class="icon-minus icon-white"></i> #{msg['manage.systemAdmins.remove']}
-									</h:commandLink>
-								</h:form>
-							</ui:fragment> <ui:fragment rendered="#{admin.externalId == userController.username and !userController.admin}">
-								#{msg['manage.systemAdmins.text.cannotDelete']}
-							</ui:fragment></td>
-					</tr>
-				</ui:repeat>
-
-				<ui:repeat var="admin" value="#{permissionService.getGroupAdministrators(feedController.feedToUpdate.group.id)}"
-					varStatus="status">
-					<ui:fragment rendered="#{status.first}">
-						<tr>
-							<td colspan="2"><strong>#{msg['manage.feed.admin.ingroup']}</strong></td>
-						</tr>
+			<ui:repeat var="admin" value="#{permissionService.getFeedAdministrators(feedController.feedToUpdate.id)}">
+				<tr>
+					<td><h:outputText value="#{admin.externalId}"/></td>
+					<td><ui:fragment rendered="#{userController.admin || admin.externalId != userController.username}">
+						<h:form id="admins-action">
+							<h:commandLink id="delete" action="#{feedController.removeAdmin}"
+										   styleClass="button small alert"
+										   onclick="if (!confirm('#{msg['manage.systemAdmins.text.deleteConfirm']}')) return false">
+								<f:setPropertyActionListener target="#{feedController.adminToUpdate}"
+															 value="#{admin.externalId}"/>
+								<f:setPropertyActionListener target="#{feedController.feedName}"
+															 value="#{feedController.feedToUpdate.name}"/>
+								<i class="fa fa-minus"></i> #{msg['manage.systemAdmins.remove']}
+							</h:commandLink>
+						</h:form>
 					</ui:fragment>
+						<ui:fragment
+								rendered="#{admin.externalId == userController.username and !userController.admin}">
+							#{msg['manage.systemAdmins.text.cannotDelete']}
+						</ui:fragment>
+					</td>
+				</tr>
+			</ui:repeat>
+
+			<ui:repeat var="admin"
+					   value="#{permissionService.getGroupAdministrators(feedController.feedToUpdate.group.id)}"
+					   varStatus="status">
+				<ui:fragment rendered="#{status.first}">
 					<tr>
-						<td><h:outputText value="#{admin.externalId}" /></td>
-						<td><ui:fragment rendered="#{feedController.canEditGroup()}">
-								<h:link outcome="/manage/group/group-admins.jsf" styleClass="btn">
-									<f:param name="name" value="#{feedController.feedToUpdate.group.name}" />
-									<i class="icon-pencil"></i>
-									#{msg['management.feeds.admins.group']}
-								</h:link>
-							</ui:fragment></td>
+						<td colspan="2"><strong>#{msg['manage.feed.admin.ingroup']}</strong></td>
 					</tr>
-				</ui:repeat>
+				</ui:fragment>
+				<tr>
+					<td><h:outputText value="#{admin.externalId}"/></td>
+					<td><ui:fragment rendered="#{feedController.canEditGroup()}">
+						<h:link outcome="/manage/group/group-admins.jsf" styleClass="button small">
+							<f:param name="name" value="#{feedController.feedToUpdate.group.name}"/>
+							<i class="fa fa-edit"></i>
+							#{msg['management.feeds.admins.group']}
+						</h:link>
+					</ui:fragment></td>
+				</tr>
+			</ui:repeat>
 			</tbody>
 		</table>
 
