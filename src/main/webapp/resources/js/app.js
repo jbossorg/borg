@@ -745,8 +745,6 @@ var home = {
 			size++;
 		});
 
-		addthis.toolbox(".addthis_toolbox");
-
 		if (size == 0 || size != home.data.count) {
 			var message = "No more posts";
 			if (home.data.currentFrom == 0) {
@@ -756,6 +754,11 @@ var home = {
 			planet.canRetrieveNewPosts = false;
 		}
 		home.data.currentFrom = home.data.currentFrom + size;
+
+		// AddThis component can be blocked by adv plugins.
+		if (typeof addthis != 'undefined') {
+			addthis.toolbox(".addthis_toolbox");
+		}
 	},
 	toogleButton : function(selector) {
 		// Zurb doesn't use classes so there is no way how to toogle button.
