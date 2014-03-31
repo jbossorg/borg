@@ -119,12 +119,6 @@ pre {
 	line-height: 1.5em;
 }
 
-.addthis_toolbox {
-	position: relative;
-	float: right;
-	width: 85px;
-}
-
 /* ************* Page specifics ******************/
 .manage-feeds-list-url {
 	text-overflow: ellipsis;

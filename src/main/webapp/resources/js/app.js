@@ -149,12 +149,12 @@ Post = function(val, format) {
 		var tags = this.getTagsRow();
 		preview += '<header><h3><a href="' + this.data._source.sys_url_view + '" data-id="'
 				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
-				+ '<div class="blog-post-header-info row collapse"><div class="small-3 columns"><img src="' + this.getAuthorAvatarUrl()
+				+ '<div class="blog-post-header-info row collapse"><div class="small-4 large-3 columns"><img src="' + this.getAuthorAvatarUrl()
 				+ '" height="80px" width="80px"/></div>'
-				+ '<div class="small-10 columns">' + util.dateToString(this.getPublished()) + '<br/>by '
+				+ '<div class="small-17 columns">' + util.dateToString(this.getPublished()) + '<br/>by '
 				+ this.getAuthor().name
 				+ '<br/>' + projectInfo + '</div>'
-				+ '<div class="small-3 columns">' + addThisTempl + '</div>' + '</div></header>';
+				+ '<div class="small-3 large-4 columns">' + addThisTempl + '</div>' + '</div></header>';
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
 					+ this.data._source.sys_description
@@ -270,21 +270,20 @@ var planet = {
 		});
 	},
 
-	addThisTemplate : function(url, title, style) {
-		switch (style) {
-		case 1:
-			return '<div class="addthis_toolbox addthis_default_style" addthis:url="' + url + '" addthis:title="'
-					+ title + '">' + '<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>'
-					+ '<a class="addthis_button_tweet"></a>'
-					+ '<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>'
-					+ '<a class="addthis_counter addthis_pill_style"></a>' + '</div>';
-		default:
+	onMobile : function() {
+		return ($(window).width() > 768) ? false : true;
+	},
+
+	addThisTemplate : function(url, title) {
+		if (planet.onMobile()) {
+			return '<div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="'
+				+ url + '" addthis:title="' + title + '">'
+				+ '<a class="addthis_button_compact"></a>' + '</div>';
+		} else {
 			return '<div class="addthis_toolbox addthis_default_style" addthis:url="' + url + '" addthis:title="'
 					+ title + '">' + '<a class="addthis_button_preferred_1"></a>'
 					+ '<a class="addthis_button_preferred_2"></a>' + '<a class="addthis_button_preferred_3"></a>'
 					+ '<a class="addthis_button_compact"></a>' + '</div>';
-		}
-		if (style = 1) {
 		}
 	},
 
