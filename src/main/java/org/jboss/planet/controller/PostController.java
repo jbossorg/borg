@@ -5,15 +5,17 @@
  */
 package org.jboss.planet.controller;
 
+import org.jboss.planet.model.Post;
+import org.jboss.planet.service.PostService;
+
+import javax.enterprise.inject.Model;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
-
-import org.jboss.planet.model.Post;
-import org.jboss.planet.service.PostService;
 
 /**
  * Model for {@link Post}
@@ -29,16 +31,19 @@ public class PostController {
 	@Inject
 	private PostService postService;
 
+	@Inject
+	private FacesContext facesContext;
+
 	private Post post;
 
 	private String titleAsId;
 
-	public void loadPost() {
+	public void loadPost() throws IOException {
 		log.log(Level.FINE, "Load post with id: {0}", titleAsId);
 
 		post = postService.find(titleAsId);
 		if (post == null) {
-			// TODO: Return NOT_FOUND
+			facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Blog Post Not Found");
 		} else {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 			post.setPublishedDate(df.format(post.getPublished()));
