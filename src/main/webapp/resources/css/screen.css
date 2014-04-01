@@ -96,11 +96,7 @@ pre {
 }
 
 .blog-post-tags {
-	margin-top: 10px;
-}
-
-.blog-post-show-more {
-	padding-top: 10px;
+	margin: 10px 0 20px 0;
 }
 
 .blog-post-header-info {

@@ -145,8 +145,10 @@ Post = function(val, format) {
 		if (projectName != "") {
 			projectInfo = 'in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
 		}
-
 		var tags = this.getTagsRow();
+		var permanentLink = planet.resourcesPrefix + 'post/' + this.data._source.sys_content_id;
+		var permanentLinkText = '<i class="fa fa-bookmark-o"></i> Permanent Link';
+
 		preview += '<header><h3><a href="' + this.data._source.sys_url_view + '" data-id="'
 				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
 				+ '<div class="blog-post-header-info row collapse"><div class="small-4 large-3 columns"><img src="' + this.getAuthorAvatarUrl()
@@ -155,18 +157,22 @@ Post = function(val, format) {
 				+ this.getAuthor().name
 				+ '<br/>' + projectInfo + '</div>'
 				+ '<div class="small-3 large-4 columns">' + addThisTempl + '</div>' + '</div></header>';
+
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
-					+ this.data._source.sys_description
-					+ '</div>'
-					+ '<footer><div class="blog-post-tags"><h5>'
-					+ tags
-					+ '</h5></div>'
-					+ '<div class="blog-post-show-more"><a href="" class="show-more button blue">Read more</a></div></footer>';
+				+ this.data._source.sys_description
+				+ '</div>'
+				+ '<footer><div class="blog-post-tags"><h5>'
+				+ tags
+				+ '</h5></div>'
+				+ '<div class="blog-post-show-more"><a href="" class="show-more button blue">Read more</a></div>'
+				+ '<a class="home-post-perm-link" style="display: none" href="' + permanentLink + '">' + permanentLinkText + '</a></footer>';
 		} else {
 			preview += '<div class="blog-post-content">' + this.data._source.sys_content + '</div>'
-					+ '<footer><div class="blog-post-tags"><h5>' + tags + '</h5></div></footer>';
+				+ '<footer><div class="blog-post-tags"><h5>' + tags + '</h5></div>'
+				+ '<a class="home-post-perm-link" href="' + permanentLink + '">' + permanentLinkText + '</a></footer>';
 		}
+
 		preview += '</article>';
 		this.previewElm = $(preview);
 
@@ -216,6 +222,8 @@ Post = function(val, format) {
 		contentElm.hide();
 		contentElm.append(this.data._source.sys_content);
 		$(".blog-post-show-more", this.previewElm).empty();
+		$(".home-post-perm-link", this.previewElm).show();
+
 
 		contentElm.animate({
 			height : 'auto'
