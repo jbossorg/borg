@@ -126,10 +126,4 @@
 		<view-id value="/error/notauthorized.jsf" />
 	</url-mapping>
 
-	<url-mapping>
-		<pattern value="/error/unknown" />
-		<view-id value="/error/unknown.jsf" />
-	</url-mapping>
-
-
 </pretty-config>

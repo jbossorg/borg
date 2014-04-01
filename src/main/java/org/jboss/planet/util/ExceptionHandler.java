@@ -5,10 +5,11 @@
  */
 package org.jboss.planet.util;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.pretty.PrettyException;
+import org.jboss.planet.filter.CasLoginFilter;
+import org.jboss.planet.security.PermissionException;
+import org.jboss.planet.security.UserNotLoggedInException;
 
 import javax.ejb.EJBException;
 import javax.el.ELException;
@@ -19,13 +20,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.servlet.http.HttpServletRequest;
-
-import org.jboss.planet.filter.CasLoginFilter;
-import org.jboss.planet.security.PermissionException;
-import org.jboss.planet.security.UserNotLoggedInException;
-
-import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.pretty.PrettyException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Exception handler to handle business logic exceptions like {@link UserNotLoggedInException} etc.
@@ -59,7 +58,7 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 			final ExternalContext externalContext = facesContext.getExternalContext();
 			final String contextPath = facesContext.getExternalContext().getRequestContextPath();
 
-			String pageToRedirect = "/error/unknown";
+			String pageToRedirect = null;
 			if (t instanceof UserNotLoggedInException) {
 				// Could be redirected to /error/notloggedin but Login page it's obvious enough to say that user needs
 				// to login
@@ -76,8 +75,13 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 						+ t.getMessage(), null));
 			}
 			try {
-				// TODO: page needs to be served with proper HTTP code
-				externalContext.redirect(contextPath + pageToRedirect);
+				if (pageToRedirect != null) {
+					externalContext.setResponseStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+					externalContext.redirect(contextPath + pageToRedirect);
+				} else {
+					externalContext.responseSendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unknown Error");
+				}
+
 			} catch (final IOException e) {
 				log.log(Level.SEVERE, "Error view '" + pageToRedirect + "' page", e);
 			} finally {
