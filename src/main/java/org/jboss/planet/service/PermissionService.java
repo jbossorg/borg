@@ -5,15 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-
 import org.jboss.planet.exception.DuplicateEntryException;
 import org.jboss.planet.model.FeedsSecurityRole;
 import org.jboss.planet.model.SecurityMapping;
@@ -21,6 +12,15 @@ import org.jboss.planet.model.SecurityUser;
 import org.jboss.planet.security.AdminAllowed;
 import org.jboss.planet.security.CRUDOperationType;
 import org.jboss.planet.service.qualifier.Updated;
+
+import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Business logic for permissions
@@ -85,6 +85,7 @@ public class PermissionService extends EntityServiceJpa<SecurityMapping> {
 			mapping = new SecurityMapping();
 			mapping.setRole(role);
 			mapping.setIdForRole(idForRole);
+			mapping.setUsers(new ArrayList<SecurityUser>());
 			// Security is checked in parent
 			mapping = create(mapping);
 		}
