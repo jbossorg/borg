@@ -44,6 +44,8 @@ public class PostController {
 		post = postService.find(titleAsId);
 		if (post == null) {
 			facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Blog Post Not Found");
+			facesContext.responseComplete();
+			return;
 		} else {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 			post.setPublishedDate(df.format(post.getPublished()));
