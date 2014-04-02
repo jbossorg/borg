@@ -9,6 +9,16 @@
 
 -->
 <urlrewrite>
+	<!-- Expiration headers -->
+	<!-- Far Future Expiration -->
+	<rule>
+		<from>^/ffe/.*$</from>
+		<set type="expires">1 year</set>
+	</rule>
+	<rule>
+		<from>^/ffe/([\d\.]*/)(.*)$</from>
+		<to type="forward" last="true">/$2</to>
+	</rule>
 
 	<!-- Backward compatibility for feeds pages -->
 	<rule>
