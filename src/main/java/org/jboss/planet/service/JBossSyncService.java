@@ -5,22 +5,9 @@
  */
 package org.jboss.planet.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-
 import org.apache.http.Consts;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpDelete;
@@ -37,12 +24,22 @@ import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.util.PostToDCPContentProducer;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * JBoss back-end service.<br/>
  * Documentation: http://docs.jbossorg.apiary.io/
- * 
+ *
  * @author Libor Krzyzanek
- * 
  */
 @Named
 @Stateless
@@ -62,14 +59,18 @@ public class JBossSyncService {
 
 	public static final String SYNC_REST_API = "/v1/rest/content/";
 
-	public DefaultHttpClient createHttpClient() {
+	protected DefaultHttpClient createHttpClient() {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		httpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(configurationService.getConfiguration().getSyncUsername(),
-						configurationService.getConfiguration().getSyncPassword()));
+						configurationService.getConfiguration().getSyncPassword())
+		);
 		return httpClient;
+	}
+	protected void shutdownHttpClient(DefaultHttpClient httpClient) {
+		httpClient.getConnectionManager().shutdown();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -100,12 +101,12 @@ public class JBossSyncService {
 		for (Post post : allPosts) {
 			syncPost(post.getId(), httpClient);
 		}
-		httpClient.getConnectionManager().shutdown();
+		shutdownHttpClient(httpClient);
 	}
 
 	/**
 	 * Push content to JBoss back-end
-	 * 
+	 *
 	 * @param p
 	 */
 	private void pushToJBoss(final Post p, HttpClient httpClient) throws JsonGenerationException, JsonMappingException,
@@ -128,13 +129,12 @@ public class JBossSyncService {
 
 	/**
 	 * Delete post from JBoss back-end
-	 * 
+	 *
 	 * @param postTitleAsId
 	 * @param httpClient
 	 * @throws IOException
-	 * @throws ClientProtocolException
 	 */
-	public void deletePost(String postTitleAsId, HttpClient httpClient) throws ClientProtocolException, IOException {
+	public void deletePost(String postTitleAsId, HttpClient httpClient) throws IOException {
 		log.log(Level.INFO, "Delete post {0} from DCP", postTitleAsId);
 
 		Configuration c = configurationService.getConfiguration();
@@ -144,6 +144,20 @@ public class JBossSyncService {
 
 		HttpDelete httpDelete = new HttpDelete(syncApiURL);
 		httpClient.execute(httpDelete, new BasicResponseHandler());
+	}
+
+	/**
+	 * Delete post with auto create/destroy http client
+	 *
+	 * @param postTitleAsId
+	 * @see #createHttpClient()
+	 */
+	public void deletePost(String postTitleAsId) throws IOException {
+		DefaultHttpClient httpClient = createHttpClient();
+
+		deletePost(postTitleAsId, httpClient);
+
+		shutdownHttpClient(httpClient);
 	}
 
 }

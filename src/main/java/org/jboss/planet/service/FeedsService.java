@@ -130,7 +130,8 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 			jbossSyncService.deletePost(post.getTitleAsId(), httpClient);
 		}
 
-		httpClient.getConnectionManager().shutdown();
+		jbossSyncService.shutdownHttpClient(httpClient);
+
 		delete(f.getId());
 	}
 
