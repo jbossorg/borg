@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Security service which keeps authenticated user
@@ -36,6 +38,9 @@ import java.util.ArrayList;
 public class SecurityService implements Serializable {
 
 	private static final long serialVersionUID = -3254055864292171599L;
+
+	@Inject
+	private Logger log;
 
 	@Inject
 	private EntityManager em;
@@ -52,7 +57,7 @@ public class SecurityService implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		final Assertion assertion = (Assertion) request.getSession().getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
+		final Assertion assertion = getUserFromSession();
 		if (assertion == null) {
 			setCurrentUser(null);
 		} else {
@@ -65,6 +70,7 @@ public class SecurityService implements Serializable {
 	}
 
 	public void observeUserChange(@Observes @Updated SecurityUser updatedUser) {
+		log.log(Level.FINE, "Permissions changed for user: {0}", updatedUser);
 		if (updatedUser.equals(currentUser)) {
 			setCurrentUser(updatedUser);
 		}
@@ -142,34 +148,29 @@ public class SecurityService implements Serializable {
 		}
 	}
 
-	public boolean hasPermission(SecurityUser user, Object entity, CRUDOperationType operation)
-			throws PermissionCRUDException {
+	/**
+	 * Helper method to determine if current user can delete entity
+	 *
+	 * @param entity
+	 * @return
+	 */
+	public boolean canUserDelete(Object entity) {
+		return hasPermission(currentUser, entity, CRUDOperationType.DELETE);
+	}
+
+	public boolean hasPermission(SecurityUser user, Object entity, CRUDOperationType operation) {
 		if (isAnonymous(user)) {
 			return false;
 		}
 
+		if (entity instanceof Post) {
+			Post post = (Post) entity;
+			// There is no granularity on Post level so same logic for feed.
+			return hasPermission(user, post.getFeed(), operation);
+		}
+
 		if (entity instanceof RemoteFeed) {
-			RemoteFeed feed = (RemoteFeed) entity;
-
-			if (CRUDOperationType.CREATE.equals(operation) && feed.getStatus().compareTo(FeedStatus.PROPOSED) == 0) {
-				// Proposing a new feed
-				return true;
-			}
-
-			for (SecurityMapping mapping : user.getMappings()) {
-				if (FeedsSecurityRole.ADMIN.equals(mapping.getRole())) {
-					return true;
-				}
-				if (FeedsSecurityRole.FEED_ADMIN.equals(mapping.getRole())
-						&& mapping.getIdForRole().equals(feed.getId())) {
-					return true;
-				}
-				if (FeedsSecurityRole.GROUP_ADMIN.equals(mapping.getRole())
-						&& mapping.getIdForRole().equals(feed.getGroup().getId())) {
-					return true;
-				}
-			}
-			return false;
+			return hasPermission(user, (RemoteFeed) entity, operation);
 		}
 
 		if (entity instanceof FeedGroup) {
@@ -218,6 +219,29 @@ public class SecurityService implements Serializable {
 		}
 
 		return false;
+	}
+
+	public boolean hasPermission(SecurityUser user, RemoteFeed feed, CRUDOperationType operation) {
+		if (CRUDOperationType.CREATE.equals(operation) && feed.getStatus().compareTo(FeedStatus.PROPOSED) == 0) {
+			// Proposing a new feed
+			return true;
+		}
+
+		for (SecurityMapping mapping : user.getMappings()) {
+			if (FeedsSecurityRole.ADMIN.equals(mapping.getRole())) {
+				return true;
+			}
+			if (FeedsSecurityRole.FEED_ADMIN.equals(mapping.getRole())
+					&& mapping.getIdForRole().equals(feed.getId())) {
+				return true;
+			}
+			if (FeedsSecurityRole.GROUP_ADMIN.equals(mapping.getRole())
+					&& mapping.getIdForRole().equals(feed.getGroup().getId())) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	public SecurityUser getCurrentUser() {

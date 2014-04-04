@@ -6,9 +6,14 @@
 package org.jboss.planet.controller;
 
 import org.jboss.planet.model.Post;
+import org.jboss.planet.security.CRUDAllowed;
+import org.jboss.planet.security.CRUDOperationType;
+import org.jboss.planet.service.JBossSyncService;
 import org.jboss.planet.service.PostService;
+import org.jboss.planet.util.ApplicationMessages;
 
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +37,13 @@ public class PostController {
 	private PostService postService;
 
 	@Inject
+	private JBossSyncService jbossSyncService;
+
+	@Inject
 	private FacesContext facesContext;
+
+	@Inject
+	private ApplicationMessages messages;
 
 	private Post post;
 
@@ -51,6 +62,31 @@ public class PostController {
 			post.setPublishedDate(df.format(post.getPublished()));
 		}
 	}
+
+	public String deletePost() throws IOException {
+		log.log(Level.INFO, "Delete Post {0}", titleAsId);
+
+		Post p = postService.find(titleAsId);
+		if (p == null) {
+			facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Blog Post Not Found");
+			facesContext.responseComplete();
+		}
+
+ 		deletePost(p);
+
+		facesContext.addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("post.deleted",
+						titleAsId), null));
+		return "pretty:home";
+	}
+
+	@CRUDAllowed(operation = CRUDOperationType.DELETE)
+	public void deletePost(Post p) throws IOException {
+		jbossSyncService.deletePost(titleAsId);
+		postService.delete(p.getId());
+	}
+
 
 	public Post getPost() {
 		return post;

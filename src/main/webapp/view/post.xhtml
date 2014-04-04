@@ -41,6 +41,21 @@
 
 			<div class="blog-post-tags">
 			</div>
+
+			<ui:fragment rendered="#{security.canUserDelete(postController.post)}">
+				<div class="row">
+					<div class="small-24 columns panel">
+						<h:commandLink id="delete" action="#{postController.deletePost}"
+									   styleClass="button alert"
+									   onclick="if (!confirm('#{msg['post.text.delete.confirm']}')) return false">
+							<f:setPropertyActionListener target="#{postController.titleAsId}"
+														 value="#{postController.post.titleAsId}"/>
+							<i class="fa fa-trash-o"></i>&#160;
+							#{msg[post.delete]}
+						</h:commandLink>
+					</div>
+				</div>
+			</ui:fragment>
 		</div>
 		<script type="text/javascript">
 			//<![CDATA[
