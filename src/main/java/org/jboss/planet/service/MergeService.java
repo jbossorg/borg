@@ -5,22 +5,21 @@
  */
 package org.jboss.planet.service;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.apache.commons.lang.StringUtils;
 import org.jboss.planet.event.MergePostsEvent;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
 import org.jboss.planet.util.StringTools;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Service responsible for merging new posts
@@ -63,12 +62,12 @@ public class MergeService {
 				if (postDbs.size() == 0) {
 					savePost(feed, p);
 					newPosts++;
-
 				} else {
 					for (Post postDb : postDbs) {
 						if (!postDb.getContent().equals(p.getContent())) {
 							log.log(Level.INFO, "Saving merged post ''{0}''", postDb.getTitleAsId());
 
+							// TODO: Shouldn't be content set in exactly same way like in savePost? see bellow.
 							postDb.setContent(p.getContent());
 							postDb.setContentPreview(StringTools.checkAndFixHtml(p.getContent()));
 							postDb.setStatus(PostStatus.CREATED);
