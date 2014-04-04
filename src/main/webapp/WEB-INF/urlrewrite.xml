@@ -20,6 +20,13 @@
 		<to type="forward" last="true">/$2</to>
 	</rule>
 
+	<!-- URL Backward compatibility -->
+	<rule>
+		<note>Home Page</note>
+		<from>^/view/all(|/)$</from>
+		<to type="permanent-redirect" last="true" context="">/</to>
+	</rule>
+
 	<!-- Backward compatibility for feeds pages -->
 	<rule>
 		<from>^/feed/all(|/)$</from>
