@@ -53,6 +53,9 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 	private ConfigurationService configurationService;
 
 	@Inject
+	private SecurityService securityService;
+
+	@Inject
 	private JBossSyncService jbossSyncService;
 
 	public FeedsService() {
@@ -116,6 +119,9 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 
 	public void deleteFeed(String feedName) throws ClientProtocolException, IOException {
 		final RemoteFeed f = getFeed(feedName);
+
+		// Check permissions before deleting anything on Sync server.
+		securityService.checkPermission(f, CRUDOperationType.DELETE);
 
 		DefaultHttpClient httpClient = jbossSyncService.createHttpClient();
 
