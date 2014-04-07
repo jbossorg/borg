@@ -10,6 +10,7 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import org.apache.http.client.ClientProtocolException;
 import org.jboss.planet.model.FeedsSecurityRole;
+import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
 import org.jboss.planet.model.RemoteFeed.FeedStatus;
 import org.jboss.planet.model.SecurityUser;
@@ -17,6 +18,7 @@ import org.jboss.planet.security.CRUDOperationType;
 import org.jboss.planet.security.LoggedIn;
 import org.jboss.planet.service.FeedsService;
 import org.jboss.planet.service.ParserService;
+import org.jboss.planet.service.PostService;
 import org.jboss.planet.service.SecurityService;
 import org.jboss.planet.util.ApplicationMessages;
 
@@ -44,6 +46,9 @@ public class FeedController extends AdminController {
 
 	@Inject
 	private FeedsService feedsService;
+
+	@Inject
+	private PostService postService;
 
 	@Inject
 	private ParserService parserService;
@@ -183,11 +188,16 @@ public class FeedController extends AdminController {
 			if (feedToUpdate.isAccepted()) {
 				feedToUpdate.setUpdateFailCount(0);
 			}
-			feedsService.update(feedToUpdate);
+			log.log(Level.FINE, "Feed updated.");
+			RemoteFeed f = feedsService.update(feedToUpdate);
+
+			int rows = postService.updateStatus(PostStatus.CREATED, f);
+			log.log(Level.FINE, "Posts status set to created. Total rows: {0}", rows);
+
 			facesContext.addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("management.feed.text.updated",
-							feedToUpdate.getTitle()), null));
+							feedToUpdate.getTitle(), rows), null));
 		}
 		return "pretty:manage-feed";
 	}

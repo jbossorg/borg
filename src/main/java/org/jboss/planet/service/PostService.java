@@ -19,7 +19,7 @@ import org.jboss.planet.model.RemoteFeed;
 
 /**
  * Service related to {@link Post} entity
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Named
@@ -32,7 +32,7 @@ public class PostService extends EntityServiceJpa<Post> {
 
 	/**
 	 * Find post based on its titleAsId
-	 * 
+	 *
 	 * @param titleAsId
 	 * @return post or null
 	 */
@@ -47,7 +47,7 @@ public class PostService extends EntityServiceJpa<Post> {
 
 	/**
 	 * Find posts based on its status
-	 * 
+	 *
 	 * @param status
 	 * @return
 	 */
@@ -59,11 +59,10 @@ public class PostService extends EntityServiceJpa<Post> {
 
 	/**
 	 * Find posts based on input parameters
-	 * 
+	 *
 	 * @param feed
 	 * @param title
-	 * @param published
-	 *            only date is taken. time is ignored.
+	 * @param published only date is taken. time is ignored.
 	 * @return list of posts
 	 */
 	@SuppressWarnings("unchecked")
@@ -72,6 +71,21 @@ public class PostService extends EntityServiceJpa<Post> {
 				.createQuery("select p from Post p WHERE p.feed = ?1 and date(p.published) = ?2 and p.title = ?3")
 				.setParameter(1, feed).setParameter(2, published, TemporalType.DATE).setParameter(3, title)
 				.getResultList();
+	}
+
+	/**
+	 * Update status of all posts belonging to specified feed.
+	 *
+	 * @param status
+	 * @param feed
+	 * @return number of affected posts
+	 */
+	public int updateStatus(PostStatus status, RemoteFeed feed) {
+		return getEntityManager()
+				.createQuery("update Post set status = :status where feed = :feed")
+				.setParameter("status", status)
+				.setParameter("feed", feed)
+				.executeUpdate();
 	}
 
 }
