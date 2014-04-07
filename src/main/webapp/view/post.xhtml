@@ -6,7 +6,8 @@
 	<ui:param name="pageId" value="post-#{postController.post.titleAsId}"/>
 	<ui:param name="addthis" value="true"/>
 
-	<ui:define name="page_title">#{postController.post.title}<ui:include src="/layout/page-title-suffix.xhtml"/>
+	<ui:define name="page_title">#{postController.post.title}
+		<ui:include src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
 	<ui:define name="header">
@@ -43,18 +44,20 @@
 			</div>
 
 			<ui:fragment rendered="#{security.canUserDelete(postController.post)}">
-				<div class="row">
-					<div class="small-24 columns panel">
-						<h:commandLink id="delete" action="#{postController.deletePost}"
-									   styleClass="button alert"
-									   onclick="if (!confirm('#{msg['post.text.delete.confirm']}')) return false">
-							<f:setPropertyActionListener target="#{postController.titleAsId}"
-														 value="#{postController.post.titleAsId}"/>
-							<i class="fa fa-trash-o"></i>&#160;
-							#{msg[post.delete]}
-						</h:commandLink>
+				<h:form>
+					<div class="row">
+						<div class="small-24 columns panel radius">
+							<h:commandLink id="delete" action="#{postController.deletePost}"
+										   styleClass="button alert"
+										   onclick="if (!confirm('#{msg['post.text.delete.confirm']}')) return false">
+								<f:setPropertyActionListener target="#{postController.titleAsId}"
+															 value="#{postController.post.titleAsId}"/>
+								<i class="fa fa-trash-o"></i>&#160;
+								#{msg['post.delete']}
+							</h:commandLink>
+						</div>
 					</div>
-				</div>
+				</h:form>
 			</ui:fragment>
 		</div>
 		<script type="text/javascript">
