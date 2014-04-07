@@ -203,12 +203,14 @@ Post = function(val, format) {
 	};
 
 	this.getAuthorAvatarUrl = function() {
-		if (this.getAuthor().email != null) {
+		if (this.data._source.avatar_link != null && this.data._source.avatar_link != "") {
+			return this.data._source.avatar_link;
+		} else if (this.getAuthor().email != null) {
 			var emailMd5 = md5(this.getAuthor().email);
 			return "http://www.gravatar.com/avatar/" + emailMd5 + "?s=80&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
 					+ emailMd5 + "/80.png";
 		} else {
-			return this.data._source.avatar_link;
+			return "//community.jboss.org/people/sbs-default-avatar/avatar/80.png";
 		}
 	};
 

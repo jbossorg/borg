@@ -5,30 +5,17 @@
  */
 package org.jboss.planet.model;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.URL;
 import org.jboss.planet.util.StringTools;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Cacheable
@@ -82,9 +69,6 @@ public class RemoteFeed implements Serializable {
 	@Size(max = 250)
 	private String author;
 
-	@Size(max = 100)
-	private String authorJbossUsername;
-
 	@Size(max = 250)
 	private String authorAvatarLink;
 
@@ -134,18 +118,6 @@ public class RemoteFeed implements Serializable {
 	@JsonIgnore
 	private Integer updateFailCount;
 
-	public String getEffectiveAvatarLink() {
-		if (StringUtils.isNotBlank(authorAvatarLink)) {
-			return authorAvatarLink;
-		} else {
-			String username = "sbs-default-avatar";
-			if (StringUtils.isNotBlank(authorJbossUsername)) {
-				username = authorJbossUsername;
-			}
-			return "https://community.jboss.org/people/" + username + "/avatar/46.png";
-		}
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -184,14 +156,6 @@ public class RemoteFeed implements Serializable {
 
 	public void setAuthor(String author) {
 		this.author = author;
-	}
-
-	public String getAuthorJbossUsername() {
-		return authorJbossUsername;
-	}
-
-	public void setAuthorJbossUsername(String authorJbossUsername) {
-		this.authorJbossUsername = authorJbossUsername;
 	}
 
 	public String getAuthorAvatarLink() {

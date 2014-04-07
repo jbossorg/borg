@@ -88,26 +88,6 @@
 
 	<div class="row">
 		<div class="large-24 columns">
-
-			<h:outputLabel for="authorJbossUsername" value="#{msg['management.feed.authorJbossUsername']}:"
-						   styleClass="#{!authorJbossUsername.valid ? 'error' : ''}"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="large-12 columns">
-			<f:validateBean disabled="#{param['URL_ONLY']}">
-				<h:inputText id="authorJbossUsername"
-							 value="#{feedController.feedToUpdate.authorJbossUsername}"
-							 binding="#{authorJbossUsername}"
-							 styleClass="#{!authorJbossUsername.valid ? 'error' : ''}"
-							 label="#{msg['management.feed.authorJbossUsername']}"/>
-			</f:validateBean>
-			<h:message for="authorJbossUsername" errorClass="error"/>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="large-24 columns">
 			<h:outputLabel for="authorAvatarLink" value="#{msg['management.feed.authorAvatarLink']}:"
 						   styleClass="#{!authorAvatarLink.valid ? 'error' : ''}"/>
 		</div>

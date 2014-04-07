@@ -5,21 +5,9 @@
  */
 package org.jboss.planet.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-
+import com.sun.syndication.feed.synd.SyndCategory;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
 import org.apache.http.client.ClientProtocolException;
 import org.jboss.planet.model.FeedsSecurityRole;
 import org.jboss.planet.model.RemoteFeed;
@@ -32,9 +20,19 @@ import org.jboss.planet.service.ParserService;
 import org.jboss.planet.service.SecurityService;
 import org.jboss.planet.util.ApplicationMessages;
 
-import com.sun.syndication.feed.synd.SyndCategory;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * Model for {@link RemoteFeed}
@@ -106,8 +104,6 @@ public class FeedController extends AdminController {
 
 	@LoggedIn
 	public String retrieveFeed() {
-		feedToUpdate.setAuthorJbossUsername(securityService.getCurrentUser().getName());
-
 		SyndFeed syndFeed = parseAndValidateRemoteFeed(feedToUpdate.getRemoteLink());
 
 		if (syndFeed != null) {
