@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 
 /**
  * Service responsible for merging new posts
- * 
+ *
  * @author Libor Krzyzanek
- * 
+ *
  */
 @Named
 @Stateless
@@ -65,11 +65,9 @@ public class MergeService {
 				} else {
 					for (Post postDb : postDbs) {
 						if (!postDb.getContent().equals(p.getContent())) {
-							log.log(Level.INFO, "Saving merged post ''{0}''", postDb.getTitleAsId());
+							log.log(Level.FINE, "Saving merged post ''{0}''", postDb.getTitleAsId());
 
-							// TODO: Shouldn't be content set in exactly same way like in savePost? see bellow.
 							postDb.setContent(p.getContent());
-							postDb.setContentPreview(StringTools.checkAndFixHtml(p.getContent()));
 							postDb.setStatus(PostStatus.CREATED);
 
 							postService.update(postDb, false);
@@ -80,7 +78,7 @@ public class MergeService {
 				}
 			} catch (Exception e) {
 				// single post cannot stop merging all posts
-				log.log(Level.SEVERE, "Error occured during merging post, post url: " + p.getLink(), e);
+				log.log(Level.SEVERE, "Error occurred during merging post, post url: " + p.getLink(), e);
 			}
 		}
 		return new MergePostsEvent(newPosts, mergedPosts, postsToMerge.size());
@@ -94,7 +92,7 @@ public class MergeService {
 			post.setLink(linkService.generatePostLink(post));
 		}
 
-		post.setContent(StringTools.checkAndFixHtml(post.getContent()));
+		post.setContent(post.getContent());
 
 		post.setFeed(feed);
 
