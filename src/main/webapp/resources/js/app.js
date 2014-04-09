@@ -183,7 +183,7 @@ Post = function(val, format) {
 		var tags = "";
 		$.each(this.data._source.tags, function(i, val) {
 			if (!util.stringStartWith(val, "feed_name_") && !util.stringStartWith(val, "feed_group_name_")) {
-				tags += '<a href="#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
+				tags += '<a href="' + planet.resourcesPrefix + '#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
 			}
 		});
 		return tags;
