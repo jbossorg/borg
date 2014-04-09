@@ -19,14 +19,6 @@
 			src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
-	<ui:define name="additional_headers">
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function () {
-				initDataTable($('#manage-groups-table'));
-			});
-		</script>
-	</ui:define>
-
 	<ui:define name="body">
 		<h:link outcome="/manage/group/group-new.xhtml" value="#{msg['management.group.new']}" styleClass="button"
 				rendered="#{userController.admin}"/>
@@ -79,7 +71,9 @@
 			</ui:repeat>
 			</tbody>
 		</table>
-
+		<script type="text/javascript" charset="utf-8">
+			initDataTable($('#manage-groups-table'));
+		</script>
 	</ui:define>
 
 </ui:composition>

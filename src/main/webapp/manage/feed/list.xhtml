@@ -19,14 +19,6 @@
 			src="/layout/page-title-suffix.xhtml"/>
 	</ui:define>
 
-	<ui:define name="additional_headers">
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function () {
-				initDataTable($('#manage-feeds-table'));
-			});
-		</script>
-	</ui:define>
-
 	<ui:define name="body">
 		<h:link outcome="/manage/feed/feed-new.xhtml" value="#{msg['management.feeds.new']}" styleClass="button"/>
 
@@ -113,6 +105,9 @@
 			</ui:repeat>
 			</tbody>
 		</table>
+		<script type="text/javascript" charset="utf-8">
+			initDataTable($('#manage-feeds-table'));
+		</script>
 	</ui:define>
 
 </ui:composition>
