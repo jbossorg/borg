@@ -25,7 +25,8 @@
 		var syncContentType = "#{configurationService.configuration.syncContentType}";
 	</script>
 
-	<!--[if lt IE 9]><script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><link rel="stylesheet" type="text/css" href="/stylesheets/ie8grid.css"><![endif]-->
+	<h:outputText escape="false" value="&lt;!--[if lt IE 9]&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;//html5shim.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/stylesheets/ie8grid.css&quot;&gt;&lt;![endif]-->" />
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<ui:fragment rendered="#{addthis == 'true'}">
 		<script type="text/javascript" src="#{request.scheme}://s7.addthis.com/js/250/addthis_widget.js#username=ra-4fe82e7237a0e8c4"></script>
@@ -211,7 +212,7 @@
 	</footer>
 
 	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/foundation/foundation.js"></script>
-	<!--[if lt IE 9]><script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/vendor/jQuery.XDomainRequest.js"></script><![endif]-->
+	<h:outputText escape="false" value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/vendor/jQuery.XDomainRequest.js&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt;"/>
 	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/foundation/foundation.dropdown.js"></script>
 
 	<!-- Initialize Zurb and whole JBoss Developer theme -->
