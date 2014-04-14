@@ -62,14 +62,16 @@ public class PostService extends EntityServiceJpa<Post> {
 	 *
 	 * @param feed
 	 * @param title
-	 * @param published only date is taken. time is ignored.
+	 * @param published posts within 1 day range
 	 * @return list of posts
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Post> find(RemoteFeed feed, String title, Date published) {
 		return getEntityManager()
-				.createQuery("select p from Post p WHERE p.feed = ?1 and date(p.published) = ?2 and p.title = ?3")
-				.setParameter(1, feed).setParameter(2, published, TemporalType.DATE).setParameter(3, title)
+				.createQuery("select p from Post p WHERE p.feed = :feed and ADDDATE(p.published, -1) <= :published and ADDDATE(p.published, 1) >= :published and p.title = :title")
+				.setParameter("feed", feed)
+				.setParameter("published", published, TemporalType.DATE)
+				.setParameter("title", title)
 				.getResultList();
 	}
 
