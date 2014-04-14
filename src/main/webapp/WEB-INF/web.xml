@@ -124,6 +124,10 @@
 			<param-name>confReloadCheckInterval</param-name>
 			<param-value>${urlrewrite.confReloadCheckInterval}</param-value>
 		</init-param>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>ERROR</param-value>
+		</init-param>
 	</filter>
 
 
