@@ -5,6 +5,18 @@
  */
 package org.jboss.planet.service;
 
+import org.jboss.planet.event.MergePostsEvent;
+import org.jboss.planet.exception.ParserException;
+import org.jboss.planet.exception.UpdateException;
+import org.jboss.planet.model.RemoteFeed;
+import org.jboss.planet.util.GeneralTools;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.*;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,28 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.jboss.planet.event.MergePostsEvent;
-import org.jboss.planet.exception.ParserException;
-import org.jboss.planet.exception.UpdateException;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.util.GeneralTools;
-
 /**
  * Service handle update feeds
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Named
@@ -92,12 +85,13 @@ public class UpdateService {
 		updateInProgress = new AtomicBoolean(true);
 		log.info("Update Feeds started");
 
-		globalExceptions = new ArrayList<Exception>();
-		feedUpdateExceptions = new LinkedHashMap<String, List<UpdateException>>();
+		globalExceptions = new ArrayList<>();
+		feedUpdateExceptions = new LinkedHashMap<>();
 
 		int newPosts = 0;
 		int mergedPosts = 0;
 		int totalPosts = 0;
+		int ignoredPosts = 0;
 
 		List<RemoteFeed> feeds = feedsService.getAcceptedFeeds();
 		for (RemoteFeed feed : feeds) {
@@ -110,12 +104,16 @@ public class UpdateService {
 				RemoteFeed parsedFeed = parserService.parse(feed.getRemoteLink(), null, null);
 				MergePostsEvent stat = mergeService.mergePosts(feed, parsedFeed.getPosts());
 
-				log.info("Update Feed for '" + feed.getName() + "' finished. New posts: " + stat.getNewPosts()
-						+ ", Merged posts: " + stat.getMergedPosts() + ", Total posts: " + stat.getTotalPosts());
+				log.info("Update Feed for '" + feed.getName()
+						+ "' finished. New posts: " + stat.getNewPosts()
+						+ ", Merged posts: " + stat.getMergedPosts()
+						+ ", Ignored posts: " + stat.getIgnoredPosts()
+						+ ", Total posts: " + stat.getTotalPosts());
 
 				newPosts += stat.getNewPosts();
 				mergedPosts += stat.getMergedPosts();
 				totalPosts += stat.getTotalPosts();
+				ignoredPosts += stat.getIgnoredPosts();
 
 				// reset update fail counter
 				if (feed.getUpdateFailCount() != null && feed.getUpdateFailCount() > 0) {
@@ -125,19 +123,22 @@ public class UpdateService {
 			} catch (ParserException e) {
 				log.log(Level.SEVERE,
 						"Problem during parsing feed: " + feed.getName() + ", cause type: " + e.getCauseType()
-								+ ", parse fails: " + feed.getUpdateFailCount(), e);
+								+ ", parse fails: " + feed.getUpdateFailCount(), e
+				);
 				addFeedUpdateException(feed.getName(), new UpdateException(e));
 				feed.incrementUpdateFailCount();
 				feedsService.update(feed, false);
 			}
 		}
 
-		log.info("Update all feeds finished. New posts: " + newPosts + ", Merged posts: " + mergedPosts
+		log.info("Update all feeds finished. New posts: " + newPosts
+				+ ", Merged posts: " + mergedPosts
+				+ ", Ignored posts: " + ignoredPosts
 				+ ", Total posts: " + totalPosts);
 
 		updateInProgress = new AtomicBoolean(false);
 
-		mergeStatEvent.fire(new MergePostsEvent(newPosts, mergedPosts, totalPosts));
+		mergeStatEvent.fire(new MergePostsEvent(newPosts, mergedPosts, totalPosts, ignoredPosts));
 
 		initTimer();
 	}

@@ -6,6 +6,7 @@
 package org.jboss.planet.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.jboss.planet.event.MergePostsEvent;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
@@ -17,6 +18,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +27,6 @@ import java.util.logging.Logger;
  * Service responsible for merging new posts
  *
  * @author Libor Krzyzanek
- *
  */
 @Named
 @Stateless
@@ -44,17 +45,30 @@ public class MergeService {
 	@Inject
 	private PostService postService;
 
+	/**
+	 * Date threshold. Older posts than threshold are ignored.
+	 */
+	public static final int DATE_THRESHOLD_MONTHS = -6;
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public MergePostsEvent mergePosts(RemoteFeed feed, List<Post> postsToMerge) {
-		log.log(Level.INFO, "Merging posts from feed ''{0}''.", feed.getName());
-
 		int newPosts = 0;
 		int mergedPosts = 0;
+		int ignoredPosts = 0;
+		Date threshold = DateUtils.addMonths(new Date(), DATE_THRESHOLD_MONTHS);
+
+		log.log(Level.FINE, "Merging posts from feed ''{0}''. Date Threshold: {1}", new Object[]{feed.getName(), threshold});
+
 		for (Post p : postsToMerge) {
 			if (StringUtils.isEmpty(p.getTitle())) {
 				log.log(Level.WARNING,
 						"Post does not contain title - cannot be retrieved to aggregator. Blog post link: {0}",
 						p.getTitle());
+				ignoredPosts++;
+				continue;
+			}
+			if (!needToCheck(p.getPublished(), threshold)) {
+				ignoredPosts++;
 				continue;
 			}
 			try {
@@ -81,7 +95,14 @@ public class MergeService {
 				log.log(Level.SEVERE, "Error occurred during merging post, post url: " + p.getLink(), e);
 			}
 		}
-		return new MergePostsEvent(newPosts, mergedPosts, postsToMerge.size());
+		return new MergePostsEvent(newPosts, mergedPosts, postsToMerge.size(), ignoredPosts);
+	}
+
+	public boolean needToCheck(Date published, Date threshold) {
+		if (published.getTime() <= threshold.getTime()) {
+			return false;
+		}
+		return true;
 	}
 
 	public void savePost(RemoteFeed feed, Post post) {
@@ -98,7 +119,7 @@ public class MergeService {
 
 		if (log.isLoggable(Level.FINE)) {
 			log.log(Level.FINE, "Saving post, feed: {0}, post title: {1}, post titleAsId: {2}, published: {3}.",
-					new Object[] { feed.getName(), post.getTitle(), post.getTitleAsId(), post.getPublished() });
+					new Object[]{feed.getName(), post.getTitle(), post.getTitleAsId(), post.getPublished()});
 		}
 
 		log.log(Level.INFO, "Saving new post ''{0}''", post.getTitleAsId());

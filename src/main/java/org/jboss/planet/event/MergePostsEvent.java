@@ -7,9 +7,8 @@ package org.jboss.planet.event;
 
 /**
  * Event fired when update service is finished
- * 
+ *
  * @author Libor Krzyzanek
- * 
  */
 public class MergePostsEvent {
 
@@ -28,10 +27,16 @@ public class MergePostsEvent {
 	 */
 	private int totalPosts;
 
-	public MergePostsEvent(int newPosts, int mergedPosts, int totalPosts) {
+	/**
+	 * Count of ignored posts
+	 */
+	private int ignoredPosts;
+
+	public MergePostsEvent(int newPosts, int mergedPosts, int totalPosts, int ignoredPosts) {
 		this.newPosts = newPosts;
 		this.mergedPosts = mergedPosts;
 		this.totalPosts = totalPosts;
+		this.ignoredPosts = ignoredPosts;
 	}
 
 	public int getMergedPosts() {
@@ -44,5 +49,9 @@ public class MergePostsEvent {
 
 	public int getTotalPosts() {
 		return totalPosts;
+	}
+
+	public int getIgnoredPosts() {
+		return ignoredPosts;
 	}
 }
