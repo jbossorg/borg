@@ -81,6 +81,13 @@ public class Configuration implements Serializable {
 	@NotNull
 	private String themeUrl;
 
+	private boolean twitterEnabled;
+	private String twitterOAuthConsumerKey;
+	private String twitterOAuthConsumerSecret;
+	private String twitterOAuthAccessToken;
+	private String twitterOAuthAccessTokenSecret;
+	private String twitterText;
+
 	public Integer getId() {
 		return id;
 	}
@@ -156,11 +163,12 @@ public class Configuration implements Serializable {
 
 		Configuration that = (Configuration) o;
 
-		if (!id.equals(that.id)) return false;
+		if (twitterEnabled != that.twitterEnabled) return false;
 		if (adminEmail != null ? !adminEmail.equals(that.adminEmail) : that.adminEmail != null) return false;
 		if (connectionTimeout != null ? !connectionTimeout.equals(that.connectionTimeout) : that.connectionTimeout != null)
 			return false;
 		if (contextName != null ? !contextName.equals(that.contextName) : that.contextName != null) return false;
+		if (!id.equals(that.id)) return false;
 		if (readTimeout != null ? !readTimeout.equals(that.readTimeout) : that.readTimeout != null) return false;
 		if (serverAddress != null ? !serverAddress.equals(that.serverAddress) : that.serverAddress != null)
 			return false;
@@ -172,6 +180,15 @@ public class Configuration implements Serializable {
 			return false;
 		if (syncUsername != null ? !syncUsername.equals(that.syncUsername) : that.syncUsername != null) return false;
 		if (themeUrl != null ? !themeUrl.equals(that.themeUrl) : that.themeUrl != null) return false;
+		if (twitterOAuthAccessToken != null ? !twitterOAuthAccessToken.equals(that.twitterOAuthAccessToken) : that.twitterOAuthAccessToken != null)
+			return false;
+		if (twitterOAuthAccessTokenSecret != null ? !twitterOAuthAccessTokenSecret.equals(that.twitterOAuthAccessTokenSecret) : that.twitterOAuthAccessTokenSecret != null)
+			return false;
+		if (twitterOAuthConsumerKey != null ? !twitterOAuthConsumerKey.equals(that.twitterOAuthConsumerKey) : that.twitterOAuthConsumerKey != null)
+			return false;
+		if (twitterOAuthConsumerSecret != null ? !twitterOAuthConsumerSecret.equals(that.twitterOAuthConsumerSecret) : that.twitterOAuthConsumerSecret != null)
+			return false;
+		if (twitterText != null ? !twitterText.equals(that.twitterText) : that.twitterText != null) return false;
 		if (updateFeedFailsThreshold != null ? !updateFeedFailsThreshold.equals(that.updateFeedFailsThreshold) : that.updateFeedFailsThreshold != null)
 			return false;
 		if (updateInterval != null ? !updateInterval.equals(that.updateInterval) : that.updateInterval != null)
@@ -196,6 +213,12 @@ public class Configuration implements Serializable {
 		result = 31 * result + (syncPassword != null ? syncPassword.hashCode() : 0);
 		result = 31 * result + (syncContentType != null ? syncContentType.hashCode() : 0);
 		result = 31 * result + (themeUrl != null ? themeUrl.hashCode() : 0);
+		result = 31 * result + (twitterEnabled ? 1 : 0);
+		result = 31 * result + (twitterOAuthConsumerKey != null ? twitterOAuthConsumerKey.hashCode() : 0);
+		result = 31 * result + (twitterOAuthConsumerSecret != null ? twitterOAuthConsumerSecret.hashCode() : 0);
+		result = 31 * result + (twitterOAuthAccessToken != null ? twitterOAuthAccessToken.hashCode() : 0);
+		result = 31 * result + (twitterOAuthAccessTokenSecret != null ? twitterOAuthAccessTokenSecret.hashCode() : 0);
+		result = 31 * result + (twitterText != null ? twitterText.hashCode() : 0);
 		return result;
 	}
 
@@ -216,6 +239,11 @@ public class Configuration implements Serializable {
 				", syncPassword=******" +
 				", syncContentType='" + syncContentType + '\'' +
 				", themeUrl='" + themeUrl + '\'' +
+				", twitterEnabled=" + twitterEnabled +
+				", twitterOAuthConsumerKey='" + twitterOAuthConsumerKey + '\'' +
+				", twitterOAuthConsumerSecret='" + twitterOAuthConsumerSecret + '\'' +
+				", twitterOAuthAccessToken='" + twitterOAuthAccessToken + '\'' +
+				", twitterOAuthAccessTokenSecret='" + twitterOAuthAccessTokenSecret + '\'' +
 				'}';
 	}
 
@@ -265,5 +293,53 @@ public class Configuration implements Serializable {
 
 	public void setUpdateFeedFailsThreshold(Integer updateFeedFailsThreshold) {
 		this.updateFeedFailsThreshold = updateFeedFailsThreshold;
+	}
+
+	public boolean isTwitterEnabled() {
+		return twitterEnabled;
+	}
+
+	public void setTwitterEnabled(boolean twitterEnabled) {
+		this.twitterEnabled = twitterEnabled;
+	}
+
+	public String getTwitterOAuthConsumerKey() {
+		return twitterOAuthConsumerKey;
+	}
+
+	public void setTwitterOAuthConsumerKey(String twitterOAuthConsumerKey) {
+		this.twitterOAuthConsumerKey = twitterOAuthConsumerKey;
+	}
+
+	public String getTwitterOAuthConsumerSecret() {
+		return twitterOAuthConsumerSecret;
+	}
+
+	public void setTwitterOAuthConsumerSecret(String twitterOAuthConsumerSecret) {
+		this.twitterOAuthConsumerSecret = twitterOAuthConsumerSecret;
+	}
+
+	public String getTwitterOAuthAccessToken() {
+		return twitterOAuthAccessToken;
+	}
+
+	public void setTwitterOAuthAccessToken(String twitterOAuthAccessToken) {
+		this.twitterOAuthAccessToken = twitterOAuthAccessToken;
+	}
+
+	public String getTwitterOAuthAccessTokenSecret() {
+		return twitterOAuthAccessTokenSecret;
+	}
+
+	public void setTwitterOAuthAccessTokenSecret(String twitterOAuthAccessTokenSecret) {
+		this.twitterOAuthAccessTokenSecret = twitterOAuthAccessTokenSecret;
+	}
+
+	public String getTwitterText() {
+		return twitterText;
+	}
+
+	public void setTwitterText(String twitterText) {
+		this.twitterText = twitterText;
 	}
 }

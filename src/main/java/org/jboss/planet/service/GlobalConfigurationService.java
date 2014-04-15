@@ -5,20 +5,19 @@
  */
 package org.jboss.planet.service;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
  * Global configuration
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Named("globalConfig")
@@ -43,7 +42,21 @@ public class GlobalConfigurationService {
 		}
 	}
 
+	/**
+	 * Get SSO Server URL
+	 *
+	 * @return
+	 */
 	public String getSSOServerUrl() {
 		return prop.getProperty("cas.ssoServerUrl");
+	}
+
+	/**
+	 * Get Application URL
+	 *
+	 * @return
+	 */
+	public String getAppUrl() {
+		return prop.getProperty("app.url");
 	}
 }

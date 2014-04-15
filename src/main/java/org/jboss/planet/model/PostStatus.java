@@ -19,6 +19,11 @@ public enum PostStatus {
 	/**
 	 * Synchronized to jboss.org
 	 */
-	SYNCED
+	SYNCED,
+
+	/**
+	 * Posted to twitter
+	 */
+	POSTED_TWITTER
 
 }

@@ -104,6 +104,7 @@ public class Post implements Serializable {
 	 */
 	@NotNull
 	@JsonIgnore
+	@Enumerated(EnumType.ORDINAL)
 	private PostStatus status;
 
 	public Integer getId() {
