@@ -110,7 +110,7 @@ public class MergeService {
 		post.setTitleAsId(feedsService.generateTitleAsId(post.getTitle()));
 
 		if (StringTools.isEmpty(post.getLink())) {
-			post.setLink(linkService.generatePostLink(post));
+			post.setLink(linkService.generatePostLink(post.getTitleAsId()));
 		}
 
 		post.setContent(post.getContent());

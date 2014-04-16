@@ -7,6 +7,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.util.CharacterUtil;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -36,10 +37,19 @@ public class TwitterService {
 	private ConfigurationService configurationService;
 
 	@Inject
-	private GlobalConfigurationService globalConfigurationService;
+	private LinkService linkService;
 
-	public void resetTwitterClient() {
+	/**
+	 * Default value for short URL
+	 */
+	public static final int TWITTER_SHORT_URL_LENGTH_DEFAULT = 22;
+
+	public static final int TWITTER_STATUS_LENGTH = 140;
+
+	public Twitter createTwitterClient() {
 		Configuration conf = configurationService.getConfiguration();
+		log.log(Level.FINEST, "Configuration during Twitter initialization: {0}", conf);
+
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(false)
 				.setOAuthConsumerKey(conf.getTwitterOAuthConsumerKey())
@@ -47,11 +57,12 @@ public class TwitterService {
 				.setOAuthAccessToken(conf.getTwitterOAuthAccessToken())
 				.setOAuthAccessTokenSecret(conf.getTwitterOAuthAccessTokenSecret());
 
-		new TwitterFactory(cb.build());
+		TwitterFactory twitterFactory = new TwitterFactory(cb.build());
+		return twitterFactory.getInstance();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public boolean syncPost(int postId) {
+	public boolean syncPost(int postId, Twitter twitter, int shortURLLenght) {
 		log.log(Level.FINE, "Sync Post to Twitter. Post id: {0}", postId);
 
 		try {
@@ -60,7 +71,7 @@ public class TwitterService {
 				// sometime occur - very weird why
 				return false;
 			}
-			postToTwitter(p);
+			postToTwitter(p, twitter, shortURLLenght);
 			p.setStatus(PostStatus.POSTED_TWITTER);
 			postService.update(p, false);
 
@@ -71,17 +82,22 @@ public class TwitterService {
 		return false;
 	}
 
-	public void postToTwitter(Post p) throws TwitterException {
-		Twitter twitter = TwitterFactory.getSingleton();
+	public void postToTwitter(Post p, Twitter twitter, int shortURLLenght) throws TwitterException {
+		String url = linkService.generatePostLink(p.getTitleAsId());
+		String template = configurationService.getConfiguration().getTwitterText();
 
-		String text = getStatusText(p);
+		String text = getStatusText(template, p.getTitle(), url, shortURLLenght);
 		log.log(Level.FINEST, "Twitter status text: {0}", text);
 
 		twitter.updateStatus(text);
 	}
 
-	public String getStatusText(Post p) {
-		String url = globalConfigurationService.getAppUrl() + "/post/" + p.getTitleAsId();
-		return MessageFormat.format(configurationService.getConfiguration().getTwitterText(), p.getTitle(), p.getAuthor(), url);
+	public String getStatusText(String template, String title, String url, int shortURLLength) {
+		String msg = MessageFormat.format(template, title);
+		if (CharacterUtil.count(msg) + shortURLLength > TWITTER_STATUS_LENGTH) {
+			return msg.substring(0, TWITTER_STATUS_LENGTH - shortURLLength) + url;
+		} else {
+			return msg + url;
+		}
 	}
 }

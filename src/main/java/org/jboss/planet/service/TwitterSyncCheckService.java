@@ -6,6 +6,8 @@
 package org.jboss.planet.service;
 
 import org.jboss.planet.model.PostStatus;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -46,7 +48,7 @@ public class TwitterSyncCheckService {
 	/**
 	 * Initial start after app startup
 	 */
-	public static final int STARTUP_DELAY_MIN = 20;
+	public static final int STARTUP_DELAY_MIN = 1;
 
 	/**
 	 * Number of failed tries stops execution
@@ -76,26 +78,32 @@ public class TwitterSyncCheckService {
 		// Getting only IDs to avoid "no session" on lazy initialization
 		List<Integer> postsToSync = postService.find(PostStatus.SYNCED);
 
-		twitterService.resetTwitterClient();
+		int shortURLLength;
+		Twitter twitter = twitterService.createTwitterClient();
+		try {
+			shortURLLength = twitter.help().getAPIConfiguration().getShortURLLength();
+		} catch (TwitterException e) {
+			shortURLLength = TwitterService.TWITTER_SHORT_URL_LENGTH_DEFAULT;
+		}
 
-		int syncSucces = 0;
+		int syncSuccess = 0;
 		int syncFail = 0;
 
 		for (Integer id : postsToSync) {
-			if (syncFail > FAIL_THRESHOLD && syncSucces == 0) {
+			if (syncFail > FAIL_THRESHOLD && syncSuccess == 0) {
 				// Something is probably badly configured. Let's skip this update.
 				log.log(Level.SEVERE, "{0} attempts sync to Twitter failed. Aborting.", FAIL_THRESHOLD);
 				break;
 			}
-			boolean success = twitterService.syncPost(id);
+			boolean success = twitterService.syncPost(id, twitter, shortURLLength);
 			if (success) {
-				syncSucces++;
+				syncSuccess++;
 			} else {
 				syncFail++;
 			}
 		}
 
-		log.log(Level.INFO, "Twitter Sync completed. Tweets posted: {0}, failed: {1}", new Integer[]{syncSucces, syncFail});
+		log.log(Level.INFO, "Twitter Sync completed. Tweets posted: {0}, failed: {1}", new Integer[]{syncSuccess, syncFail});
 
 		initTimer();
 	}

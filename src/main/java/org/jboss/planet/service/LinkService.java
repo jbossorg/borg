@@ -5,59 +5,31 @@
  */
 package org.jboss.planet.service;
 
-import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jboss.planet.model.Post;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.model.XmlType;
-
 /**
+ * Helper Service for generating links
+ *
  * @author Libor Krzyzanek
  */
 @Named
 @ApplicationScoped
+@Singleton
 public class LinkService {
 
 	@Inject
-	private ConfigurationService configurationService;
+	private GlobalConfigurationService globalConfigurationService;
 
-	private String serverAddress = null;
-	private String contextName = null;
-
-	@PostConstruct
-	public void init() {
-		serverAddress = configurationService.getConfiguration().getServerAddress();
-		if (serverAddress == null) {
-			serverAddress = "http://planet.jboss.org";
-		}
-		contextName = configurationService.getConfiguration().getContextName();
-		if (contextName == null) {
-			contextName = "";
-		}
-	}
-
-	public String getServerAddress() {
-		return serverAddress;
-	}
-
-	public String getContextName() {
-		return contextName;
-	}
-
-	public String generateFeedLink(RemoteFeed feed, XmlType type) {
-		return getServerAddress() + getContextName() + "/xml/" + feed.getName() + "?type="
-				+ type.toString().toLowerCase();
-	}
-
-	public String generateFeedPageLink(RemoteFeed feed) {
-		return getServerAddress() + getContextName() + "/view/" + feed.getName();
-	}
-
-	public String generatePostLink(Post post) {
-		return getServerAddress() + getContextName() + "/post/" + post.getTitleAsId();
+	/**
+	 * Get Permanent Link for Post
+	 * @param titleAsId
+	 * @return
+	 */
+	public String generatePostLink(String titleAsId) {
+		return globalConfigurationService.getAppUrl() + "/post/" + titleAsId;
 	}
 
 }
