@@ -242,7 +242,7 @@ public class Configuration implements Serializable {
 				", twitterEnabled=" + twitterEnabled +
 				", twitterOAuthConsumerKey='" + twitterOAuthConsumerKey + '\'' +
 				", twitterOAuthConsumerSecret='" + twitterOAuthConsumerSecret + '\'' +
-				", twitterOAuthAccessToken=****" +
+				", twitterOAuthAccessToken=" +
 				", twitterOAuthAccessTokenSecret=****" +
 				'}';
 	}

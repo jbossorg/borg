@@ -197,6 +197,90 @@
 												 styleClass=""/>
 						<h:message for="syncServerHttpInViewLayer" errorClass="error"/>
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="large-12 columns">
+					<h3>
+						<h:outputText value="#{msg['management.config.twitter.name']}"/>
+					</h3>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterEnabled" value="#{msg['management.config.twitterEnabled']}:"
+									   styleClass="#{!twitterEnabled.valid ? 'error' : ''}"/>
+
+						<h:selectOneRadio id="twitterEnabled" value="#{configurationController.config.twitterEnabled}"
+									 binding="#{twitterEnabled}" styleClass="#{!twitterEnabled.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterEnabled']}">
+							<f:selectItem itemValue="true" itemLabel="#{msg['management.config.twitterEnabled.true']}" />
+							<f:selectItem itemValue="false" itemLabel="#{msg['management.config.twitterEnabled.false']}" />
+						</h:selectOneRadio>
+
+						<h:message for="twitterEnabled" errorClass="error"/>
+					</div>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterOAuthConsumerKey" value="#{msg['management.config.twitterOAuthConsumerKey']}:"
+									   styleClass="#{!twitterOAuthConsumerKey.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterOAuthConsumerKey" value="#{configurationController.config.twitterOAuthConsumerKey}"
+									 binding="#{twitterOAuthConsumerKey}" styleClass="#{!twitterOAuthConsumerKey.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterOAuthConsumerKey']}"/>
+						<h:message for="twitterOAuthConsumerKey" errorClass="error"/>
+					</div>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterOAuthConsumerSecret" value="#{msg['management.config.twitterOAuthConsumerSecret']}:"
+									   styleClass="#{!twitterOAuthConsumerSecret.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterOAuthConsumerSecret" value="#{configurationController.config.twitterOAuthConsumerSecret}"
+									 binding="#{twitterOAuthConsumerSecret}" styleClass="#{!twitterOAuthConsumerSecret.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterOAuthConsumerSecret']}"/>
+						<h:message for="twitterOAuthConsumerSecret" errorClass="error"/>
+					</div>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterOAuthAccessToken" value="#{msg['management.config.twitterOAuthAccessToken']}:"
+									   styleClass="#{!twitterOAuthAccessToken.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterOAuthAccessToken" value="#{configurationController.config.twitterOAuthAccessToken}"
+									 binding="#{twitterOAuthAccessToken}" styleClass="#{!twitterOAuthAccessToken.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterOAuthAccessToken']}"/>
+						<h:message for="twitterOAuthAccessToken" errorClass="error"/>
+					</div>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterOAuthAccessTokenSecret" value="#{msg['management.config.twitterOAuthAccessTokenSecret']}:"
+									   styleClass="#{!twitterOAuthAccessTokenSecret.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterOAuthAccessTokenSecret" value="#{configurationController.config.twitterOAuthAccessTokenSecret}"
+									 binding="#{twitterOAuthAccessTokenSecret}" styleClass="#{!twitterOAuthAccessTokenSecret.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterOAuthAccessTokenSecret']}"/>
+						<h:message for="twitterOAuthAccessTokenSecret" errorClass="error"/>
+					</div>
+
+					<div class="row collapse">
+						<h:outputLabel for="twitterText" value="#{msg['management.config.twitterText']}:"
+									   styleClass="#{!twitterText.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterText" value="#{configurationController.config.twitterText}"
+									 binding="#{twitterText}" styleClass="#{!twitterText.valid ? 'error' : ''}"
+									 label="#{msg['management.config.twitterEnabled']}"/>
+						<h:message for="twitterText" errorClass="error"/>
+
+						<p class="help-block">
+							<h:outputText value="#{msg['management.config.twitterText.desc']}"/>
+						</p>
+					</div>
+
+
+
+
+
+
+
+
+
 
 				</div>
 			</div>
