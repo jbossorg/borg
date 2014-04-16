@@ -5,6 +5,8 @@
  */
 package org.jboss.planet.service;
 
+import org.jboss.planet.util.StringTools;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -57,6 +59,16 @@ public class GlobalConfigurationService {
 	 * @return
 	 */
 	public String getAppUrl() {
+		return getAppUrl(false);
+	}
+
+	public String getAppUrl(boolean forceUsingHttp) {
+		if (forceUsingHttp) {
+			return StringTools.ensureHttp(prop.getProperty("app.url"));
+		}
 		return prop.getProperty("app.url");
 	}
+
+
+
 }

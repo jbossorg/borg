@@ -29,7 +29,7 @@ public class LinkService {
 	 * @return
 	 */
 	public String generatePostLink(String titleAsId) {
-		return globalConfigurationService.getAppUrl() + "/post/" + titleAsId;
+		return globalConfigurationService.getAppUrl(true) + "/post/" + titleAsId;
 	}
 
 }

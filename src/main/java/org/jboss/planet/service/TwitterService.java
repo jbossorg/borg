@@ -62,7 +62,7 @@ public class TwitterService {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public boolean syncPost(int postId, Twitter twitter, int shortURLLenght) {
+	public boolean syncPost(int postId, Twitter twitter, int shortURLLength) {
 		log.log(Level.FINE, "Sync Post to Twitter. Post id: {0}", postId);
 
 		try {
@@ -71,7 +71,7 @@ public class TwitterService {
 				// sometime occur - very weird why
 				return false;
 			}
-			postToTwitter(p, twitter, shortURLLenght);
+			postToTwitter(p, twitter, shortURLLength);
 			p.setStatus(PostStatus.POSTED_TWITTER);
 			postService.update(p, false);
 
@@ -82,11 +82,11 @@ public class TwitterService {
 		return false;
 	}
 
-	public void postToTwitter(Post p, Twitter twitter, int shortURLLenght) throws TwitterException {
+	public void postToTwitter(Post p, Twitter twitter, int shortURLLength) throws TwitterException {
 		String url = linkService.generatePostLink(p.getTitleAsId());
 		String template = configurationService.getConfiguration().getTwitterText();
 
-		String text = getStatusText(template, p.getTitle(), url, shortURLLenght);
+		String text = getStatusText(template, p.getTitle(), url, shortURLLength);
 		log.log(Level.FINEST, "Twitter status text: {0}", text);
 
 		twitter.updateStatus(text);

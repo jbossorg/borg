@@ -5,9 +5,10 @@
  */
 package org.jboss.planet.util;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class StringToolsTest {
 
@@ -21,6 +22,12 @@ public class StringToolsTest {
 
 	@Test
 	public void testConvertTitleToLink() {
+	}
+
+	@Test
+	public void testEnsureHttp() {
+		Assert.assertEquals("http://planet.jboss.org", StringTools.ensureHttp("http://planet.jboss.org"));
+		Assert.assertEquals("http://planet.jboss.org", StringTools.ensureHttp("https://planet.jboss.org"));
 	}
 
 	@Test

@@ -108,8 +108,4 @@ public class TwitterSyncCheckService {
 		initTimer();
 	}
 
-	public int getStartupDelayMin() {
-		return STARTUP_DELAY_MIN;
-	}
-
 }

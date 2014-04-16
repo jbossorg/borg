@@ -5,18 +5,6 @@
  */
 package org.jboss.planet.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.htmlcleaner.CleanerProperties;
@@ -29,6 +17,17 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 /**
  * @author Adam Warski (adam at warski dot org)
@@ -43,6 +42,13 @@ public class StringTools {
 
 	public static String safeToString(Object o) {
 		return o == null ? null : o.toString();
+	}
+
+	public static String ensureHttp(String url) {
+		if (url.startsWith("https")) {
+			return "http" + url.substring(5, url.length());
+		}
+		return url;
 	}
 
 	public static String convertTitleToLink(String title) {
