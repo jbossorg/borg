@@ -5,32 +5,25 @@
  */
 package org.jboss.planet.service;
 
-import java.util.List;
-import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jboss.planet.model.PostStatus;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.*;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.List;
+import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Service for checking not synced content to search.jboss.org. It's {@link Timer} based checker and thus runs in
  * separate thread
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Named
@@ -80,7 +73,8 @@ public class JBossSyncCheckService {
 		httpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(configurationService.getConfiguration().getSyncUsername(),
-						configurationService.getConfiguration().getSyncPassword()));
+						configurationService.getConfiguration().getSyncPassword())
+		);
 
 		int syncSucc = 0;
 		int syncFail = 0;
@@ -90,16 +84,33 @@ public class JBossSyncCheckService {
 				log.log(Level.SEVERE, "20 attempts sync to server failed. Aborting.");
 				break;
 			}
-			boolean success = jbossSyncService.syncPost(id, httpClient);
+			boolean success = jbossSyncService.syncPost(id, httpClient, PostStatus.SYNCED);
 			if (success) {
 				syncSucc++;
 			} else {
 				syncFail++;
 			}
 		}
-		httpClient.getConnectionManager().shutdown();
+		log.log(Level.INFO, "Sync completed. Posts pushed: {0}, failed: {1}", new Integer[]{syncSucc, syncFail});
 
-		log.log(Level.INFO, "Sync completed. Posts pushed: {0}, failed: {1}", new Integer[] { syncSucc, syncFail });
+		List<Integer> postsToReSync = postService.find(PostStatus.FORCE_SYNC);
+		syncSucc = 0;
+		syncFail = 0;
+		for (Integer id : postsToReSync) {
+			if (syncFail > 20 && syncSucc == 0) {
+				log.log(Level.SEVERE, "20 attempts sync to server failed. Aborting.");
+				break;
+			}
+			boolean success = jbossSyncService.syncPost(id, httpClient, PostStatus.RESYNCED);
+			if (success) {
+				syncSucc++;
+			} else {
+				syncFail++;
+			}
+		}
+		log.log(Level.INFO, "ReSync completed. Posts resynced: {0}, failed: {1}", new Integer[]{syncSucc, syncFail});
+
+		httpClient.getConnectionManager().shutdown();
 
 		initTimer();
 	}

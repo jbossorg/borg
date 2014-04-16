@@ -82,7 +82,7 @@ public class MergeService {
 							log.log(Level.FINE, "Saving merged post ''{0}''", postDb.getTitleAsId());
 
 							postDb.setContent(p.getContent());
-							postDb.setStatus(PostStatus.CREATED);
+							postDb.setStatus(PostStatus.FORCE_SYNC);
 
 							postService.update(postDb, false);
 							mergedPosts++;

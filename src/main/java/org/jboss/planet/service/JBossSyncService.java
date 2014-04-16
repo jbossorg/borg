@@ -74,7 +74,7 @@ public class JBossSyncService {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public boolean syncPost(int postId, HttpClient httpClient) {
+	public boolean syncPost(int postId, HttpClient httpClient, PostStatus newStatus) {
 		log.log(Level.FINE, "Sync Post to jboss.org. Post id: {0}", postId);
 
 		try {
@@ -84,7 +84,8 @@ public class JBossSyncService {
 				return false;
 			}
 			pushToJBoss(p, httpClient);
-			p.setStatus(PostStatus.SYNCED);
+			p.setStatus(newStatus);
+
 			postService.update(p, false);
 
 			return true;
@@ -99,7 +100,7 @@ public class JBossSyncService {
 
 		List<Post> allPosts = postService.findAll();
 		for (Post post : allPosts) {
-			syncPost(post.getId(), httpClient);
+			syncPost(post.getId(), httpClient, PostStatus.SYNCED);
 		}
 		shutdownHttpClient(httpClient);
 	}

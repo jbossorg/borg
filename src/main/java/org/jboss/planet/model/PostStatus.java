@@ -22,6 +22,16 @@ public enum PostStatus {
 	SYNCED,
 
 	/**
+	 * Force synchronized to jboss.org again
+	 */
+	FORCE_SYNC,
+
+	/**
+	 * Synchronized again to jboss.org
+	 */
+	RESYNCED,
+
+	/**
 	 * Posted to twitter
 	 */
 	POSTED_TWITTER
