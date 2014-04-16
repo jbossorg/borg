@@ -48,7 +48,7 @@ public class TwitterSyncCheckService {
 	/**
 	 * Initial start after app startup
 	 */
-	public static final int STARTUP_DELAY_MIN = 1;
+	public static final int STARTUP_DELAY_MIN = 20;
 
 	/**
 	 * Number of failed tries stops execution
@@ -106,6 +106,10 @@ public class TwitterSyncCheckService {
 		log.log(Level.INFO, "Twitter Sync completed. Tweets posted: {0}, failed: {1}", new Integer[]{syncSuccess, syncFail});
 
 		initTimer();
+	}
+
+	public int getStartupDelayMin() {
+		return STARTUP_DELAY_MIN;
 	}
 
 }
