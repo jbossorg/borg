@@ -71,7 +71,7 @@ public class CasLoginFilter implements Filter {
 		SecurityUser currentUser = securityService.getCurrentUser();
 		// Check if user is already logged in and usernames matches. Otherwise it's needed to set right user
 		if (currentUser == null || !currentUser.getExternalId().equals(assertion.getName())) {
-			log.log(Level.INFO, "Login User, remote user: {0}", assertion);
+			log.log(Level.FINE, "Login User, remote user: {0}", assertion);
 			securityService.setCurrentUser(assertion);
 		}
 
@@ -83,7 +83,7 @@ public class CasLoginFilter implements Filter {
 			}
 		}
 
-		log.log(Level.INFO, "Redirecting to url: {0}", originalURL);
+		log.log(Level.FINE, "Redirecting to url: {0}", originalURL);
 		((HttpServletResponse) response).sendRedirect(originalURL);
 		return;
 	}
