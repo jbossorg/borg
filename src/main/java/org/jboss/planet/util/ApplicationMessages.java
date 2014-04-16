@@ -5,15 +5,14 @@
  */
 package org.jboss.planet.util;
 
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.text.MessageFormat;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * Utility to produce easy way for application messages from resource bundle
@@ -31,7 +30,7 @@ public class ApplicationMessages {
 
 	@PostConstruct
 	public void init() {
-		bundle = ResourceBundle.getBundle("/messages", facesContext.getViewRoot().getLocale());
+		bundle = facesContext.getApplication().getResourceBundle(facesContext, "msg");
 	}
 
 	private ResourceBundle getBundle() {
