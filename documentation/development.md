@@ -5,10 +5,10 @@ Technologies and frameworks used
 --------------------------------
 
 * Java 7
-* [JBoss EAP 6.1](http://www.jboss.org/jbossas/downloads) - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
+* [JBoss EAP 6.2](http://www.jboss.org/jbossas/downloads) - Java EE 6 - CDI, EJB Session beans, Hibernate JPA
 * JSF2, [PrettyFaces](http://ocpsoft.org/prettyfaces/), [Rome Feeds parser](https://rometools.jira.com/wiki/display/ROME/Home)
+* [Zurb Foundation 4](http://foundation.zurb.com/docs/v/4.3.2/), [jQuery](http://jquery.com/), [Datatables](http://www.datatables.net/), [Twitter4j](http://twitter4j.org/)
 * JUnit for unit tests
-* [Twitter Bootstrap](http://twitter.github.com/bootstrap/), [jQuery](http://jquery.com/), [Datatables](http://www.datatables.net/)
 
 How to build
 ------------

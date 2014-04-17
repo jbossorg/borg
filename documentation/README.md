@@ -8,8 +8,9 @@ The Borg application is Blog post aggregator and archiver.
 1. Parsing remote feeds supporting [ATOM](http://en.wikipedia.org/wiki/Atom_(standard)) and [RSS](http://en.wikipedia.org/wiki/RSS) standards.
 2. Archiving posts to rational DB. By default Mysql database but can be any JPA compliant rational database.
 3. Using [Distributed Contribution Platform](https://github.com/jbossorg/dcp-api) REST API as a back-end identified as [Blog post content type](https://github.com/jbossorg/dcp-api/blob/master/documentation/rest-api/content/blogpost.md). Alternatively Borg's DB itself can be used but needs application customization.
-4. Feeds categorization into groups
-5. Feed administration based on group/feed administrator roles
+4. Twitter support
+5. Feeds categorization into groups
+6. Feed administration based on group/feed administrator roles
 
 ### UI main features
 
