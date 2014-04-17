@@ -94,9 +94,17 @@ public class UpdateService {
 		int ignoredPosts = 0;
 
 		List<RemoteFeed> feeds = feedsService.getAcceptedFeeds();
+		int counter = 0;
+		int totalCount = feeds.size();
 		for (RemoteFeed feed : feeds) {
+			counter++;
+			String progress = counter + "/" + totalCount;
+
 			boolean canContinue = feedsService.checkUpdateFails(feed);
 			if (!canContinue) {
+				if (log.isLoggable(Level.INFO)) {
+					log.info("Update Feed (" + progress + ") for '" + feed.getName() + "' is disabled.");
+				}
 				continue;
 			}
 
@@ -104,11 +112,13 @@ public class UpdateService {
 				RemoteFeed parsedFeed = parserService.parse(feed.getRemoteLink(), null, null);
 				MergePostsEvent stat = mergeService.mergePosts(feed, parsedFeed.getPosts());
 
-				log.info("Update Feed for '" + feed.getName()
-						+ "' finished. New posts: " + stat.getNewPosts()
-						+ ", Merged posts: " + stat.getMergedPosts()
-						+ ", Ignored posts: " + stat.getIgnoredPosts()
-						+ ", Total posts: " + stat.getTotalPosts());
+				if (log.isLoggable(Level.INFO)) {
+					log.info("Update Feed (" + progress + ") for '" + feed.getName() + "' finished. "
+							+ "STATS: new: " + stat.getNewPosts()
+							+ ", merged: " + stat.getMergedPosts()
+							+ ", ignored: " + stat.getIgnoredPosts()
+							+ ", total: " + stat.getTotalPosts());
+				}
 
 				newPosts += stat.getNewPosts();
 				mergedPosts += stat.getMergedPosts();
@@ -121,17 +131,25 @@ public class UpdateService {
 					feedsService.update(feed, false);
 				}
 			} catch (ParserException e) {
-				log.log(Level.SEVERE,
-						"Problem during parsing feed: " + feed.getName() + ", cause type: " + e.getCauseType()
-								+ ", parse fails: " + feed.getUpdateFailCount(), e
-				);
+				String message = "Problem during parsing feed  (" + progress + "): "
+						+ feed.getName() + ", cause type: " + e.getCauseType()
+						+ ", parse fails: " + feed.getUpdateFailCount();
+				if (ParserException.CAUSE_TYPE.CONNECTION_PROBLEM.equals(e.getCauseType())) {
+					log.log(Level.SEVERE, message + ", Exception message: ", e.getMessage());
+				} else {
+					log.log(Level.SEVERE, message, e);
+				}
+
 				addFeedUpdateException(feed.getName(), new UpdateException(e));
 				feed.incrementUpdateFailCount();
 				feedsService.update(feed, false);
 			}
 		}
 
-		log.info("Update all feeds finished. New posts: " + newPosts
+		log.info("Update all feeds finished. "
+				+ "Total feeds: " + totalCount
+				+ ", processed feeds: " + counter
+				+ ", new posts: " + newPosts
 				+ ", Merged posts: " + mergedPosts
 				+ ", Ignored posts: " + ignoredPosts
 				+ ", Total posts: " + totalPosts);

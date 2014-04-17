@@ -61,7 +61,7 @@ public class MergeService {
 
 		for (Post p : postsToMerge) {
 			if (StringUtils.isEmpty(p.getTitle())) {
-				log.log(Level.INFO,
+				log.log(Level.FINE,
 						"Post does not contain a title - cannot be retrieved to aggregator. Blog post link: {0}",
 						p.getTitle());
 				ignoredPosts++;
