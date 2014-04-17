@@ -3,6 +3,7 @@ package org.jboss.planet.service;
 import org.jboss.planet.model.Configuration;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -71,8 +72,10 @@ public class TwitterService {
 				// sometime occur - very weird why
 				return false;
 			}
-			postToTwitter(p, twitter, shortURLLength);
+			long tweetId = postToTwitter(p, twitter, shortURLLength);
+			p.setTwitterStatusId(tweetId);
 			p.setStatus(PostStatus.POSTED_TWITTER);
+
 			postService.update(p, false);
 
 			return true;
@@ -82,14 +85,26 @@ public class TwitterService {
 		return false;
 	}
 
-	public void postToTwitter(Post p, Twitter twitter, int shortURLLength) throws TwitterException {
+	/**
+	 * Post to twitter particular Blog post
+	 *
+	 * @param p              Blog post
+	 * @param twitter        twitter client
+	 * @param shortURLLength length of shorted URL (provided by Twitter)
+	 * @return Tweet ID
+	 * @throws TwitterException
+	 */
+	public long postToTwitter(Post p, Twitter twitter, int shortURLLength) throws TwitterException {
 		String url = linkService.generatePostLink(p.getTitleAsId());
 		String template = configurationService.getConfiguration().getTwitterText();
 
 		String text = getStatusText(template, p.getTitle(), url, shortURLLength);
 		log.log(Level.FINEST, "Twitter status text: {0}", text);
 
-		twitter.updateStatus(text);
+		Status status = twitter.updateStatus(text);
+		log.log(Level.FINEST, "Twitter status response: {0}", status);
+
+		return status.getId();
 	}
 
 	public String getStatusText(String template, String title, String url, int shortURLLength) {

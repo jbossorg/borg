@@ -107,6 +107,11 @@ public class Post implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private PostStatus status;
 
+	/**
+	 * ID of Twitter ID
+	 */
+	private Long twitterStatusId;
+
 	public Integer getId() {
 		return id;
 	}
@@ -280,5 +285,13 @@ public class Post implements Serializable {
 
 	public void setStatus(PostStatus status) {
 		this.status = status;
+	}
+
+	public Long getTwitterStatusId() {
+		return twitterStatusId;
+	}
+
+	public void setTwitterStatusId(Long twitterStatusId) {
+		this.twitterStatusId = twitterStatusId;
 	}
 }
