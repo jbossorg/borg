@@ -61,8 +61,8 @@ public class MergeService {
 
 		for (Post p : postsToMerge) {
 			if (StringUtils.isEmpty(p.getTitle())) {
-				log.log(Level.WARNING,
-						"Post does not contain title - cannot be retrieved to aggregator. Blog post link: {0}",
+				log.log(Level.INFO,
+						"Post does not contain a title - cannot be retrieved to aggregator. Blog post link: {0}",
 						p.getTitle());
 				ignoredPosts++;
 				continue;
@@ -78,9 +78,17 @@ public class MergeService {
 					newPosts++;
 				} else {
 					for (Post postDb : postDbs) {
-						if (!postDb.getContent().equals(p.getContent())) {
-							log.log(Level.FINE, "Saving merged post ''{0}''", postDb.getTitleAsId());
-
+						// ORG-2015 - Do not compare content. Only dates (title is same)
+						if (postDb.compareTo(p) != 0) {
+							if (log.isLoggable(Level.FINEST)) {
+								log.log(Level.FINEST, "Merging post: ''{0}''", postDb.getTitleAsId());
+								log.log(Level.FINEST, "Content difference: ''{0}''", StringUtils.difference(postDb.getContent(), p.getContent()));
+								log.log(Level.FINEST, "Published: current: {0}, new: {1}", new Object[]{postDb.getPublished(), p.getPublished()});
+								log.log(Level.FINEST, "Modified : current: {0}, new: {1}", new Object[]{postDb.getModified(), p.getModified()});
+							}
+							// Title is not changed because it has unique titleAsId and is already created. See above.
+							postDb.setPublished(p.getPublished());
+							postDb.setModified(p.getModified());
 							postDb.setContent(p.getContent());
 							postDb.setStatus(PostStatus.FORCE_SYNC);
 

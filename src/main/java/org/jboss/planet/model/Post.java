@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Blog Post entity
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Entity
@@ -39,61 +39,85 @@ public class Post implements Serializable {
 	@Column(updatable = false)
 	private Integer id;
 
-	/** Blog post Title */
+	/**
+	 * Blog post Title
+	 */
 	@NotNull
 	@Size(max = 512)
 	private String title;
 
-	/** Unique title as ID */
+	/**
+	 * Unique title as ID
+	 */
 	@NotNull
 	@Pattern(regexp = "^[a-z0-9_]*$")
 	@Column(unique = true)
 	private String titleAsId;
 
-	/** Blog post content */
+	/**
+	 * Blog post content
+	 */
 	@Lob
 	@Column(length = 16777215)
 	private String content;
 
-	/** Blog post preview - used for REST API */
+	/**
+	 * Blog post preview - used for REST API
+	 */
 	@Transient
 	private String contentPreview;
 
-	/** Original Blog post URL */
+	/**
+	 * Original Blog post URL
+	 */
 	@Size(max = 512)
 	@NotNull
 	private String link;
 
-	/** Author */
+	/**
+	 * Author
+	 */
 	@Size(max = 250)
 	@JsonIgnore
 	private String author;
 
-	/** Tags (in RSS world called categories */
+	/**
+	 * Tags (in RSS world called categories
+	 */
 	@ManyToMany
 	@XmlTransient
 	@JsonIgnore
 	private List<Category> categories;
 
-	/** Date of publish */
+	/**
+	 * Date of publish
+	 */
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@NotNull
 	private Date published;
 
-	/** Formatted date as string - used in REST API */
+	/**
+	 * Formatted date as string - used in REST API
+	 */
 	@Transient
 	private String publishedDate;
 
-	/** modified */
+	/**
+	 * modified
+	 */
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@NotNull
 	private Date modified;
 
-	/** Formatted date as string - used in REST API */
+	/**
+	 * Formatted date as string - used in REST API
+	 */
 	@Transient
 	private String modifiedDate;
 
-	/** Feed which blog post belongs to */
+	/**
+	 * Feed which blog post belongs to
+	 */
 	@ManyToOne
 	@NotNull
 	@JsonIgnore
@@ -198,14 +222,14 @@ public class Post implements Serializable {
 	public String getEffectiveAuthor() {
 		String postAuthor = getAuthor();
 		switch (getFeed().getPostAuthorType()) {
-		case POST_AUTHOR:
-			return postAuthor == null ? "" : postAuthor;
+			case POST_AUTHOR:
+				return postAuthor == null ? "" : postAuthor;
 
-		case BLOG_AUTHOR:
-			return getFeed().getAuthor();
+			case BLOG_AUTHOR:
+				return getFeed().getAuthor();
 
-		case BLOG_AUTHOR_IF_MISSING:
-			return StringTools.isEmpty(postAuthor) ? getFeed().getAuthor() : postAuthor;
+			case BLOG_AUTHOR_IF_MISSING:
+				return StringTools.isEmpty(postAuthor) ? getFeed().getAuthor() : postAuthor;
 		}
 
 		return null;
@@ -242,8 +266,23 @@ public class Post implements Serializable {
 		return result;
 	}
 
+	/**
+	 * Compares two posts based on their:
+	 * 1. publish date
+	 * 2. modified date
+	 * 3. title
+	 *
+	 * @param post2
+	 * @return 0 if equals
+	 * @see String#equals(Object)
+	 */
 	public int compareTo(Post post2) {
 		int result = -GeneralTools.compareDates(getPublished(), post2.getPublished());
+
+		if (result == 0) {
+			result = -GeneralTools.compareDates(getModified(), post2.getModified());
+		}
+
 		if (result == 0) {
 			return GeneralTools.compareStrings(getTitle(), post2.getTitle());
 		} else {
