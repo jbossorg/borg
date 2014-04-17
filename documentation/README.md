@@ -26,15 +26,3 @@ Development
 -----------
 
 Go to [Borg Development Info](development.md) page.
-
-
-Changelog
----------
-
-### 3.0.0 - Initial release
-
-* Whole redesign of application using new technologies (mostly Java EE 6)
-* Using Searchisko as a back-end
-* Default Bootstrap UI theme
-
-For more details see [JIRA Release](https://issues.jboss.org/browse/ORG/fixforversion/12319774)
