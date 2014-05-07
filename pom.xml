@@ -12,10 +12,10 @@
 
 	<groupId>org.jboss.borg</groupId>
 	<artifactId>borg</artifactId>
-	<version>3.3.0</version>
+	<version>3.4.0</version>
 	<packaging>war</packaging>
 	<name>Blog posts aggregator</name>
-	<description>Blog post aggregator for JBoss community - planet.jboss.org</description>
+	<description>Blog post aggregator for JBoss Developer - planet.jboss.org</description>
 
 	<url>http://planet.jboss.org</url>
 	<licenses>
