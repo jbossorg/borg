@@ -10,7 +10,7 @@ Feel free to create a new jira issue in jboss.org JIRA, component [planet.jboss.
 Release Notes
 -------------
 
-### 3.3.1 - JBoss Developer Theme
+### 3.4.0 - JBoss Developer Theme
 https://issues.jboss.org/browse/ORG/fixforversion/12324673
 
 ### 3.3.0 - Twitter Integration
