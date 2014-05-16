@@ -29,6 +29,13 @@
 		<view-id value="/view/feeds-list.jsf" />
 	</url-mapping>
 
+	<url-mapping id="tagsgroup">
+		<pattern value="/group/#{tagsGroupController.tagsGroupName}" />
+		<view-id value="/group/tagsgroup.jsf" />
+		<action>#{tagsGroupController.loadTagsGroup}</action>
+	</url-mapping>
+
+	<!-- Management -->
 	<url-mapping id="manage-index">
 		<pattern value="/manage/" />
 		<view-id value="/manage/index.jsf" />

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/layout/template.xhtml">
+
+	<ui:param name="pageId" value="tagsgroup"/>
+	<ui:param name="addthis" value="true"/>
+	<ui:param name="section" value="browse"/>
+
+
+	<ui:define name="page_title">
+		#{msg['home.name']} - #{tagsGroupController.tagsGroup.title}<ui:include src="/layout/page-title-suffix.xhtml" />
+	</ui:define>
+
+	<ui:define name="header">
+		#{msg['home.name']} - #{tagsGroupController.tagsGroup.title}
+	</ui:define>
+
+	<ui:define name="additional_headers">
+		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}"
+			  href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"/>
+	</ui:define>
+
+	<ui:define name="body">
+		<div class="row">
+			<div class="large-24 columns"><p>
+				<a id="home-feed-link"
+				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
+				   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
+					<i class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}
+				</a></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div id="home-filters-panel" class="large-6 large-offset-2 push-16 columns panel radius">
+				<div id="home-filters">
+					<a id="filter-link" href="#" class="filter button blue expand"> <i
+							class="fa fa-filter"></i> #{msg['home.control.filter']}
+					</a>
+					<a href="#" id="home-refresh" class="filter button blue expand"> <i
+							class="fa fa-refresh"></i> #{msg['home.control.refresh']}
+					</a>
+
+					<div id="home-filter" style="display: none;">
+						<h5><a id="home-filter-clearall">Clear All</a></h5>
+
+						<label for="token-input-home-feed-filter">#{msg['home.control.filter.project']}</label>
+						<input id="home-feed-filter" type="text" name="filter-text"></input>
+
+						<label for="home-tags-filter">#{msg['home.control.filter.tag']}</label>
+						<input id="home-tags-filter" type="text" name="filter-text"></input>
+					</div>
+				</div>
+				<ul class="button-group radius">
+					<li class="button blue tiny">
+						<a href="#compact" id="layout-compact" class="btn"
+						   onclick="home.switchDisplay(1); return false;">#{msg['home.control.compact']}</a>
+					</li>
+					<li class="button blue tiny">
+						<a href="#full" id="layout-full" class="btn"
+						   onclick="home.switchDisplay(2); return false;">#{msg['home.control.full']}</a>
+					</li>
+					<li class="button blue tiny">
+						<a href="reader" class="btn">#{msg['home.control.mobile']}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="large-16 pull-8 columns home-posts-column">
+				<div id="home-posts"></div>
+				<div class="row collapse">
+					<div id="loading-div-home" class="small-2 small-centered columns loading-wrapper"
+						 style="display: none">
+						<i class="fa fa-refresh fa-spin fa-2x"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var defaultTags = "#{tagsGroupController.tagsGroup.tags}";
+			var defaultTagsArray = util.stringToArray(defaultTags);
+			home.init($("#page-id-tagsgroup"), defaultTagsArray);
+		</script>
+	</ui:define>
+
+</ui:composition>

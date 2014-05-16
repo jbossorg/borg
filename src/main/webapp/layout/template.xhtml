@@ -106,8 +106,14 @@
 					<section class="top-bar-section">
 						<ul class="left main-menu">
 							<li class="#{pageId == 'home' ? 'active' : ''}"><a href="/">HOME</a></li>
-							<li class="has-dropdown #{pageId == 'browse' ? 'active' : ''}"><a>#{msg['browse.name']}</a>
+							<li class="has-dropdown #{section == 'browse' ? 'active' : ''}"><a>#{msg['browse.name']}</a>
 								<ul class="dropdown">
+									<ui:repeat value="#{tagsGroupController.allTagsGroupInMenu}" var="tag">
+										<li>
+											<h:outputLink value="/group/#{tag.name}" propagation="none">#{tag.title}</h:outputLink>
+										</li>
+									</ui:repeat>
+									<li class="divider"></li>
 									<li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
 								</ul>
 							</li>
@@ -143,7 +149,7 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 
-   		<div id="page-id-#{pageId}" class="container #{pageClass}">
+   		<div id="page-id-#{pageId}" class="container content-container #{pageClass}">
            <div class="row collapse">
             <div class="large-24 columns">
                 <div id="breadcrumb">
