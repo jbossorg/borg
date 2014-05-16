@@ -116,6 +116,10 @@ pre {
 }
 
 /* ************* Page specifics ******************/
+/* Tags hidden because it doesn't work as filter as filter of visible content */
+#page-id-tagsgroup .home-filter-tags-group {
+	display: none;
+}
 .manage-feeds-list-url {
 	text-overflow: ellipsis;
 	overflow: hidden;
