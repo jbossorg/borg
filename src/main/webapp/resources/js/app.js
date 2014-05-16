@@ -523,10 +523,18 @@ var home = {
 		filterProjectNoAction: false
 	},
 	currentPage : null,
+	defaultTags : [],
 	previewDiv : null,
 	previewDivInitialPosition : null,
-	init : function(page) {
+
+	/**
+	 * Initialize page
+	 * @param page
+	 * @param defaultTags Array of default tags
+	 */
+	init : function(page, defaultTags) {
 		home.currentPage = page;
+		home.defaultTags = defaultTags;
 		planet.canRetrieveNewPosts = true;
 		home.previewDiv = $("#home-right-preview", page);
 
@@ -599,11 +607,11 @@ var home = {
 						home.previewDivInitialPosition = home.previewDiv.offset();
 					}
 					if (planet.canRetrieveNewPosts) {
-						if (($(window).height() + $(window).scrollTop()) >= ($("#page-id-home", home.currentPage)
-								.offset().top + $("#page-id-home", home.currentPage).height())) {
+						var contentContainer = $(".content-container");
+						if (($(window).height() + $(window).scrollTop()) >= (contentContainer.offset().top + contentContainer.height())) {
 							$("#loading-div-home", home.currentPage).show();
 							planet.retrieveNewPosts(home.data.currentFrom, home.data.count, home.addPosts,
-									home.data.projects, home.data.tags);
+									home.data.projects, home.getActualTags());
 						}
 					}
 				});
@@ -657,7 +665,8 @@ var home = {
 		$.bbq.pushState(state);
 	},
 	updateFeedLink : function() {
-		if (home.data.projects.length == 0 && home.data.tags.length == 0) {
+		var tags = home.getActualTags();
+		if (home.data.projects.length == 0 && tags.length == 0) {
 			return;
 		}
 		var feedLink = $("#home-feed-link", home.currentPage);
@@ -681,22 +690,22 @@ var home = {
 				}
 			}
 		}
-		if (home.data.tags.length > 0) {
+		if (tags.length > 0) {
 			if (home.data.projects.length == 0) {
 				params.title += " for ";
 			} else {
 				params.title += " and ";
 			}
-			if (home.data.tags.length > 1) {
+			if (tags.length > 1) {
 				params.title += "tags ";
 			} else {
 				params.title += "tag ";
 			}
 
-			for (var i = 0; i < home.data.tags.length; i++) {
-				params.paramString += "&tag=" + home.data.tags[i];
-				params.title += home.data.tags[i];
-				if (i + 1 < home.data.tags.length) {
+			for (var i = 0; i < tags.length; i++) {
+				params.paramString += "&tag=" + tags[i];
+				params.title += tags[i];
+				if (i + 1 < tags.length) {
 					params.title += ", ";
 				}
 			}
@@ -783,7 +792,7 @@ var home = {
 			home.addPosts(data);
 			home.toogleButton("#home-refresh");
 			$("#home-refresh i").removeClass("fa-spin");
-		}, home.data.projects, home.data.tags);
+		}, home.data.projects, home.getActualTags());
 	},
 	toggleFilter : function() {
 		var elm = $("#home-filter");
@@ -825,6 +834,16 @@ var home = {
 	},
 	getTagsFromUrl : function() {
 		return util.stringToArray(util.getHashParam("tags"));
+	},
+	getActualTags : function() {
+		var tags = home.data.tags;
+		if (typeof tags != "undefined" && tags != "" && tags != null && $.isArray(tags)) {
+			tags = tags.concat(home.defaultTags);
+		} else {
+			tags = home.defaultTags;
+		}
+		console.log("Actual tags: " + tags);
+		return tags;
 	},
 	destroy : function() {
 		$(window).unbind("scroll");
