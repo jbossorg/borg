@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="/layout/template.xhtml">
+
+	<ui:param name="pageId" value="manage-tagsgroups"/>
+	<ui:param name="section" value="management"/>
+	<ui:param name="datatables" value="true"/>
+
+	<ui:define name="header">
+		#{msg['management.tagsgroup.name']}
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml"/>
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['management.tagsgroup.name']}<ui:include src="/layout/page-title-suffix.xhtml"/>
+	</ui:define>
+
+	<ui:define name="body">
+		<h:link outcome="/manage/tagsgroup/tagsgroup-new.xhtml" value="#{msg['management.tagsgroup.new']}"
+				styleClass="button"
+				rendered="#{userController.admin}"/>
+
+		<p></p>
+
+		<table id="manage-tagsgroups-table">
+			<thead>
+			<tr>
+				<th>#{msg['management.tagsgroup.column.name']}</th>
+				<th>#{msg['management.tagsgroup.column.title']}</th>
+				<th>#{msg['management.tagsgroup.column.showInMenu']}</th>
+				<th>#{msg['management.tagsgroup.column.menuOrder']}</th>
+				<th>#{msg['management.tagsgroup.column.tags']}</th>
+				<th>#{msg['management.tagsgroup.column.action']}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<ui:repeat var="group" value="#{tagsGroupController.allTagsGroups}" varStatus="status">
+				<tr>
+					<td>
+						<h:link outcome="/group/tagsgroup.xhtml"
+								propagation="none">
+							<f:param name="name" value="#{group.name}"/>
+							#{group.name}
+						</h:link>
+					</td>
+					<td>#{group.title}</td>
+					<td>#{group.showInMenu}</td>
+					<td>#{group.menuOrder}</td>
+					<td>#{group.tags}</td>
+					<td class="table-actions-column">
+						<h:form id="group-action" styleClass="group-action-form">
+							<h:link outcome="/manage/tagsgroup/tagsgroup-edit.jsf" styleClass="button small expand">
+								<f:param name="name" value="#{group.name}"/>
+								<i class="fa fa-edit"></i>
+								#{msg['management.tagsgroup.edit']}
+							</h:link>
+						</h:form></td>
+				</tr>
+			</ui:repeat>
+			</tbody>
+		</table>
+		<script type="text/javascript" charset="utf-8">
+			initDataTable($('#manage-tagsgroups-table'));
+		</script>
+	</ui:define>
+
+</ui:composition>

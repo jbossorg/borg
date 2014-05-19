@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="">
+		<h:form id="tagsgroup" styleClass="form-horizontal">
+			<h:inputHidden value="#{tagsGroupController.tagsGroup.id}" id="id"/>
+			<f:validateBean>
+				<div class="row">
+					<div class="large-12 columns panel radius">
+						<div class="required">
+							<h:outputLabel for="name" value="#{msg['management.tagsgroup.field.name']}:"
+										   styleClass="#{!name.valid ? 'error' : ''}"/>
+
+							<h:inputText id="name" value="#{tagsGroupController.tagsGroup.name}" required="true"
+										 binding="#{name}"
+										 styleClass="#{!name.valid ? 'error' : ''}"/>
+							<h:message for="name" errorClass="error"/>
+
+							<p class="help-block">
+								<h:outputText value="#{msg['management.tagsgroup.field.name.desc']}"/>
+							</p>
+						</div>
+						<div class="required">
+							<h:outputLabel for="title" value="#{msg['management.tagsgroup.field.title']}:"
+										   styleClass="#{!title.valid ? 'error' : ''}"/>
+							<h:inputText id="title" value="#{tagsGroupController.tagsGroup.title}"
+										 required="true" styleClass="#{!title.valid ? 'error' : ''}"
+										 binding="#{title}"/>
+							<h:message for="title" errorClass="error"/>
+						</div>
+						<div class="required">
+							<h:outputLabel for="tags" value="#{msg['management.tagsgroup.field.tags']}:"
+										   styleClass="#{!tags.valid ? 'error' : ''}"/>
+							<h:inputText id="tags" value="#{tagsGroupController.tagsGroup.tags}"
+										 required="true" styleClass="#{!tags.valid ? 'error' : ''}"
+										 binding="#{tags}"/>
+							<h:message for="tags" errorClass="error"/>
+							<p class="help-block">
+								<h:outputText value="#{msg['management.tagsgroup.field.tags.desc']}"/>
+							</p>
+						</div>
+
+						<div class="required">
+							<h:outputLabel for="showInMenu" value="#{msg['management.tagsgroup.field.showInMenu']}:"
+										   styleClass="#{!showInMenu.valid ? 'error' : ''}"/>
+
+							<h:selectOneRadio id="showInMenu" value="#{tagsGroupController.tagsGroup.showInMenu}"
+											  binding="#{showInMenu}" styleClass="#{!showInMenu.valid ? 'error' : ''}">
+								<f:selectItem itemValue="true"
+											  itemLabel="#{msg['management.tagsgroup.field.showInMenu.true']}"/>
+								<f:selectItem itemValue="false"
+											  itemLabel="#{msg['management.tagsgroup.field.showInMenu.false']}"/>
+							</h:selectOneRadio>
+
+							<h:message for="showInMenu" errorClass="error"/>
+						</div>
+						<div>
+							<h:outputLabel for="menuOrder" value="#{msg['management.tagsgroup.field.menuOrder']}:"
+										   styleClass="#{!menuOrder.valid ? 'error' : ''}"/>
+							<h:inputText id="menuOrder" value="#{tagsGroupController.tagsGroup.menuOrder}"
+										 styleClass="#{!menuOrder.valid ? 'error' : ''}"
+										 binding="#{menuOrder}"/>
+							<h:message for="menuOrder" errorClass="error"/>
+						</div>
+					</div>
+				</div>
+			</f:validateBean>
+
+			<div class="row">
+				<div class="large-24 columns">
+					<h:commandLink action="#{tagsGroupController.update}" styleClass="button">
+						<i class="fa fa-check"></i>
+						#{msg['common.submit']}
+					</h:commandLink>
+					<h:link value="#{msg['common.back']}" outcome="/manage/tagsgroup/list.jsf"
+							styleClass="button blue"/>
+				</div>
+			</div>
+		</h:form>
+	</div>
+</ui:composition>

@@ -19,6 +19,7 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 					externalContext.setResponseStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 					externalContext.redirect(contextPath + pageToRedirect);
 				} else {
-					externalContext.responseSendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unknown Error");
+					handleCommonErrors(t, externalContext);
 				}
 
 			} catch (final IOException e) {
@@ -90,5 +91,13 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 			facesContext.responseComplete();
 		}
 		getWrapped().handle();
+	}
+
+	public void handleCommonErrors(Throwable t, ExternalContext externalContext) throws IOException {
+		if (t instanceof NoResultException) {
+			externalContext.responseSendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
+		} else {
+			externalContext.responseSendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unknown Error");
+		}
 	}
 }

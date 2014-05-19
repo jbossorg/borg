@@ -218,6 +218,15 @@ public class SecurityService implements Serializable {
 			return false;
 		}
 
+		if (entity instanceof TagsGroup) {
+			for (SecurityMapping mapping : user.getMappings()) {
+				if (FeedsSecurityRole.ADMIN.equals(mapping.getRole())) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		return false;
 	}
 

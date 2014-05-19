@@ -113,7 +113,9 @@
 											<h:outputLink value="/group/#{tag.name}" propagation="none">#{tag.title}</h:outputLink>
 										</li>
 									</ui:repeat>
-									<li class="divider"></li>
+									<ui:fragment rendered="#{tagsGroupController.allTagsGroupInMenu.size() > 0}">
+										<li class="divider"></li>
+									</ui:fragment>
 									<li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
 								</ul>
 							</li>
@@ -132,6 +134,7 @@
 							<ui:fragment rendered="#{userController.admin}">
 								<li class="has-dropdown #{section == 'management' ? 'active' : ''}"><a href="#{facesContext.externalContext.requestContextPath}/manage">#{msg['browse.management']}</a>
 									<ul class="dropdown">
+										<li><h:link outcome="/manage/tagsgroup/list.jsf" value="#{msg['management.tagsgroup.name']}" propagation="none" /></li>
 										<li><h:link outcome="/manage/configuration/config-edit.jsf" value="#{msg['management.config.name']}" propagation="none" /></li>
 										<li><h:link outcome="/manage/configuration/system-admins.jsf" value="#{msg['manage.system.admin.name']}" propagation="none" /></li>
 										<li><h:link outcome="/manage/statistics/index.jsf" value="#{msg['management.stats.name']}" propagation="none" /></li>

@@ -29,8 +29,8 @@
 		<view-id value="/view/feeds-list.jsf" />
 	</url-mapping>
 
-	<url-mapping id="tagsgroup">
-		<pattern value="/group/#{tagsGroupController.tagsGroupName}" />
+	<url-mapping id="tags-group">
+		<pattern value="/group/#{ /\[a-z0-9_-]+/ name : tagsGroupController.tagsGroupName}" />
 		<view-id value="/group/tagsgroup.jsf" />
 		<action>#{tagsGroupController.loadTagsGroup}</action>
 	</url-mapping>
@@ -115,6 +115,25 @@
 		<view-id value="/manage/group/group-admins.jsf" />
 		<action>#{groupController.loadGroup}</action>
 	</url-mapping>
+
+	<url-mapping id="manage-tagsgroup">
+		<pattern value="/manage/tagsgroup/" />
+		<view-id value="/manage/tagsgroup/list.jsf" />
+		<action>#{tagsGroupController.loadAllTagsGroup}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-tagsgroup-edit">
+		<pattern value="/manage/tagsgroup/#{name : tagsGroupController.tagsGroupName}/edit" />
+		<view-id value="/manage/tagsgroup/tagsgroup-edit.jsf" />
+		<action onPostback="false">#{tagsGroupController.loadTagsGroup}</action>
+	</url-mapping>
+
+	<url-mapping id="manage-tagsgroup-new">
+		<pattern value="/manage/tagsgroup/new" />
+		<view-id value="/manage/tagsgroup/tagsgroup-new.jsf" />
+		<action>#{tagsGroupController.newGroup}</action>
+	</url-mapping>
+
 
 	<url-mapping id="logout">
 		<pattern value="/logout" />

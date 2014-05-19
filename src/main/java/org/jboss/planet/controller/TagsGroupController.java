@@ -1,10 +1,16 @@
 package org.jboss.planet.controller;
 
 import org.jboss.planet.model.TagsGroup;
+import org.jboss.planet.security.AdminAllowed;
+import org.jboss.planet.service.TagsGroupService;
+import org.jboss.planet.util.ApplicationMessages;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,31 +28,101 @@ public class TagsGroupController {
 
 	protected String tagsGroupName;
 
-	protected TagsGroup tagsGroup;
+	protected TagsGroup tagsGroup = new TagsGroup();
 
-	public void loadTagsGroup() {
-		//TODO: Load TagsGroup from Service
-		log.log(Level.FINE, "Load tags group: {0}", tagsGroupName);
+	protected List<TagsGroup> tagsGroupsInMenu;
 
-		tagsGroup = new TagsGroup();
-		tagsGroup.setName(tagsGroupName);
-		tagsGroup.setTitle("Accelerate");
-		tagsGroup.setTags("arquillian, openshift");
+	protected List<TagsGroup> allTagsGroups;
+
+	@Inject
+	protected TagsGroupService tagsGroupService;
+
+	@Inject
+	private FacesContext facesContext;
+
+	@Inject
+	private ApplicationMessages messages;
+
+	@PostConstruct
+	public void init() {
+		// Used in Main menu so needs to be always available.
+		tagsGroupsInMenu = tagsGroupService.findAllForMenu();
 	}
 
-	public List<TagsGroup> getAllTagsGroupInMenu() {
-		// TODO: Get all tags for menu ordered by menuOrder
-		ArrayList<TagsGroup> tags = new ArrayList<>();
+	@AdminAllowed
+	public void loadAllTagsGroup() {
+		allTagsGroups = tagsGroupService.findAll();
+	}
 
+
+	@AdminAllowed
+	public void newGroup() {
 		tagsGroup = new TagsGroup();
-		tagsGroup.setName("accelerate");
-		tagsGroup.setShowInMenu(true);
-		tagsGroup.setTitle("Accelerate");
-		tagsGroup.setTags("arquillian, openshift");
+	}
 
-		tags.add(tagsGroup);
+	@AdminAllowed
+	public void loadTagsGroup() {
+		log.log(Level.FINE, "Load tags group: {0}", tagsGroupName);
 
-		return tags;
+		tagsGroup = tagsGroupService.find(tagsGroupName);
+	}
+
+	private boolean validate() {
+		boolean valid = true;
+
+		boolean validateName = true;
+		if (tagsGroup.getId() != null && tagsGroup.getId() != 0) {
+			TagsGroup originalGroup = tagsGroupService.find(tagsGroup.getId());
+			if (originalGroup.getName().equals(tagsGroup.getName())) {
+				// when updating same name is correct
+				validateName = false;
+			}
+		}
+
+		if (validateName && tagsGroupService.exists(tagsGroup.getName())) {
+			UIInput nameInput = (UIInput) facesContext.getViewRoot().findComponent("tagsgroup:name");
+			nameInput.setValid(false);
+			facesContext.addMessage(
+					nameInput.getClientId(),
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, messages
+							.getString("management.tagsgroup.text.groupAlreadyExists"), null)
+			);
+			valid = false;
+		}
+		return valid;
+	}
+
+	@AdminAllowed
+	public String update() {
+		if (!validate()) {
+			return null;
+		}
+
+		tagsGroupService.update(tagsGroup);
+		if (tagsGroup.getId() == null) {
+			facesContext.addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("management.tagsgroup.text.added",
+							tagsGroup.getTitle()), null)
+			);
+		} else {
+			facesContext.addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("management.tagsgroup.text.updated",
+							tagsGroup.getTitle()), null)
+			);
+		}
+		return "pretty:manage-tagsgroup";
+	}
+
+
+	public List<TagsGroup> getAllTagsGroupInMenu() {
+		return tagsGroupsInMenu;
+	}
+
+	public List<TagsGroup> getAllTagsGroups() {
+		return allTagsGroups;
+
 	}
 
 	public String getTagsGroupName() {
