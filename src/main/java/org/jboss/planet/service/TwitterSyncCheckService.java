@@ -67,11 +67,13 @@ public class TwitterSyncCheckService {
 		timerService.createSingleActionTimer(intervalInSec * 1000, new TimerConfig(null, false));
 	}
 
+	@SuppressWarnings("unused")
 	@Timeout
 	public void checkPostsToSync() {
 		if (!configurationService.getConfiguration().isTwitterEnabled()) {
 			log.log(Level.INFO, "Sync to Twitter is disabled");
 			initTimer();
+			return;
 		}
 		log.log(Level.INFO, "Sync to Twitter started");
 
