@@ -116,7 +116,7 @@
 									<ui:fragment rendered="#{tagsGroupController.allTagsGroupInMenu.size() > 0}">
 										<li class="divider"></li>
 									</ui:fragment>
-									<li><h:link outcome="/view/feeds-list.jsf" value="Feeds list" propagation="none" /></li>
+									<li><h:link outcome="/view/feeds-list.jsf" value="#{msg['list.name']}" propagation="none" /></li>
 								</ul>
 							</li>
 							<li class="has-dropdown #{section == 'yourstuff' ? 'active' : ''}"><a href="#{facesContext.externalContext.requestContextPath}/manage">#{msg['browse.yourstuff']}</a>
