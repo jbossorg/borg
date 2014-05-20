@@ -800,8 +800,9 @@ var home = {
 			elm.height(0);
 			elm.show();
 			home.toogleButton("#filter-link");
+			var filterHeight = home.getFilterHeight();
 			elm.animate({
-				"min-height" : '135px',
+				"min-height" : filterHeight,
 				useTranslate3d : true,
 				leaveTransforms : false
 			}, 200, function() {
@@ -823,10 +824,18 @@ var home = {
 	showFilter : function() {
 		if ($("#home-filter").css("display") == "none") {
 			home.toogleButton("#filter-link");
+			var filterHeight = home.getFilterHeight();
 			$("#home-filter").css({
-				'min-height' : '135px',
+				'min-height' : filterHeight,
 				'display' : 'block'
 			});
+		}
+	},
+	getFilterHeight : function() {
+		if ($("#home-filter-tags-group").is(':visible')) {
+			return '135px';
+		} else {
+			return '96px';
 		}
 	},
 	getProjectsFromUrl : function() {
