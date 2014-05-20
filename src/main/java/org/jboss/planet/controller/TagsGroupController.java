@@ -60,7 +60,6 @@ public class TagsGroupController {
 		tagsGroup = new TagsGroup();
 	}
 
-	@AdminAllowed
 	public void loadTagsGroup() {
 		log.log(Level.FINE, "Load tags group: {0}", tagsGroupName);
 
