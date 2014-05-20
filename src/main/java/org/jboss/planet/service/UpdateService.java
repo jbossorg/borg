@@ -80,6 +80,7 @@ public class UpdateService {
 		timerService.createSingleActionTimer(intervalInSec * 1000, new TimerConfig(null, false));
 	}
 
+	@SuppressWarnings("unused")
 	@Timeout
 	public void updateFeeds() {
 		updateInProgress = new AtomicBoolean(true);

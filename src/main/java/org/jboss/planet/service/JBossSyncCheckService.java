@@ -61,6 +61,7 @@ public class JBossSyncCheckService {
 		timerService.createSingleActionTimer(intervalInSec * 1000, new TimerConfig(null, false));
 	}
 
+	@SuppressWarnings("unused")
 	@Timeout
 	public void checkPostsToSync() {
 		log.log(Level.INFO, "Sync to jboss.org started via {0}", configurationService.getConfiguration()
