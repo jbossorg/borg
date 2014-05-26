@@ -10,8 +10,10 @@ Feel free to create a new jira issue in jboss.org JIRA, component [planet.jboss.
 Release Notes
 -------------
 
+### 3.5.0 - Tags Groups
+https://issues.jboss.org/browse/ORG-2033
+
 ### 3.4.0 - JBoss Developer Theme
-https://issues.jboss.org/browse/ORG/fixforversion/12324673
 
 ### 3.3.0 - Twitter Integration
 https://issues.jboss.org/browse/ORG/fixforversion/12324752

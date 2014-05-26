@@ -1,7 +1,7 @@
 %define  _deploy_dir /services/borg
 
 Name:           borg
-Version:        3.4.0
+Version:        3.5.0
 Release:        ${release}.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
@@ -43,8 +43,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 26 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.5.0
+  - Tags Groups - https://issues.jboss.org/browse/ORG/fixforversion/12324673
+
 * Mon Apr 14 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.4.0
-  - JBoss Developer Theme - https://issues.jboss.org/browse/ORG/fixforversion/12324673
+  - JBoss Developer Theme
 
 * Mon Apr 14 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.3.0
   - Twitter Sync + Minor bug fixes - https://issues.jboss.org/browse/ORG/fixforversion/12324752
