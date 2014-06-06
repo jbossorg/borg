@@ -851,7 +851,6 @@ var home = {
 		} else {
 			tags = home.defaultTags;
 		}
-		console.log("Actual tags: " + tags);
 		return tags;
 	},
 	destroy : function() {
