@@ -220,6 +220,19 @@
 					</div>
 
 					<div class="row collapse">
+						<h:outputLabel for="twitterPublishDateThresholdInHours" value="#{msg['management.config.twitterPublishDateThresholdInHours']}:"
+									   styleClass="#{!twitterPublishDateThresholdInHours.valid ? 'error' : ''}"/>
+
+						<h:inputText id="twitterPublishDateThresholdInHours" value="#{configurationController.config.twitterPublishDateThresholdInHours}"
+									 binding="#{twitterPublishDateThresholdInHours}" styleClass="#{!twitterPublishDateThresholdInHours.valid ? 'error' : ''}"/>
+						<h:message for="twitterPublishDateThresholdInHours" errorClass="error"/>
+
+						<p>
+							<h:outputText value="#{msg['management.config.twitterPublishDateThresholdInHours.desc']}"/>
+						</p>
+					</div>
+
+					<div class="row collapse">
 						<h:outputLabel for="twitterOAuthConsumerKey" value="#{msg['management.config.twitterOAuthConsumerKey']}:"
 									   styleClass="#{!twitterOAuthConsumerKey.valid ? 'error' : ''}"/>
 

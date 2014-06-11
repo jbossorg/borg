@@ -5,10 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import org.jboss.planet.model.PostStatus;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.*;
@@ -17,6 +13,10 @@ import javax.inject.Named;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jboss.planet.model.PostStatus;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 /**
  * Service for checking not synced content to Twitter. It's {@link java.util.Timer} based checker and thus runs in
@@ -75,10 +75,12 @@ public class TwitterSyncCheckService {
 			initTimer();
 			return;
 		}
-		log.log(Level.INFO, "Sync to Twitter started");
+		int dateThreshold = configurationService.getConfiguration().getTwitterPublishDateThresholdInHours();
+
+		log.log(Level.INFO, "Sync to Twitter started. Publish date limit in hours: {0}", dateThreshold);
 
 		// Getting only IDs to avoid "no session" on lazy initialization
-		List<Integer> postsToSync = postService.find(PostStatus.SYNCED);
+		List<Integer> postsToSync = postService.find(PostStatus.SYNCED, dateThreshold);
 
 		int shortURLLength;
 		Twitter twitter = twitterService.createTwitterClient();

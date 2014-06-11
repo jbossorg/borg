@@ -5,17 +5,17 @@
  */
 package org.jboss.planet.model;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.URL;
-import org.jboss.planet.model.RemoteFeed.FeedStatus;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.URL;
+import org.jboss.planet.model.RemoteFeed.FeedStatus;
 
 @Entity
 @Cacheable(true)
@@ -87,6 +87,34 @@ public class Configuration implements Serializable {
 	private String twitterOAuthAccessToken;
 	private String twitterOAuthAccessTokenSecret;
 	private String twitterText;
+	private int twitterPublishDateThresholdInHours;
+
+	@Override
+	public String toString() {
+		return "Configuration{" +
+				"id=" + id +
+				", readTimeout=" + readTimeout +
+				", connectionTimeout=" + connectionTimeout +
+				", updateInterval=" + updateInterval +
+				", updateFeedFailsThreshold=" + updateFeedFailsThreshold +
+				", adminEmail='" + adminEmail + '\'' +
+				", serverAddress='" + serverAddress + '\'' +
+				", contextName='" + contextName + '\'' +
+				", syncServer='" + syncServer + '\'' +
+				", syncServerHttpInViewLayer=" + syncServerHttpInViewLayer +
+				", syncUsername='" + syncUsername + '\'' +
+				", syncPassword=******" +
+				", syncContentType='" + syncContentType + '\'' +
+				", themeUrl='" + themeUrl + '\'' +
+				", twitterEnabled=" + twitterEnabled +
+				", twitterOAuthConsumerKey='" + twitterOAuthConsumerKey + '\'' +
+				", twitterOAuthConsumerSecret='" + twitterOAuthConsumerSecret + '\'' +
+				", twitterOAuthAccessToken=" +
+				", twitterOAuthAccessTokenSecret=****" +
+				", twitterPublishDateThresholdInHours=" + twitterPublishDateThresholdInHours + '\'' +
+				'}';
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -154,97 +182,6 @@ public class Configuration implements Serializable {
 
 	public void setThemeUrl(String themeUrl) {
 		this.themeUrl = themeUrl;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Configuration that = (Configuration) o;
-
-		if (twitterEnabled != that.twitterEnabled) return false;
-		if (adminEmail != null ? !adminEmail.equals(that.adminEmail) : that.adminEmail != null) return false;
-		if (connectionTimeout != null ? !connectionTimeout.equals(that.connectionTimeout) : that.connectionTimeout != null)
-			return false;
-		if (contextName != null ? !contextName.equals(that.contextName) : that.contextName != null) return false;
-		if (!id.equals(that.id)) return false;
-		if (readTimeout != null ? !readTimeout.equals(that.readTimeout) : that.readTimeout != null) return false;
-		if (serverAddress != null ? !serverAddress.equals(that.serverAddress) : that.serverAddress != null)
-			return false;
-		if (syncContentType != null ? !syncContentType.equals(that.syncContentType) : that.syncContentType != null)
-			return false;
-		if (syncPassword != null ? !syncPassword.equals(that.syncPassword) : that.syncPassword != null) return false;
-		if (syncServer != null ? !syncServer.equals(that.syncServer) : that.syncServer != null) return false;
-		if (syncServerHttpInViewLayer != null ? !syncServerHttpInViewLayer.equals(that.syncServerHttpInViewLayer) : that.syncServerHttpInViewLayer != null)
-			return false;
-		if (syncUsername != null ? !syncUsername.equals(that.syncUsername) : that.syncUsername != null) return false;
-		if (themeUrl != null ? !themeUrl.equals(that.themeUrl) : that.themeUrl != null) return false;
-		if (twitterOAuthAccessToken != null ? !twitterOAuthAccessToken.equals(that.twitterOAuthAccessToken) : that.twitterOAuthAccessToken != null)
-			return false;
-		if (twitterOAuthAccessTokenSecret != null ? !twitterOAuthAccessTokenSecret.equals(that.twitterOAuthAccessTokenSecret) : that.twitterOAuthAccessTokenSecret != null)
-			return false;
-		if (twitterOAuthConsumerKey != null ? !twitterOAuthConsumerKey.equals(that.twitterOAuthConsumerKey) : that.twitterOAuthConsumerKey != null)
-			return false;
-		if (twitterOAuthConsumerSecret != null ? !twitterOAuthConsumerSecret.equals(that.twitterOAuthConsumerSecret) : that.twitterOAuthConsumerSecret != null)
-			return false;
-		if (twitterText != null ? !twitterText.equals(that.twitterText) : that.twitterText != null) return false;
-		if (updateFeedFailsThreshold != null ? !updateFeedFailsThreshold.equals(that.updateFeedFailsThreshold) : that.updateFeedFailsThreshold != null)
-			return false;
-		if (updateInterval != null ? !updateInterval.equals(that.updateInterval) : that.updateInterval != null)
-			return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = id.hashCode();
-		result = 31 * result + (readTimeout != null ? readTimeout.hashCode() : 0);
-		result = 31 * result + (connectionTimeout != null ? connectionTimeout.hashCode() : 0);
-		result = 31 * result + (updateInterval != null ? updateInterval.hashCode() : 0);
-		result = 31 * result + (updateFeedFailsThreshold != null ? updateFeedFailsThreshold.hashCode() : 0);
-		result = 31 * result + (adminEmail != null ? adminEmail.hashCode() : 0);
-		result = 31 * result + (serverAddress != null ? serverAddress.hashCode() : 0);
-		result = 31 * result + (contextName != null ? contextName.hashCode() : 0);
-		result = 31 * result + (syncServer != null ? syncServer.hashCode() : 0);
-		result = 31 * result + (syncServerHttpInViewLayer != null ? syncServerHttpInViewLayer.hashCode() : 0);
-		result = 31 * result + (syncUsername != null ? syncUsername.hashCode() : 0);
-		result = 31 * result + (syncPassword != null ? syncPassword.hashCode() : 0);
-		result = 31 * result + (syncContentType != null ? syncContentType.hashCode() : 0);
-		result = 31 * result + (themeUrl != null ? themeUrl.hashCode() : 0);
-		result = 31 * result + (twitterEnabled ? 1 : 0);
-		result = 31 * result + (twitterOAuthConsumerKey != null ? twitterOAuthConsumerKey.hashCode() : 0);
-		result = 31 * result + (twitterOAuthConsumerSecret != null ? twitterOAuthConsumerSecret.hashCode() : 0);
-		result = 31 * result + (twitterOAuthAccessToken != null ? twitterOAuthAccessToken.hashCode() : 0);
-		result = 31 * result + (twitterOAuthAccessTokenSecret != null ? twitterOAuthAccessTokenSecret.hashCode() : 0);
-		result = 31 * result + (twitterText != null ? twitterText.hashCode() : 0);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "Configuration{" +
-				"id=" + id +
-				", readTimeout=" + readTimeout +
-				", connectionTimeout=" + connectionTimeout +
-				", updateInterval=" + updateInterval +
-				", updateFeedFailsThreshold=" + updateFeedFailsThreshold +
-				", adminEmail='" + adminEmail + '\'' +
-				", serverAddress='" + serverAddress + '\'' +
-				", contextName='" + contextName + '\'' +
-				", syncServer='" + syncServer + '\'' +
-				", syncServerHttpInViewLayer=" + syncServerHttpInViewLayer +
-				", syncUsername='" + syncUsername + '\'' +
-				", syncPassword=******" +
-				", syncContentType='" + syncContentType + '\'' +
-				", themeUrl='" + themeUrl + '\'' +
-				", twitterEnabled=" + twitterEnabled +
-				", twitterOAuthConsumerKey='" + twitterOAuthConsumerKey + '\'' +
-				", twitterOAuthConsumerSecret='" + twitterOAuthConsumerSecret + '\'' +
-				", twitterOAuthAccessToken=" +
-				", twitterOAuthAccessTokenSecret=****" +
-				'}';
 	}
 
 	public String getSyncServer() {
@@ -341,5 +278,13 @@ public class Configuration implements Serializable {
 
 	public void setTwitterText(String twitterText) {
 		this.twitterText = twitterText;
+	}
+
+	public int getTwitterPublishDateThresholdInHours() {
+		return twitterPublishDateThresholdInHours;
+	}
+
+	public void setTwitterPublishDateThresholdInHours(int twitterPublishDateThresholdInHours) {
+		this.twitterPublishDateThresholdInHours = twitterPublishDateThresholdInHours;
 	}
 }

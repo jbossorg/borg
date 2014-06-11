@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
@@ -55,6 +56,21 @@ public class PostService extends EntityServiceJpa<Post> {
 	public List<Integer> find(PostStatus status) {
 		return getEntityManager().createQuery("select post.id from Post post WHERE post.status = ?1")
 				.setParameter(1, status).getResultList();
+	}
+
+	/**
+	 * Find posts based on its status and published no older than threshold in hours.
+	 *
+	 * @param status
+	 * @param publishDateThresholdInHours threshold how old posts (in hours)
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Integer> find(PostStatus status, int publishDateThresholdInHours) {
+		Date date = DateUtils.addHours(new Date(), -publishDateThresholdInHours);
+
+		return getEntityManager().createQuery("select post.id from Post post WHERE post.status = ?1 and post.published >= ?2")
+				.setParameter(1, status).setParameter(2, date).getResultList();
 	}
 
 	/**
