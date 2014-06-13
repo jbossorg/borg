@@ -17,6 +17,8 @@
 		<cookie-config>
 			<secure>${ssl.securedCookies}</secure>
 		</cookie-config>
+		<!-- No jsessionid in URL, se ORG-2099 -->
+		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 
 	<context-param>
