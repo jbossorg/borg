@@ -69,7 +69,8 @@ public class PostService extends EntityServiceJpa<Post> {
 	public List<Integer> find(PostStatus status, int publishDateThresholdInHours) {
 		Date date = DateUtils.addHours(new Date(), -publishDateThresholdInHours);
 
-		return getEntityManager().createQuery("select post.id from Post post WHERE post.status = ?1 and post.published >= ?2")
+		return getEntityManager().createQuery("select post.id from Post post WHERE post.status = ?1 and post.published >= ?2"
+				+ " order by post.published asc")
 				.setParameter(1, status).setParameter(2, date).getResultList();
 	}
 
