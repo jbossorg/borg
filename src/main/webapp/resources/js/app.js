@@ -331,15 +331,13 @@ var planet = {
 
 		url = encodeURI(url);
 
-		$.ajax({
-			url : url,
-			type : "get",
-			dataType : 'json',
-			success : function(data) {
-				// must be before callback because it can turn off retrieving new posts in case of "no more posts"
-				planet.canRetrieveNewPosts = true;
-				callback(data);
-			}
+		$.ajax(url)
+		.done(function(data) {
+			// must be before callback because it can turn off retrieving new posts in case of "no more posts"
+			planet.canRetrieveNewPosts = true;
+			callback(data, true); })
+		.fail(function() {
+			callback({}, false);
 		});
 
 	},
@@ -740,11 +738,15 @@ var home = {
 			break;
 		}
 	},
-	addPosts : function(data) {
+	addPosts : function(data, success) {
 		size = 0;
 		var postsList = $("#home-posts", home.currentPage);
 
 		$("#loading-div-home", home.currentPage).hide();
+		if (!success) {
+			$("#dcp-error-home", home.currentPage).show();
+			return;
+		}
 
 		$.each(data.hits.hits, function(key, val) {
 			var postEntry = new Post(val, planet.layout);
@@ -787,9 +789,10 @@ var home = {
 		$("#home-refresh i").addClass("fa-spin");
 		$("#home-posts").empty();
 		$("#loading-div-home").show();
+		$("#dcp-error-home").hide();
 		navigation.clearSearchUrls();
-		planet.retrieveNewPosts(home.data.currentFrom, home.data.count, function(data) {
-			home.addPosts(data);
+		planet.retrieveNewPosts(home.data.currentFrom, home.data.count, function(data, success) {
+			home.addPosts(data, success);
 			home.toogleButton("#home-refresh");
 			$("#home-refresh i").removeClass("fa-spin");
 		}, home.data.projects, home.getActualTags());
