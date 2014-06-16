@@ -34,6 +34,11 @@ public enum PostStatus {
 	/**
 	 * Posted to twitter
 	 */
-	POSTED_TWITTER
+	POSTED_TWITTER,
+
+	/**
+	 * Blog post needs moderation
+	 */
+	MODERATION_REQUIRED
 
 }

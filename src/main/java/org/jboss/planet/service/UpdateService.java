@@ -5,12 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import org.jboss.planet.event.MergePostsEvent;
-import org.jboss.planet.exception.ParserException;
-import org.jboss.planet.exception.UpdateException;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.util.GeneralTools;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.*;
@@ -25,6 +19,12 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jboss.planet.event.MergePostsEvent;
+import org.jboss.planet.exception.ParserException;
+import org.jboss.planet.exception.UpdateException;
+import org.jboss.planet.model.RemoteFeed;
+import org.jboss.planet.util.GeneralTools;
 
 /**
  * Service handle update feeds
@@ -70,13 +70,13 @@ public class UpdateService {
 	public void start() {
 		// First update fired 1 minutes after server startup
 		int startupInMin = 1;
-		log.log(Level.INFO, "Initializating first blog posts update in {0} min", startupInMin);
+		log.log(Level.INFO, "Initializing first blog posts update in {0} min", startupInMin);
 		timerService.createSingleActionTimer(startupInMin * 60 * 1000, new TimerConfig(null, false));
 	}
 
 	private void initTimer() {
 		int intervalInSec = configurationService.getConfiguration().getUpdateInterval();
-		log.log(Level.INFO, "Initializating next blog posts update in {0} min", intervalInSec / 60);
+		log.log(Level.INFO, "Initializing next blog posts update in {0} min", intervalInSec / 60);
 		timerService.createSingleActionTimer(intervalInSec * 1000, new TimerConfig(null, false));
 	}
 
@@ -93,6 +93,7 @@ public class UpdateService {
 		int mergedPosts = 0;
 		int totalPosts = 0;
 		int ignoredPosts = 0;
+		int duplicateTitles = 0;
 
 		List<RemoteFeed> feeds = feedsService.getAcceptedFeeds();
 		int counter = 0;
@@ -118,6 +119,7 @@ public class UpdateService {
 							+ "STATS: new: " + stat.getNewPosts()
 							+ ", merged: " + stat.getMergedPosts()
 							+ ", ignored: " + stat.getIgnoredPosts()
+							+ ", duplicate titles: " + stat.getDuplicateTitles()
 							+ ", total: " + stat.getTotalPosts());
 				}
 
@@ -125,6 +127,7 @@ public class UpdateService {
 				mergedPosts += stat.getMergedPosts();
 				totalPosts += stat.getTotalPosts();
 				ignoredPosts += stat.getIgnoredPosts();
+				duplicateTitles += stat.getDuplicateTitles();
 
 				// reset update fail counter
 				if (feed.getUpdateFailCount() != null && feed.getUpdateFailCount() > 0) {
@@ -153,11 +156,12 @@ public class UpdateService {
 				+ ", new posts: " + newPosts
 				+ ", Merged posts: " + mergedPosts
 				+ ", Ignored posts: " + ignoredPosts
+				+ ", Duplicate titles: " + duplicateTitles
 				+ ", Total posts: " + totalPosts);
 
 		updateInProgress = new AtomicBoolean(false);
 
-		mergeStatEvent.fire(new MergePostsEvent(newPosts, mergedPosts, totalPosts, ignoredPosts));
+		mergeStatEvent.fire(new MergePostsEvent(newPosts, mergedPosts, totalPosts, ignoredPosts, duplicateTitles));
 
 		initTimer();
 	}
@@ -165,7 +169,7 @@ public class UpdateService {
 	public void addFeedUpdateException(String feedName, UpdateException exception) {
 		List<UpdateException> exceptions = feedUpdateExceptions.get(feedName);
 		if (exceptions == null) {
-			exceptions = new ArrayList<UpdateException>();
+			exceptions = new ArrayList<>();
 			feedUpdateExceptions.put(feedName, exceptions);
 		}
 

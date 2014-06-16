@@ -5,13 +5,6 @@
  */
 package org.jboss.planet.controller;
 
-import org.jboss.planet.model.Post;
-import org.jboss.planet.security.CRUDAllowed;
-import org.jboss.planet.security.CRUDOperationType;
-import org.jboss.planet.service.JBossSyncService;
-import org.jboss.planet.service.PostService;
-import org.jboss.planet.util.ApplicationMessages;
-
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -22,9 +15,17 @@ import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jboss.planet.model.Post;
+import org.jboss.planet.model.PostStatus;
+import org.jboss.planet.security.CRUDAllowed;
+import org.jboss.planet.security.CRUDOperationType;
+import org.jboss.planet.service.JBossSyncService;
+import org.jboss.planet.service.PostService;
+import org.jboss.planet.util.ApplicationMessages;
+
 /**
  * Model for {@link Post}
- * 
+ *
  * @author Libor Krzyzanek
  */
 @Model
@@ -58,6 +59,10 @@ public class PostController {
 			facesContext.responseComplete();
 			return;
 		} else {
+			if (post.isOnModeration()) {
+				postService.checkEditPermissions(post);
+			}
+
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 			post.setPublishedDate(df.format(post.getPublished()));
 		}
@@ -70,9 +75,10 @@ public class PostController {
 		if (p == null) {
 			facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Blog Post Not Found");
 			facesContext.responseComplete();
+			return "pretty:home";
 		}
 
- 		deletePost(p);
+		deletePost(p);
 
 		facesContext.addMessage(
 				null,
@@ -85,6 +91,28 @@ public class PostController {
 	public void deletePost(Post p) throws IOException {
 		jbossSyncService.deletePost(titleAsId);
 		postService.delete(p.getId());
+	}
+
+	public String activatePost() throws IOException {
+		log.log(Level.INFO, "Set status of post to created. Post {0}", titleAsId);
+
+		Post p = postService.find(titleAsId);
+		if (p == null) {
+			facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Blog Post Not Found");
+			facesContext.responseComplete();
+		}
+
+		updatePostStatus(p, PostStatus.CREATED);
+		facesContext.addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("post.activated",
+						titleAsId), null));
+		return "pretty:post";
+	}
+
+	public void updatePostStatus(Post p, PostStatus status) throws IOException {
+		p.setStatus(status);
+		post = postService.update(p);
 	}
 
 

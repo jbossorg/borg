@@ -44,11 +44,22 @@
 			</div>
 
 			<ui:fragment rendered="#{security.canUserDelete(postController.post)}">
-				<h:form>
+				<h:form id="postAdmin">
 					<div class="row">
 						<div class="small-24 columns panel radius">
+							<h:commandLink id="activate" action="#{postController.activatePost}"
+										   rendered="#{postController.post.onModeration}"
+										   styleClass="button info"
+										   onclick="if (!confirm('#{msg['post.text.activate.confirm']}')) return false">
+								<f:setPropertyActionListener target="#{postController.titleAsId}"
+															 value="#{postController.post.titleAsId}"/>
+								<i class="fa fa-check-square"></i>&#160;
+								#{msg['post.activate']}
+							</h:commandLink>
+
 							<h:commandLink id="delete" action="#{postController.deletePost}"
-										   styleClass="button alert"
+										   rendered="#{!postController.post.onModeration}"
+										   styleClass="button alert disabled"
 										   onclick="if (!confirm('#{msg['post.text.delete.confirm']}')) return false">
 								<f:setPropertyActionListener target="#{postController.titleAsId}"
 															 value="#{postController.post.titleAsId}"/>
@@ -60,12 +71,26 @@
 				</h:form>
 			</ui:fragment>
 		</div>
+		<ui:fragment rendered="#{!postController.post.onModeration}">
 		<script type="text/javascript">
 			//<![CDATA[
 			$(document).ready(function () {
 				var postId = $(".blogpost-content").attr("data-post-id");
 				var p = new Post();
-				p.getPost(postId, function (data) {
+				p.getPost(postId, function (data, success) {
+					var buttons = $("#postAdmin a");
+					if (!success) {
+						buttons.addClass("disabled");
+						buttons.attr('onclick','');
+						buttons.click(function() {
+							alert('#{msg['post.text.feature.disabled']}');
+							return false;
+						});
+						return;
+					} else {
+						buttons.removeClass("disabled");
+					}
+
 					p.data = {
 						_source: data
 					};
@@ -84,6 +109,7 @@
 			});
 			//]]>
 		</script>
+		</ui:fragment>
 	</ui:define>
 
 </ui:composition>

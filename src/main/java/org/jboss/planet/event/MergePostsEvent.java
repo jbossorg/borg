@@ -32,11 +32,17 @@ public class MergePostsEvent {
 	 */
 	private int ignoredPosts;
 
-	public MergePostsEvent(int newPosts, int mergedPosts, int totalPosts, int ignoredPosts) {
+	/**
+	 * Count of posts with duplicate title
+	 */
+	private int duplicateTitles;
+
+	public MergePostsEvent(int newPosts, int mergedPosts, int totalPosts, int ignoredPosts, int duplicateTitles) {
 		this.newPosts = newPosts;
 		this.mergedPosts = mergedPosts;
 		this.totalPosts = totalPosts;
 		this.ignoredPosts = ignoredPosts;
+		this.duplicateTitles = duplicateTitles;
 	}
 
 	public int getMergedPosts() {
@@ -53,5 +59,9 @@ public class MergePostsEvent {
 
 	public int getIgnoredPosts() {
 		return ignoredPosts;
+	}
+
+	public int getDuplicateTitles() {
+		return duplicateTitles;
 	}
 }

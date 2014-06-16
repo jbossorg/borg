@@ -5,14 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.jboss.planet.event.MergePostsEvent;
-import org.jboss.planet.model.Post;
-import org.jboss.planet.model.PostStatus;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.util.StringTools;
-
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -22,6 +14,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.jboss.planet.event.MergePostsEvent;
+import org.jboss.planet.model.Post;
+import org.jboss.planet.model.PostStatus;
+import org.jboss.planet.model.RemoteFeed;
+import org.jboss.planet.util.StringTools;
 
 /**
  * Service responsible for merging new posts
@@ -55,6 +55,7 @@ public class MergeService {
 		int newPosts = 0;
 		int mergedPosts = 0;
 		int ignoredPosts = 0;
+		int duplicateTitles = 0;
 		Date threshold = DateUtils.addMonths(new Date(), DATE_THRESHOLD_MONTHS);
 
 		log.log(Level.FINE, "Merging posts from feed ''{0}''. Date Threshold: {1}", new Object[]{feed.getName(), threshold});
@@ -72,8 +73,14 @@ public class MergeService {
 				continue;
 			}
 			try {
+				// Decide new or update post
 				List<Post> postDbs = postService.find(feed, p.getTitle(), p.getPublished());
 				if (postDbs.size() == 0) {
+					boolean duplicatePostHandled = handleDuplicatePosts(p, feed);
+					if (duplicatePostHandled) {
+						duplicateTitles++;
+						continue;
+					}
 					savePost(feed, p);
 					newPosts++;
 				} else {
@@ -90,7 +97,10 @@ public class MergeService {
 							postDb.setPublished(p.getPublished());
 							postDb.setModified(p.getModified());
 							postDb.setContent(p.getContent());
-							postDb.setStatus(PostStatus.FORCE_SYNC);
+
+							if (!postDb.isOnModeration()) {
+								postDb.setStatus(PostStatus.FORCE_SYNC);
+							}
 
 							postService.update(postDb, false);
 							mergedPosts++;
@@ -103,7 +113,35 @@ public class MergeService {
 				log.log(Level.SEVERE, "Error occurred during merging post, post url: " + p.getLink(), e);
 			}
 		}
-		return new MergePostsEvent(newPosts, mergedPosts, postsToMerge.size(), ignoredPosts);
+		return new MergePostsEvent(newPosts, mergedPosts, postsToMerge.size(), ignoredPosts, duplicateTitles);
+	}
+
+	/**
+	 * Handle duplicate posts. Tries to find posts with same author and title. Save the post with moderation flag if such post exists
+	 *
+	 * @param p
+	 * @param feed
+	 * @return true if duplicate post exists (either newly created or already exists from previous update run)
+	 */
+	public boolean handleDuplicatePosts(Post p, RemoteFeed feed) {
+		List<Post> duplicateTitlePosts = postService.find(p.getAuthor(), p.getTitle());
+
+		for (Post duplicateTitlePost : duplicateTitlePosts) {
+			// Check if duplicate post is same
+			if (duplicateTitlePost.compareTo(p) == 0) {
+				if (log.isLoggable(Level.FINE)) {
+					log.log(Level.FINE, "Blog post with duplicate title and same author: ''{0}'', title: ''{1}'', duplicate post: {2}",
+							new Object[]{p.getAuthor(), p.getTitle(), duplicateTitlePost});
+				}
+				log.log(Level.FINEST, "Save blog post with moderation flag, post: {0}", p);
+				p.setStatus(PostStatus.MODERATION_REQUIRED);
+				savePost(feed, p);
+				// duplicate post exists - just saved or already existed from previous update run
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean needToCheck(Date published, Date threshold) {
@@ -126,8 +164,8 @@ public class MergeService {
 		post.setFeed(feed);
 
 		if (log.isLoggable(Level.FINE)) {
-			log.log(Level.FINE, "Saving post, feed: {0}, post title: {1}, post titleAsId: {2}, published: {3}.",
-					new Object[]{feed.getName(), post.getTitle(), post.getTitleAsId(), post.getPublished()});
+			log.log(Level.FINE, "Saving post, feed: {0}, post title: {1}, post titleAsId: {2}, published: {3}, status: {4}",
+					new Object[]{feed.getName(), post.getTitle(), post.getTitleAsId(), post.getPublished(), post.getStatus()});
 		}
 
 		log.log(Level.INFO, "Saving new post ''{0}''", post.getTitleAsId());

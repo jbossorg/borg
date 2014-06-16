@@ -122,14 +122,14 @@ Post = function(val, format) {
 
 	/* Get post based on ID */
 	this.getPost = function(id, callback) {
-		$.ajax({
-			url : planet.dcpRestApi + "content/" + planet.dcpContentType + "/" + id + "?field=_source",
-			type : "get",
-			dataType : 'json',
-			success : function(data) {
-				callback(data);
-			}
-		});
+		var url = planet.dcpRestApi + "content/" + planet.dcpContentType + "/" + id + "?field=_source";
+		$.ajax(url)
+			.done(function(data) {
+				callback(data, true);
+			})
+			.fail(function() {
+				callback({}, false);
+			});
 	},
 
 	this.previewElm = null;

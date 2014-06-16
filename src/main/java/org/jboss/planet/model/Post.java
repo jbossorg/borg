@@ -5,11 +5,6 @@
  */
 package org.jboss.planet.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.jboss.planet.util.GeneralTools;
-import org.jboss.planet.util.StringTools;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,6 +14,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.hibernate.annotations.Index;
+import org.jboss.planet.util.GeneralTools;
+import org.jboss.planet.util.StringTools;
 
 /**
  * Blog Post entity
@@ -79,6 +80,7 @@ public class Post implements Serializable {
 	 */
 	@Size(max = 250)
 	@JsonIgnore
+	@Index(name="author_index")
 	private String author;
 
 	/**
@@ -320,6 +322,10 @@ public class Post implements Serializable {
 
 	public PostStatus getStatus() {
 		return status;
+	}
+
+	public boolean isOnModeration() {
+		return status.equals(PostStatus.MODERATION_REQUIRED);
 	}
 
 	public void setStatus(PostStatus status) {

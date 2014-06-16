@@ -17,6 +17,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
+import org.jboss.planet.security.CRUDAllowed;
+import org.jboss.planet.security.CRUDOperationType;
 
 /**
  * Service related to {@link Post} entity
@@ -29,6 +31,15 @@ public class PostService extends EntityServiceJpa<Post> {
 
 	public PostService() {
 		super(Post.class);
+	}
+
+	/**
+	 * Helper method to check permissions of specified entity via annotation
+	 *
+	 * @param entity
+	 */
+	@CRUDAllowed(operation = CRUDOperationType.UPDATE)
+	public void checkEditPermissions(Object entity) {
 	}
 
 	/**
@@ -73,6 +84,21 @@ public class PostService extends EntityServiceJpa<Post> {
 				+ " order by post.published asc")
 				.setParameter(1, status).setParameter(2, date).getResultList();
 	}
+
+	/**
+	 * Find posts based on its author and title
+	 *
+	 * @param author author of blog post
+	 * @param title  blog post's title
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Post> find(String author, String title) {
+		return getEntityManager().createQuery(
+				"select post from Post post WHERE post.author = ?1 and post.title = ?2")
+				.setParameter(1, author).setParameter(2, title).getResultList();
+	}
+
 
 	/**
 	 * Find posts based on input parameters
