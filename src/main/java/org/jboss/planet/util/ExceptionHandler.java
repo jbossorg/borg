@@ -5,12 +5,6 @@
  */
 package org.jboss.planet.util;
 
-import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.pretty.PrettyException;
-import org.jboss.planet.filter.CasLoginFilter;
-import org.jboss.planet.security.PermissionException;
-import org.jboss.planet.security.UserNotLoggedInException;
-
 import javax.ejb.EJBException;
 import javax.el.ELException;
 import javax.faces.FacesException;
@@ -26,6 +20,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.pretty.PrettyException;
+import org.jboss.planet.filter.CasLoginFilter;
+import org.jboss.planet.security.PermissionException;
+import org.jboss.planet.security.UserNotLoggedInException;
 
 /**
  * Exception handler to handle business logic exceptions like {@link UserNotLoggedInException} etc.
@@ -72,6 +72,7 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 			} else {
 				// do not write whole stacktrace because it's probably already logged
 				log.log(Level.SEVERE, "Unknown error: " + t.getMessage());
+				log.log(Level.FINE, "Error stacktrace", t);
 				facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unknown error occurred. "
 						+ t.getMessage(), null));
 			}
