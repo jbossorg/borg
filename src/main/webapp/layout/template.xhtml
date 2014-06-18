@@ -62,7 +62,7 @@
 
 <body class="home">
 
-<ui:insert name="page-start"/>
+	<ui:insert name="page-start"/>
 
 	<div class="dropup">
 		<a class="tabnav-closed" href="https://www.jboss.org" id="tab">Red Hat</a>
@@ -71,8 +71,9 @@
 
 		<header class="main"><i class="nav-toggle nav-toggle-open"></i>
 			<div class="row">
-				<div class="large-7 columns"><h1 class="logo"><a
-						href="http://www.jboss.org">JBoss<strong>Developer</strong></a></h1></div>
+				<div class="large-7 columns">
+					<h1 class="logo"><a href="http://www.jboss.org">JBoss<strong>Developer</strong></a></h1>
+				</div>
 			</div>
 		</header>
 
@@ -148,66 +149,58 @@
 			</div>
 		</nav>
 
-
-	<div class="wrapper clearfix">
-		<div class="content-wrapper">
-
-   		<div id="page-id-#{pageId}" class="container content-container #{pageClass}">
-           <div class="row collapse">
-            <div class="large-24 columns">
-                <div id="breadcrumb">
-				  <ul class="breadcrumbs">
-                    <ui:insert name="breadcrumb"/>
-                  </ul>
-                </div>
-            </div>
-            </div>
-            <div class="row collapse">
-              <div class="large-24 columns main-messages">
-              	<ui:repeat var="m" value="#{requestUtils.globalMessages}">
-					<ui:fragment rendered="#{m.severity.ordinal == 0}">
-						<div data-alert="true" data-theme="test" class="alert-box success radius">
-							<a class="close" href="#">×</a>
-							#{m.summary}
+		<div class="wrapper clearfix">
+			<div class="content-wrapper">
+				<div id="page-id-#{pageId}" class="container content-container #{pageClass}">
+				   <div class="row collapse">
+					<div class="large-24 columns">
+						<div id="breadcrumb">
+						  <ul class="breadcrumbs">
+							<ui:insert name="breadcrumb"/>
+						  </ul>
 						</div>
-					</ui:fragment>
-					<ui:fragment rendered="#{m.severity.ordinal == 1}">
-						<div data-alert="" class="alert-box info radius">
-							<a class="close" href="#">×</a>
-							#{m.summary}
-						</div>
-					</ui:fragment>
-					<ui:fragment rendered="#{m.severity.ordinal == 2}">
-						<div data-alert="" class="alert-box error radius">
-							<a class="close" href="#">×</a>
-							#{m.summary}
-						</div>
-					</ui:fragment>
-              	</ui:repeat>
-              </div>
-           </div>
-
-
-			<div class="row collapse">
-				<div class="large-24 columns">
-					<div class="content-title page-header" id="content-title-#{pageId}">
-						<h2 class="large-title"><ui:insert name="header"/></h2>
 					</div>
-				</div>
-			</div>
+					</div>
+					<div class="row collapse">
+					  <div class="large-24 columns main-messages">
+						<ui:repeat var="m" value="#{requestUtils.globalMessages}">
+							<ui:fragment rendered="#{m.severity.ordinal == 0}">
+								<div data-alert="true" data-theme="test" class="alert-box success radius">
+									<a class="close" href="#">×</a>
+									#{m.summary}
+								</div>
+							</ui:fragment>
+							<ui:fragment rendered="#{m.severity.ordinal == 1}">
+								<div data-alert="" class="alert-box info radius">
+									<a class="close" href="#">×</a>
+									#{m.summary}
+								</div>
+							</ui:fragment>
+							<ui:fragment rendered="#{m.severity.ordinal == 2}">
+								<div data-alert="" class="alert-box error radius">
+									<a class="close" href="#">×</a>
+									#{m.summary}
+								</div>
+							</ui:fragment>
+						</ui:repeat>
+					  </div>
+				   </div>
 
-			 <!-- BODY -->
-			 <ui:insert name="body"/>
-			 <!-- BODY END -->
 
+					<div class="row collapse">
+						<div class="large-24 columns">
+							<div class="content-title page-header" id="content-title-#{pageId}">
+								<h2 class="large-title"><ui:insert name="header"/></h2>
+							</div>
+						</div>
+					</div>
 
-
-		</div> <!-- /container -->
-
+					 <!-- BODY -->
+					 <ui:insert name="body"/>
+					 <!-- BODY END -->
+				</div> <!-- /container -->
 			</div>
 		</div>
-
-
 	</div> <!-- /site-wrapper -->
 
 
