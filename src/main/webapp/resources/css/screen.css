@@ -1,6 +1,10 @@
 @CHARSET "UTF-8";
 
 /* ******** Main design *****************/
+.top-bar-section {
+	margin: 0 auto;
+	max-width: 1200px;
+}
 .page-header {
 	margin-bottom: 10px !important;
 	border-bottom: none !important;
