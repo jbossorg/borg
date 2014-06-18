@@ -119,6 +119,20 @@ public class PostService extends EntityServiceJpa<Post> {
 	}
 
 	/**
+	 * Find all posts for particular feed ordered by published desc
+	 *
+	 * @param feed
+	 * @return
+	 */
+	public List<Post> find(RemoteFeed feed) {
+		return getEntityManager()
+				.createQuery("select p from Post p WHERE p.feed = :feed order by p.published desc")
+				.setParameter("feed", feed)
+				.getResultList();
+	}
+
+
+	/**
 	 * Update status of all posts belonging to specified feed.
 	 *
 	 * @param status

@@ -6,6 +6,7 @@
 	<ui:param name="pageId" value="manage-feeds"/>
 	<ui:param name="section" value="yourstuff"/>
 	<ui:param name="datatables" value="true"/>
+	<ui:param name="foundation_dropdown" value="true"/>
 
 	<ui:define name="header">
 		#{msg['management.feeds.name']}
@@ -26,6 +27,7 @@
 
 		<h:link outcome="/manage/feed/propositions.xhtml" value="#{msg['management.feeds.link.propositions']}"
 				rendered="#{userController.admin}" styleClass="button"/>
+
 		<p></p>
 
 		<table id="manage-feeds-table">
@@ -81,24 +83,41 @@
 					</td>
 					<td class="table-actions-column">
 						<h:form id="feed-action" styleClass="feed-action-form">
-							<h:link outcome="/manage/feed/feed-edit.jsf" styleClass="button expand small">
-								<f:param name="name" value="#{feed.name}"/>
-								<i class="fa fa-edit"></i>&#160;
-								#{msg['management.feeds.edit']}
-							</h:link>
-							<h:link outcome="/manage/feed/feed-admins.jsf" styleClass="button expand small"
-									rendered="#{feed.accepted}">
-								<f:param name="name" value="#{feed.name}"/>
-								<i class="fa fa-user"></i>&#160;
-								#{msg['management.feeds.admins']}
-							</h:link>
-							<h:commandLink id="delete" action="#{feedController.deleteFeed}"
-										   styleClass="button expand small alert"
-										   onclick="if (!confirm('#{msg['management.feeds.text.delete.confirm']}')) return false">
-								<f:setPropertyActionListener target="#{feedController.feedName}" value="#{feed.name}"/>
-								<i class="fa fa-trash-o"></i>&#160;
-								#{msg['management.feeds.delete']}
-							</h:commandLink>
+							<a href="#" data-dropdown="manage_feed_#{feed.name}" class="button small expand blue dropdown">
+								<h:outputText value="#{msg['management.feeds.link.manage']}"/>
+							</a>
+							<ul id="manage_feed_#{feed.name}" class="f-dropdown">
+								<li>
+									<h:link outcome="/manage/feed/feed-edit.jsf">
+										<f:param name="name" value="#{feed.name}"/>
+										<i class="fa fa-edit"></i>&#160;
+										#{msg['management.feeds.edit']}
+									</h:link>
+								</li>
+								<li>
+									<h:link outcome="/manage/feed/post/list.jsf">
+										<f:param name="name" value="#{feed.name}"/>
+										<i class="fa fa-list"></i>&#160;
+										#{msg['management.feeds.post.list.name']}
+									</h:link>
+								</li>
+								<li>
+									<h:link outcome="/manage/feed/feed-admins.jsf" rendered="#{feed.accepted}">
+										<f:param name="name" value="#{feed.name}"/>
+										<i class="fa fa-user"></i>&#160;
+										#{msg['management.feeds.admins']}
+									</h:link>
+								</li>
+								<li>
+									<h:commandLink id="delete" action="#{feedController.deleteFeed}"
+												   onclick="if (!confirm('#{msg['management.feeds.text.delete.confirm']}')) return false">
+										<f:setPropertyActionListener target="#{feedController.feedName}"
+																	 value="#{feed.name}"/>
+										<i class="fa fa-trash-o"></i>&#160;
+										#{msg['management.feeds.delete']}
+									</h:commandLink>
+								</li>
+							</ul>
 						</h:form>
 					</td>
 				</tr>

@@ -5,23 +5,6 @@
  */
 package org.jboss.planet.controller;
 
-import com.sun.syndication.feed.synd.SyndCategory;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import org.apache.http.client.ClientProtocolException;
-import org.jboss.planet.model.FeedsSecurityRole;
-import org.jboss.planet.model.PostStatus;
-import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.model.RemoteFeed.FeedStatus;
-import org.jboss.planet.model.SecurityUser;
-import org.jboss.planet.security.CRUDOperationType;
-import org.jboss.planet.security.LoggedIn;
-import org.jboss.planet.service.FeedsService;
-import org.jboss.planet.service.ParserService;
-import org.jboss.planet.service.PostService;
-import org.jboss.planet.service.SecurityService;
-import org.jboss.planet.util.ApplicationMessages;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
@@ -35,6 +18,20 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import com.sun.syndication.feed.synd.SyndCategory;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import org.apache.http.client.ClientProtocolException;
+import org.jboss.planet.model.*;
+import org.jboss.planet.model.RemoteFeed.FeedStatus;
+import org.jboss.planet.security.CRUDOperationType;
+import org.jboss.planet.security.LoggedIn;
+import org.jboss.planet.service.FeedsService;
+import org.jboss.planet.service.ParserService;
+import org.jboss.planet.service.PostService;
+import org.jboss.planet.service.SecurityService;
+import org.jboss.planet.util.ApplicationMessages;
 
 /**
  * Model for {@link RemoteFeed}
@@ -64,6 +61,8 @@ public class FeedController extends AdminController {
 
 	private RemoteFeed feedToUpdate;
 
+	private List<Post> posts;
+
 	private String includeCategory;
 
 	@Inject
@@ -80,6 +79,14 @@ public class FeedController extends AdminController {
 	public void loadFeed() {
 		feedToUpdate = feedsService.getFeed(feedName);
 		feedsService.checkEditPermissions(feedToUpdate);
+	}
+
+	@LoggedIn
+	public void loadFeedAllPosts() {
+		feedToUpdate = feedsService.getFeed(feedName);
+		feedsService.checkEditPermissions(feedToUpdate);
+
+		posts = postService.find(feedToUpdate);
 	}
 
 	@PostConstruct
@@ -284,4 +291,7 @@ public class FeedController extends AdminController {
 		this.includeCategory = includeCategory;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
 }

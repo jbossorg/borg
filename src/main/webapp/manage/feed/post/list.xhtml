@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+				template="/layout/template.xhtml">
+
+	<ui:param name="pageId" value="manage-feeds-post-list"/>
+	<ui:param name="section" value="yourstuff"/>
+	<ui:param name="datatables" value="true"/>
+
+	<ui:define name="header">
+		<h:outputText value="#{feedController.feedToUpdate.title}"/> #{msg['management.feeds.post.list.name']}
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ui:include src="../breadcrumb.xhtml"/>
+	</ui:define>
+
+	<ui:define name="page_title">#{msg['management.feeds.name']}<ui:include src="/layout/page-title-suffix.xhtml"/>
+	</ui:define>
+
+	<ui:define name="body">
+		<table id="manage-feeds-posts-table">
+			<thead>
+			<tr>
+				<th>#{msg['management.feeds.post.list.column.title']}</th>
+				<th>#{msg['management.feeds.post.list.column.published']}</th>
+				<th>#{msg['management.feeds.post.list.column.twitted']}</th>
+				<th>#{msg['management.feeds.post.list.column.status']}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<ui:repeat var="post" value="#{feedController.posts}" varStatus="status">
+				<tr>
+					<td>
+						<h:link outcome="/view/post.xhtml">
+							<f:param name="titleAsId" value="#{post.titleAsId}"></f:param>
+							#{post.title}
+						</h:link>
+					</td>
+					<td>
+						<h:outputText value="#{post.published}">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+						</h:outputText>
+					</td>
+					<td>
+						<h:outputText rendered="#{post.twitterStatusId != null}"
+									  value="#{msg['management.feeds.post.twitter.yes']} #{post.twitterStatusId}"/>
+						<h:outputText rendered="#{post.twitterStatusId == null}"
+									  value="#{msg['management.feeds.post.twitter.no']}"/>
+					</td>
+					<td>
+						<h:outputText rendered="#{post.status == 'CREATED'}"
+									  value="#{msg['management.feeds.post.status.CREATED']}"/>
+						<h:outputText rendered="#{post.status == 'FORCE_SYNC'}"
+									  value="#{msg['management.feeds.post.status.FORCE_SYNC']}"/>
+						<h:outputText
+								rendered="#{post.status == 'SYNCED' || post.status == 'RESYNCED' || post.status == 'POSTED_TWITTER'}"
+								value="#{msg['management.feeds.post.status.SYNCED']}"/>
+						<h:outputText rendered="#{post.status == 'MODERATION_REQUIRED'}"
+									  value="#{msg['management.feeds.post.status.MODERATION_REQUIRED']}"/>
+					</td>
+				</tr>
+			</ui:repeat>
+			</tbody>
+		</table>
+		<script type="text/javascript" charset="utf-8">
+			initDataTable($('#manage-feeds-posts-table'), {
+				"order": [[ 1, "desc" ]]
+			});
+		</script>
+	</ui:define>
+
+</ui:composition>

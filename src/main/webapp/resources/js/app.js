@@ -868,9 +868,9 @@ var home = {
  *
  * Tuned to be 24 columns and using collapse rows
  */
-function initDataTable(table) {
+function initDataTable(table, options) {
 	dataTable.init();
-	dataTable.initDataTable(table);
+	dataTable.initDataTable(table, options);
 }
 
 DataTable = function() {
@@ -1072,11 +1072,15 @@ DataTable = function() {
 
 	};
 
-	this.initDataTable = function(table) {
-		table.dataTable({
+	this.initDataTable = function(table, options) {
+		var defaults = {
 			"bStateSave" : true,
 			"sPaginationType" : "foundation"
-		});
+		};
+		if (options != null) {
+			defaults = $.extend({}, defaults, options);
+		}
+		table.dataTable(defaults);
 	};
 };
 

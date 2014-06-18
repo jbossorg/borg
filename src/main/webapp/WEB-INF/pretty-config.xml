@@ -85,6 +85,12 @@
 		<action>#{userController.checkIsLoggedIn}</action>
 	</url-mapping>
 
+	<url-mapping id="manage-feed-posts">
+		<pattern value="/manage/feed/#{name : feedController.feedName}/posts" />
+		<view-id value="/manage/feed/post/list.jsf" />
+		<action>#{feedController.loadFeedAllPosts}</action>
+	</url-mapping>
+
 	<url-mapping id="manage-feed-admins">
 		<pattern value="/manage/feed/#{name : feedController.feedName}/admins" />
 		<view-id value="/manage/feed/feed-admins.jsf" />
