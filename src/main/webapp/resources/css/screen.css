@@ -5,6 +5,9 @@
 	margin: 0 auto;
 	max-width: 1200px;
 }
+.content-wrapper {
+	min-height: 400px;
+}
 .page-header {
 	margin-bottom: 10px !important;
 	border-bottom: none !important;
