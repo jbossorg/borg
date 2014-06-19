@@ -5,10 +5,6 @@
  */
 package org.jboss.planet.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.hibernate.validator.constraints.URL;
-import org.jboss.planet.util.StringTools;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,6 +12,10 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.validator.constraints.URL;
+import org.jboss.planet.util.StringTools;
 
 @Entity
 @Cacheable
@@ -58,7 +58,7 @@ public class RemoteFeed implements Serializable {
 	@NotNull
 	@Size(min = 1, max = 32)
 	@Column(unique = true)
-	@Pattern(regexp = "^[a-z0-9_]*$", message = "#{messages['blog.feed.new.invalidname']}")
+	@Pattern(regexp = "^[a-z0-9_]*$", message = "allowed characters are a-z, 0-9 and underscore _")
 	private String name;
 
 	@NotNull
