@@ -26,9 +26,16 @@ import org.jboss.planet.util.StringTools;
  *
  * @author Libor Krzyzanek
  */
-@Entity
+@Entity(name = Post.TABLE_NAME)
 @XmlRootElement
+@org.hibernate.annotations.Table(appliesTo = Post.TABLE_NAME,
+		indexes = {
+				@Index(name = "author_title_index", columnNames = {"author", "title"})
+		}
+)
 public class Post implements Serializable {
+
+	public static final String TABLE_NAME = "Post";
 
 	private static final long serialVersionUID = 5310806000974155875L;
 
@@ -44,7 +51,7 @@ public class Post implements Serializable {
 	 * Blog post Title
 	 */
 	@NotNull
-	@Size(max = 512)
+	@Size(max = 250)
 	private String title;
 
 	/**
@@ -80,7 +87,7 @@ public class Post implements Serializable {
 	 */
 	@Size(max = 250)
 	@JsonIgnore
-	@Index(name="author_index")
+	@Index(name = "author_index")
 	private String author;
 
 	/**
