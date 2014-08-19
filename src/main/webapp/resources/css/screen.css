@@ -140,13 +140,13 @@ pre {
 }
 
 /* Small Devices (See Zurb definition) */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
 	.home-posts-column {
 		padding: 0;
 	}
 }
 
-@media only screen and (min-width: 767px) and (max-width: 1100px) {
+@media only screen and (min-width: 769px) and (max-width: 1100px) {
 	/* Tuning wrapping filter buttons group */
 	#home-filters-panel {
 		min-width: 262px;
