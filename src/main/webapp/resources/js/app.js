@@ -207,7 +207,7 @@ Post = function(val, format) {
 			return this.data._source.avatar_link;
 		} else if (this.getAuthor().email != null) {
 			var emailMd5 = md5(this.getAuthor().email);
-			return "http://www.gravatar.com/avatar/" + emailMd5 + "?s=80&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
+			return "//www.gravatar.com/avatar/" + emailMd5 + "?s=80&d=https%3A%2F%2Fcommunity.jboss.org/gravatar/"
 					+ emailMd5 + "/80.png";
 		} else {
 			return "//community.jboss.org/people/sbs-default-avatar/avatar/80.png";
