@@ -63,10 +63,8 @@
 <body class="planet">
 
 <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
-{'gtm.start':new Date().getTime(),event:'gtm.js'}
-);var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NJWS5L');</script>
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NJWS5L" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NJWS5L');</script>
 <!-- End Google Tag Manager -->
 
 	<ui:insert name="page-start"/>
@@ -266,43 +264,6 @@
 		//]]>
 	</script>
 	<script src="#{request.scheme}://#{configurationService.configuration.themeUrl}/javascripts/vendor/jbossorg-tabzilla.js"></script>
-
-
-
-<!-- begin eloqua tracking -->
-<script type='text/javascript' src='#{request.scheme}://www.redhat.com/j/elqNow/elqCfg.js'></script>
-<script type='text/javascript' src='#{request.scheme}://www.redhat.com/j/elqNow/elqImg.js'></script>
-<!-- end eloqua tracking -->
-<!-- SiteCatalyst code version: H.21.
-Copyright 1996-2010 Adobe, Inc. All Rights Reserved
-More info available at http://www.omniture.com -->
-<div id="oTags">
-<!-- // **************************** CHANGE PAT BELOW TO YOUR SERVERS PATH -->
-<script type="text/javascript" src="#{request.scheme}://www.redhat.com/j/s_code.js"></script>
-
-<script><!--
-/* You may give each page an identifying name, server, and channel on
-the next lines. */
-/* E-commerce Variables */
-
-/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
-var s_code=s.t();if(s_code)document.write(s_code)//-->
-</script>
-
-<script type="text/javascript">
-//<![CDATA[
-if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
-
-//]]>
-</script>
-<noscript><a href="http://www.omniture.com" title="Web
-Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatjbossorg/1/H.21--NS/0?[AQB]%26cdp=3%26[AQE]"
-height="1" width="1" border="0" alt="" /></a></noscript>
-
-<!--/DO NOT REMOVE/-->
-</div>
-
-<!-- End SiteCatalyst code version: H.21. -->
 
 <ui:insert name="page-end"/>
 
