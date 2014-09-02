@@ -20,6 +20,18 @@
 		<to type="forward" last="true">/$2</to>
 	</rule>
 
+	<!-- Sitemap -->
+	<rule>
+		<from>^/sitemap_index.xml$</from>
+		<to type="forward" last="true">/sitemap_index.jsp</to>
+	</rule>
+
+	<rule>
+		<from>^/sitemap.xml$</from>
+		<to type="forward" last="true">/sitemap.jsp</to>
+	</rule>
+
+
 	<!-- URL Backward compatibility -->
 	<rule>
 		<note>Home Page</note>

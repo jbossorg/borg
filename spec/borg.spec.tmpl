@@ -1,7 +1,7 @@
 %define  _deploy_dir /services/borg
 
 Name:           borg
-Version:        3.5.3
+Version:        3.6.0
 Release:        ${release}.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep 2 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.6.0
+  - Sitemap generation - https://issues.jboss.org/browse/ORG/fixforversion/12325580
+
 * Thu Aug 28 2014 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.5.3
   - Tracking codes - https://issues.jboss.org/browse/ORG-2223
 
