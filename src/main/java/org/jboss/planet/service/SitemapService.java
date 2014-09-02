@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.planet.model.PostStatus;
 
 /**
  * Service for Sitemap generation
@@ -47,12 +48,14 @@ public class SitemapService {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> produceSitemapIndex() {
 		return em.createQuery(
-				"select YEAR(published), MAX(published) from Post group by YEAR(published)")
+				"select YEAR(published), MAX(published) from Post where status != :status group by YEAR(published)")
+				.setParameter("status", PostStatus.MODERATION_REQUIRED)
 				.getResultList();
 	}
 
 	/**
-	 * Produces sitemap data. If request has attribute year then only
+	 * Produces sitemap data. If request has attribute year then only posts within defined year is returned.
+	 * Posts with status = PostStatus#MODERATION_REQUIRED are omitted.
 	 *
 	 * @return list of Post#titleAsId
 	 */
@@ -68,8 +71,9 @@ public class SitemapService {
 			int year = Integer.parseInt(yearStr);
 
 			return em.createQuery(
-					"select titleAsId from Post where YEAR(published) = :year order by published desc")
+					"select titleAsId from Post where YEAR(published) = :year and status != :status order by published desc")
 					.setParameter("year", year)
+					.setParameter("status", PostStatus.MODERATION_REQUIRED)
 					.getResultList();
 		} catch (NumberFormatException e) {
 			log.log(Level.FINE, "Invalid input parameter year. Returning all URLs");
