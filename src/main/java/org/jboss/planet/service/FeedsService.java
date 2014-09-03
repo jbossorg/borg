@@ -90,6 +90,16 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 				.getResultList().size() == 1;
 	}
 
+	/**
+	 * Check if feed exists for remote url
+	 * @param remoteFeedUrl
+	 * @return
+	 */
+	public boolean existsByRemoteLink(String remoteFeedUrl) {
+		return em.createQuery("select feed from RemoteFeed feed WHERE feed.remoteLink = ?1").setParameter(1, remoteFeedUrl)
+				.getResultList().size() >= 1;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<RemoteFeed> getFeeds(FeedGroup group) {
 		return em.createQuery("select feed from RemoteFeed feed WHERE feed.group = ?1").setParameter(1, group)
