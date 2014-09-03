@@ -151,7 +151,7 @@ Post = function(val, format) {
 		var permanentLink = planet.resourcesPrefix + 'post/' + this.data._source.sys_content_id;
 		var permanentLinkText = '<i class="fa fa-bookmark-o"></i> Permanent Link';
 
-		preview += '<header><h3><a href="' + permanentLink + '" data-id="'
+		preview += '<header><h3><a class="post-title-link" href="' + permanentLink + '" data-id="'
 				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
 				+ '<div class="blog-post-header-info row collapse"><div class="small-4 large-3 columns"><img src="' + this.getAuthorAvatarUrl()
 				+ '" height="80px" width="80px"/></div>'
@@ -766,6 +766,16 @@ var home = {
 					return false;
 				});
 			}
+
+			var links = $("a.post-title-link", postEntry.previewElm);
+			links.unbind('click');
+			links.bind("click", function() {
+				if (postEntry.displayFormat == 1) {
+					postEntry.showFullPost();
+					return false;
+				}
+			});
+
 
 			navigation.appendSearchUrl(val.link);
 			size++;
