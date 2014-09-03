@@ -146,10 +146,12 @@ Post = function(val, format) {
 			projectInfo = 'in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
 		}
 		var tags = this.getTagsRow();
+		var originalLink = this.data._source.sys_url_view;
+		var originalLinkText = '<i class="fa fa-external-link-square"></i> Original Post';
 		var permanentLink = planet.resourcesPrefix + 'post/' + this.data._source.sys_content_id;
 		var permanentLinkText = '<i class="fa fa-bookmark-o"></i> Permanent Link';
 
-		preview += '<header><h3><a href="' + this.data._source.sys_url_view + '" data-id="'
+		preview += '<header><h3><a href="' + permanentLink + '" data-id="'
 				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
 				+ '<div class="blog-post-header-info row collapse"><div class="small-4 large-3 columns"><img src="' + this.getAuthorAvatarUrl()
 				+ '" height="80px" width="80px"/></div>'
@@ -166,11 +168,15 @@ Post = function(val, format) {
 				+ tags
 				+ '</h5></div>'
 				+ '<div class="blog-post-show-more"><a href="" class="show-more button blue">Read more</a></div>'
-				+ '<a class="home-post-perm-link" style="display: none" href="' + permanentLink + '">' + permanentLinkText + '</a></footer>';
+				+ '<div class="home-post-perm-link" style="display: none">'
+				+ '<a href="' + permanentLink + '">' + permanentLinkText + '</a>'
+				+ '<a href="' + originalLink + '">' + originalLinkText + '</a></div></footer>';
 		} else {
 			preview += '<div class="blog-post-content">' + this.data._source.sys_content + '</div>'
 				+ '<footer><div class="blog-post-tags"><h5>' + tags + '</h5></div>'
-				+ '<a class="home-post-perm-link" href="' + permanentLink + '">' + permanentLinkText + '</a></footer>';
+				+ '<div class="home-post-perm-link">'
+				+ '<a href="' + permanentLink + '">' + permanentLinkText + '</a>'
+				+ '<a href="' + originalLink + '">' + originalLinkText + '</a></div></footer>';
 		}
 
 		preview += '</article>';
