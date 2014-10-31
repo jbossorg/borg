@@ -1,4 +1,4 @@
-Borg
+Borg [![Build Status](https://travis-ci.org/jbossorg/borg.svg?branch=master)](https://travis-ci.org/jbossorg/borg) [![Coverage Status](https://coveralls.io/repos/jbossorg/borg/badge.png)](https://coveralls.io/r/jbossorg/borg)
 ====
 
 [Documentation main page](documentation/README.md).
