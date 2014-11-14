@@ -54,7 +54,7 @@ Content of `module.xml`:
 
 		<module xmlns="urn:jboss:module:1.0" name="com.mysql.jdbc">
 		  <resources>
-			<resource-root path="mysql-connector-java-5.1.20-bin.jar"/>
+			<resource-root path="mysql-connector-java-5.1.34-bin.jar"/>
 		  </resources>
 		  <dependencies>
 			<module name="javax.api"/>
@@ -84,6 +84,7 @@ Add Mysql datasource to JBoss EAP in `{JBOSS_EAP}/standalone/configuration/stand
 and driver
 
 		<driver name="mysql" module="com.mysql.jdbc">
+			<driver-class>com.mysql.jdbc.Driver</driver-class>
 			<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
 		</driver>
 
