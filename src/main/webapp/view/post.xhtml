@@ -102,7 +102,7 @@
 						planet.getProjectItems(function () {
 							var projectName = planet.getProjectName(p.data._source.sys_project);
 							if (projectName != "") {
-								var projectInfo = '<li><a href="../#project=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
+								var projectInfo = '<li><a href="../#projects=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
 								$(".breadcrumbs").last().append(projectInfo);
 							}
 						});
