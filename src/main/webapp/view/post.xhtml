@@ -27,7 +27,7 @@
 				</div>
 				<div class="small-17 large-19 columns">
 					#{postController.post.publishedDate}
-					<br/>by #{postController.post.effectiveAuthor}
+					<br/>by <span id="blog-post-author">#{postController.post.effectiveAuthor}</span>
 				</div>
 				<div class="small-3 large-3 columns">
 					<div class="addthis_toolbox addthis_default_style">
@@ -107,6 +107,7 @@
 							}
 						});
 					}
+					$("#blog-post-author").html(p.getAuthor().name);
 					$("#blog-post-avatar").attr("src", p.getAuthorAvatarUrl());
 					$(".blog-post-tags").html("<h5>" + p.getTagsRow() + "</h5>");
 				});
