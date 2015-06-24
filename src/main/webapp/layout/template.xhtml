@@ -82,7 +82,7 @@
 			</div>
 		</header>
 		<!-- is_hover:true needs to be explicitly set otherwise mobile menu stop working -->
-		<nav class="top-bar" data-options="is_hover:true">
+		<nav class="top-bar" data-topbar="true" role="navigation" data-options="is_hover:true">
 			<div class="row collapse">
 				<dl class="sub-nav">
 					<dd class="home-link"><a href="http://www.jboss.org/"><i class="fa fa-home"></i></a></dd>
@@ -112,7 +112,8 @@
 					<section class="top-bar-section">
 						<ul class="left main-menu">
 							<li class="#{pageId == 'home' ? 'active' : ''}"><a href="/">HOME</a></li>
-							<li class="has-dropdown #{section == 'browse' ? 'active' : ''}"><a>#{msg['browse.name']}</a>
+							<li class="has-dropdown #{section == 'browse' ? 'active' : ''}">
+								<a>#{msg['browse.name']}</a>
 								<ul class="dropdown">
 									<ui:repeat value="#{tagsGroupController.allTagsGroupInMenu}" var="tag">
 										<li>
@@ -125,7 +126,8 @@
 									<li><h:link outcome="/view/feeds-list.jsf" value="#{msg['list.name']}" propagation="none" /></li>
 								</ul>
 							</li>
-							<li class="has-dropdown #{section == 'yourstuff' ? 'active' : ''}"><a href="#{facesContext.externalContext.requestContextPath}/manage">#{msg['browse.yourstuff']}</a>
+							<li class="has-dropdown #{section == 'yourstuff' ? 'active' : ''}">
+								<a href="#{facesContext.externalContext.requestContextPath}/manage">#{msg['browse.yourstuff']}</a>
 								<ul class="dropdown">
 									<li><h:link outcome="/manage/feed/feed-new.jsf" value="#{msg['management.feeds.new']}" propagation="none" /></li>
 									<ui:fragment rendered="#{userController.loggedIn}">

@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="row">
-			<div id="home-filters-panel" class="large-6 large-offset-2 push-16 columns panel radius">
+			<div id="home-filters-panel" class="small-24 large-7 large-push-17 columns panel radius">
 				<div id="home-filters">
 					<a id="filter-link" href="#" class="filter button blue expand"> <i
 							class="fa fa-filter"></i> #{msg['home.control.filter']}
@@ -50,20 +50,20 @@
 					</div>
 				</div>
 				<ul class="button-group radius">
-					<li class="button blue tiny">
-						<a href="#compact" id="layout-compact" class="btn"
+					<li>
+						<a href="#compact" id="layout-compact" class="button blue tiny"
 						   onclick="home.switchDisplay(1); return false;">#{msg['home.control.compact']}</a>
 					</li>
-					<li class="button blue tiny">
-						<a href="#full" id="layout-full" class="btn"
+					<li>
+						<a href="#full" id="layout-full" class="button blue tiny"
 						   onclick="home.switchDisplay(2); return false;">#{msg['home.control.full']}</a>
 					</li>
-					<li class="button blue tiny">
-						<a href="reader" class="btn">#{msg['home.control.mobile']}</a>
+					<li>
+						<a href="reader" class="button blue tiny">#{msg['home.control.mobile']}</a>
 					</li>
 				</ul>
 			</div>
-			<div class="large-16 pull-8 columns home-posts-column">
+			<div class="small-24 large-16 large-pull-8 columns home-posts-column">
 				<div id="home-posts"></div>
 				<div class="row collapse">
 					<div id="loading-div-home" class="small-2 small-centered columns loading-wrapper"

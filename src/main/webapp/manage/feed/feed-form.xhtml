@@ -77,9 +77,9 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<f:validateBean disabled="#{param['URL_ONLY']}">
-				<h:inputText id="author" class="feed-author" value="#{feedController.feedToUpdate.author}"
+				<h:inputText id="author" value="#{feedController.feedToUpdate.author}"
 							 binding="#{author}"
-							 styleClass="#{!author.valid ? 'error' : ''}"
+							 styleClass="feed-author #{!author.valid ? 'error' : ''}"
 							 label="#{msg['management.feed.author']}"/>
 			</f:validateBean>
 			<h:message for="author" errorClass="error"/>
