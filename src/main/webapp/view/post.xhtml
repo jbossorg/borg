@@ -20,7 +20,7 @@
 
 
 	<ui:define name="body">
-		<div class="blogpost-content" data-post-id="#{postController.post.titleAsId}">
+		<div class="blog-post-content" data-post-id="#{postController.post.titleAsId}">
 			<div class="blog-post-header-info row collapse">
 				<div class="small-4 large-2 columns">
 					<img id="blog-post-avatar" src="" height="80px" width="80px"/>
@@ -79,7 +79,7 @@
 		<script type="text/javascript">
 			//<![CDATA[
 			$(document).ready(function () {
-				var postId = $(".blogpost-content").attr("data-post-id");
+				var postId = $(".blog-post-content").attr("data-post-id");
 				var p = new Post();
 				p.getPost(postId, function (data, success) {
 					var buttons = $("#postAdmin a");
