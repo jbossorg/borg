@@ -23,6 +23,10 @@
 	border-bottom: none !important;
 }
 
+h2.large-title i {
+	font-size: 0.75em;
+}
+
 .loading-wrapper {
 	margin-top: 30px;
 	margin-bottom: 20px;

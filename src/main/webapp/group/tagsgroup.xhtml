@@ -14,6 +14,11 @@
 
 	<ui:define name="header">
 		#{msg['home.name']} - #{tagsGroupController.tagsGroup.title}
+		<a id="home-feed-link"
+		   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
+		   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
+			<i class="fa fa-rss"></i>
+		</a>
 	</ui:define>
 
 	<ui:define name="additional_headers">
@@ -22,16 +27,6 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="row">
-			<div class="large-24 columns"><p>
-				<a id="home-feed-link"
-				   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
-				   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
-					<i class="fa fa-rss-square"></i> #{msg['home.feed.subscribe']}
-				</a></p>
-			</div>
-		</div>
-
 		<div class="row">
 			<div id="home-filters-panel" class="small-24 large-7 large-push-17 columns panel radius">
 				<div id="home-filters">
