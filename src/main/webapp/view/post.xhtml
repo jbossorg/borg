@@ -43,6 +43,10 @@
 			<div class="blog-post-tags">
 			</div>
 
+			<div class="blog-post-perm-link">
+				<a href="#{postController.post.link}"><i class="fa fa-external-link-square"></i> #{msg['post.originalPost']}</a>
+			</div>
+
 			<ui:fragment rendered="#{security.canUserDelete(postController.post)}">
 				<h:form id="postAdmin">
 					<div class="row">
