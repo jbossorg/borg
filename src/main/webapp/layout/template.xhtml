@@ -100,8 +100,7 @@
 					<ui:fragment rendered="#{!userController.loggedIn}">
 						<dd class="register"><a href="https://community.jboss.org/register.jspa">Register</a></dd>
 						<dd class="login">
-							<i class="fa fa-user"></i>
-							<a href="#{facesContext.externalContext.requestContextPath}/login">#{msg['browse.login']}</a>
+							<a href="#{facesContext.externalContext.requestContextPath}/login"> <i class="fa fa-user"></i>#{msg['browse.login']}</a>
 						</dd>
 					</ui:fragment>
 				</dl>
