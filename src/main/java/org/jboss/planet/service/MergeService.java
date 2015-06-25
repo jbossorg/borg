@@ -5,15 +5,16 @@
  */
 package org.jboss.planet.service;
 
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -96,7 +97,7 @@ public class MergeService {
 							// Title is not changed because it has unique titleAsId and is already created. See above.
 							postDb.setPublished(p.getPublished());
 							postDb.setModified(p.getModified());
-							postDb.setContent(p.getContent());
+							postDb.setContent(removeNonBmpCharacters(p.getContent()));
 
 							if (!postDb.isOnModeration()) {
 								postDb.setStatus(PostStatus.FORCE_SYNC);
@@ -151,6 +152,21 @@ public class MergeService {
 		return true;
 	}
 
+	/**
+	 * Makes string to be Basic Multilingual Plane unicode.
+	 * The reason of using it is MySql doesn't support nonn BMP characters like emoticons
+	 *
+	 * @param input
+	 * @return String without BMP chracters
+	 * @see
+	 */
+	public static String removeNonBmpCharacters(String input) {
+		if (input == null) {
+			return null;
+		}
+		return input.replaceAll("[^\\u0000-\\uFFFF]", "");
+	}
+
 	public void savePost(RemoteFeed feed, Post post) {
 		// Preparing the post
 		post.setTitleAsId(feedsService.generateTitleAsId(post.getTitle()));
@@ -159,7 +175,7 @@ public class MergeService {
 			post.setLink(linkService.generatePostLink(post.getTitleAsId()));
 		}
 
-		post.setContent(post.getContent());
+		post.setContent(removeNonBmpCharacters(post.getContent()));
 
 		post.setFeed(feed);
 
