@@ -5,6 +5,11 @@
  */
 package org.jboss.planet.util;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.EJBException;
 import javax.el.ELException;
 import javax.faces.FacesException;
@@ -16,10 +21,6 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.PrettyException;
@@ -71,7 +72,7 @@ public class ExceptionHandler extends ExceptionHandlerWrapper {
 				pageToRedirect = "/error/notauthorized";
 			} else {
 				// do not write whole stacktrace because it's probably already logged
-				log.log(Level.SEVERE, "Unknown error: " + t.getMessage());
+				log.log(Level.SEVERE, "Unknown error from: " + t.getClass() + ", message: " + t.getMessage());
 				log.log(Level.FINE, "Error stacktrace", t);
 				facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unknown error occurred. "
 						+ t.getMessage(), null));
