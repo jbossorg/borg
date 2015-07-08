@@ -5,22 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import com.sun.syndication.feed.synd.SyndCategory;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
-import com.sun.syndication.io.impl.Base64;
-import org.jboss.planet.exception.ParserException;
-import org.jboss.planet.exception.ParserException.CAUSE_TYPE;
-import org.jboss.planet.model.*;
-import org.jboss.planet.util.StringTools;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -29,6 +13,28 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.sun.syndication.feed.synd.SyndCategory;
+import com.sun.syndication.feed.synd.SyndContent;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
+import com.sun.syndication.io.impl.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.planet.exception.ParserException;
+import org.jboss.planet.exception.ParserException.CAUSE_TYPE;
+import org.jboss.planet.model.Category;
+import org.jboss.planet.model.Configuration;
+import org.jboss.planet.model.Post;
+import org.jboss.planet.model.PostStatus;
+import org.jboss.planet.model.RemoteFeed;
+import org.jboss.planet.util.StringTools;
 
 /**
  * Service related to parsing feeds
@@ -151,7 +157,9 @@ public class ParserService {
 				post.setCategories(new ArrayList<Category>());
 				for (Object categoryObj : entry.getCategories()) {
 					SyndCategory category = (SyndCategory) categoryObj;
-					post.getCategories().add(categoryService.getCategory(category.getName()));
+					if (StringUtils.isNotBlank(category.getName())) {
+						post.getCategories().add(categoryService.getCategory(category.getName().trim()));
+					}
 				}
 
 				// Setting the published date
