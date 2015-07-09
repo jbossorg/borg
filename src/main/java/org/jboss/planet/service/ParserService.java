@@ -34,7 +34,6 @@ import org.jboss.planet.model.Configuration;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.util.StringTools;
 
 /**
  * Service related to parsing feeds
@@ -137,7 +136,7 @@ public class ParserService {
 
 				post.setFeed(feed);
 
-				post.setAuthor(StringTools.isEmpty(entry.getAuthor()) ? null : entry.getAuthor());
+				post.setAuthor(StringUtils.isBlank(entry.getAuthor()) ? null : entry.getAuthor());
 
 				// Setting content
 				String longestContent = entry.getDescription() == null ? "" : entry.getDescription().getValue();

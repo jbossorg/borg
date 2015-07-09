@@ -22,7 +22,6 @@ import org.jboss.planet.event.MergePostsEvent;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.model.RemoteFeed;
-import org.jboss.planet.util.StringTools;
 
 /**
  * Service responsible for merging new posts
@@ -171,7 +170,7 @@ public class MergeService {
 		// Preparing the post
 		post.setTitleAsId(feedsService.generateTitleAsId(post.getTitle()));
 
-		if (StringTools.isEmpty(post.getLink())) {
+		if (StringUtils.isBlank(post.getLink())) {
 			post.setLink(linkService.generatePostLink(post.getTitleAsId()));
 		}
 

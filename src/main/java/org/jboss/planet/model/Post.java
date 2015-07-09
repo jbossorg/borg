@@ -5,16 +5,30 @@
  */
 package org.jboss.planet.model;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.Index;
@@ -238,7 +252,7 @@ public class Post implements Serializable {
 				return getFeed().getAuthor();
 
 			case BLOG_AUTHOR_IF_MISSING:
-				return StringTools.isEmpty(postAuthor) ? getFeed().getAuthor() : postAuthor;
+				return StringUtils.isBlank(postAuthor) ? getFeed().getAuthor() : postAuthor;
 		}
 
 		return null;

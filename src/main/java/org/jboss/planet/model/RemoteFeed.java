@@ -5,17 +5,29 @@
  */
 package org.jboss.planet.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.URL;
-import org.jboss.planet.util.StringTools;
 
 @Entity
 @Cacheable
@@ -304,7 +316,7 @@ public class RemoteFeed implements Serializable {
 
 	public synchronized PostFilter getIncludeCategoryFilter() {
 		if (includeCategoryFilter == null) {
-			if (StringTools.isEmpty(includeCategoryRegexp)) {
+			if (StringUtils.isEmpty(includeCategoryRegexp)) {
 				includeCategoryFilter = new TotalFilter();
 			} else {
 				includeCategoryFilter = new CategoryRegexpFilter(includeCategoryRegexp);
