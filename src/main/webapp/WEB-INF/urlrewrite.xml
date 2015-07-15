@@ -115,76 +115,76 @@
 	<!-- Feed RSS/ATOM URLs -->
 	<rule>
 		<from>^/xml/all(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=JBoss%20Developer%20Recent%20Posts</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=JBoss%20Developer%20Recent%20Posts</to>
 	</rule>
 
 	<!-- Aggregated Feeds -->
 	<rule>
 		<from>^/xml/jbossjbpm(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbpm&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20jBPM</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbpm&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20jBPM</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbosscache(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbosscache&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Cache</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbosscache&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Cache</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbossmessaging(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmessaging&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Messaging</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmessaging&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Messaging</to>
 	</rule>
 	<rule>
 		<from>^/xml/remoting(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossremoting&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Remoting</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossremoting&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Remoting</to>
 	</rule>
 	<rule>
 		<from>^/xml/xnio(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=xnio&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20XNIO</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=xnio&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20XNIO</to>
 	</rule>
 	<rule>
 		<from>^/xml/envers(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=envers&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Envers</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=envers&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Envers</to>
 	</rule>
 	<rule>
 		<from>^/xml/on_aggregate(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jopr&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20RHQ</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jopr&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20RHQ</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbossmarshalling(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmarshalling&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Marshalling</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmarshalling&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20Marshalling</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbossmc(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmc&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20MicroContainer</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=jbossmc&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20MicroContainer</to>
 	</rule>
 	<rule>
 		<from>^/xml/richfacesall(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=richfaces&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Richfaces</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=richfaces&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Richfaces</to>
 	</rule>
 	<rule>
 		<from>^/xml/aergear_agg(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=aerogear&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Aerogear</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;project=aerogear&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20Aerogear</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbosscentral(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=jbosscentral&amp;feed_title=JBoss%20Developer%20Central%20Recent%20Posts</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=jbosscentral&amp;feed_title=JBoss%20Developer%20Central%20Recent%20Posts</to>
 	</rule>
 	<rule>
 		<from>^/xml/events(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=jbug&amp;tag=workshop&amp;tag=conference&amp;tag=jug&amp;tag=event&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20forEvents</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=jbug&amp;tag=workshop&amp;tag=conference&amp;tag=jug&amp;tag=event&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20forEvents</to>
 	</rule>
 	<rule>
 		<from>^/xml/jbossas7(|/)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=as7&amp;tag=jbossas7&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20AS7</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=as7&amp;tag=jbossas7&amp;feed_title=JBoss%20Developer%20Recent%20Posts%20for%20Project%20JBoss%20AS7</to>
 	</rule>
 	<rule>
 		<from>^/xml/communityhome(|/)$</from>
 		<to type="proxy" last="true">
-			${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=feed_group_name_droolscommunity&amp;tag=feed_group_name_global_community&amp;tag=feed_group_name_jbossascommunity&amp;tag=feed_group_name_jbossjbpmcommunity&amp;tag=feed_group_name_jbossseamcommunity&amp;tag=feed_group_name_jboss_portal_community&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
+			${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=feed_group_name_droolscommunity&amp;tag=feed_group_name_global_community&amp;tag=feed_group_name_jbossascommunity&amp;tag=feed_group_name_jbossjbpmcommunity&amp;tag=feed_group_name_jbossseamcommunity&amp;tag=feed_group_name_jboss_portal_community&amp;feed_title=JBoss%20Community%20Recent%20Posts</to>
 	</rule>
 
 	<!-- Regular Remote Feeds -->
 	<rule>
 		<from>^/xml/(.*)$</from>
-		<to type="proxy" last="true">${dcp.url}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=feed_name_$1&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20feed%20$1</to>
+		<to type="proxy" last="true">${dcp.url}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;tag=feed_name_$1&amp;feed_title=JBoss%20Community%20Recent%20Posts%20for%20feed%20$1</to>
 	</rule>
 
 </urlrewrite>

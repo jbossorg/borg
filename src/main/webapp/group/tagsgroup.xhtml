@@ -15,15 +15,15 @@
 	<ui:define name="header">
 		#{msg['home.name']} - #{tagsGroupController.tagsGroup.title}
 		<a id="home-feed-link"
-		   href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
-		   data-url-base="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
+		   href="#{configurationService.syncServerOnView}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"
+		   data-url-base="#{configurationService.syncServerOnView}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}">
 			<i class="fa fa-rss"></i>
 		</a>
 	</ui:define>
 
 	<ui:define name="additional_headers">
 		<link rel="alternate" type="application/atom+xml" title="#{msg['home.feed.name']}"
-			  href="#{configurationService.syncServerOnView}/v1/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"/>
+			  href="#{configurationService.syncServerOnView}/rest/feed/?sys_type=blogpost&amp;sortBy=new-create&amp;feed_title=#{msg['home.feed.name']}"/>
 	</ui:define>
 
 	<ui:define name="body">

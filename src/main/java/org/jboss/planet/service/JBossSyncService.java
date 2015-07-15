@@ -5,6 +5,18 @@
  */
 package org.jboss.planet.service;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+
 import org.apache.http.Consts;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -23,17 +35,6 @@ import org.jboss.planet.model.Configuration;
 import org.jboss.planet.model.Post;
 import org.jboss.planet.model.PostStatus;
 import org.jboss.planet.util.PostToDCPContentProducer;
-
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * JBoss back-end service.<br/>
@@ -57,7 +58,7 @@ public class JBossSyncService {
 	@Inject
 	private ConfigurationService configurationService;
 
-	public static final String SYNC_REST_API = "/v1/rest/content/";
+	public static final String SYNC_REST_API = "/rest/content/";
 
 	protected DefaultHttpClient createHttpClient() {
 		DefaultHttpClient httpClient = new DefaultHttpClient();

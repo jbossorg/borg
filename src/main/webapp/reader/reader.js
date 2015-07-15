@@ -584,7 +584,7 @@ var preview = new Preview();
  * 
  */
 var reader = {
-	dcpRestApi : syncServer + "/v1/rest/",
+	dcpRestApi : syncServer + "/rest/",
 	effect : {
 		fadeInDuration : 400,
 		slideDuration : 400

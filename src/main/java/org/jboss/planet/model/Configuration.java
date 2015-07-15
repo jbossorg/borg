@@ -5,12 +5,13 @@
  */
 package org.jboss.planet.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Email;
@@ -58,7 +59,7 @@ public class Configuration implements Serializable {
 	private String contextName;
 
 	/**
-	 * URL of synchronization server e.g. search.jboss.org
+	 * URL of synchronization server e.g. https://dcp.jboss.org/v2
 	 */
 	@URL
 	private String syncServer;

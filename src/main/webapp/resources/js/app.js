@@ -264,7 +264,7 @@ Post = function(val, format) {
  */
 var planet = {
 	resourcesPrefix : contextRoot,
-	dcpRestApi : syncServer + "/v1/rest/",
+	dcpRestApi : syncServer + "/rest/",
 	dcpContentType : syncContentType,
 
 	layout : 1,

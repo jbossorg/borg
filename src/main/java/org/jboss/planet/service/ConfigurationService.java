@@ -5,13 +5,13 @@
  */
 package org.jboss.planet.service;
 
-import org.jboss.planet.model.Configuration;
-import org.jboss.planet.security.AdminAllowed;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+
+import org.jboss.planet.model.Configuration;
+import org.jboss.planet.security.AdminAllowed;
 
 /**
  * Application Configuration service
@@ -35,7 +35,7 @@ public class ConfigurationService extends EntityServiceJpa<Configuration> {
 		conf.setConnectionTimeout(10000);
 		conf.setReadTimeout(6000);
 		conf.setUpdateInterval(900);
-		conf.setSyncServer("https://dcp.jboss.org");
+		conf.setSyncServer("https://dcp2.jboss.org/v2");
 		conf.setSyncContentType("jbossorg_blog");
 
 		return conf;
