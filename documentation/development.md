@@ -106,6 +106,16 @@ Make sure that enable-welcome-root parameter is set to false in standalone.xml b
 
 The Borg application is then available at [http://localhost:8080/](http://localhost:8080/)
 
+#### Openshift development
+
+1. Create JBoss EAP cartridge with MySQL 
+2. Add git remote Openshift repo URL to your local clone named as e.g. openshift
+3. If necessary set mysql to be case insensitive by setting this env property via `rhc` command
+	
+		rhc env set OPENSHIFT_MYSQL_LOWER_CASE_TABLE_NAMES=1 -a planet
+
+4. Do `git push openshift master`
+
 
 DCP Integration
 ---------------
