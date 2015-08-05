@@ -337,7 +337,13 @@ Home = function() {
 	this.retrievePosts = function(history, callback) {
 		$("#loading", page).text("Loading ...");
 		retrievingNewPosts = true;
-		var url = reader.dcpRestApi + reader.dcpSearchQuery + "&from=" + currentFrom + "&size=" + count;
+		var url = reader.dcpRestApi + reader.dcpSearchQuery;
+		if(url.indexOf("?") > -1) {
+			url += "&";
+		} else {
+			url += "?";
+		}
+		url += "from=" + currentFrom + "&size=" + count;
 
 		$.ajax({
 			url : encodeURI(url),
