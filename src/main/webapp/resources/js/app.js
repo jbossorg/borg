@@ -380,8 +380,8 @@ var planet = {
 				planet.projects = [];
 				planet.projectNames = [];
 				$.each(data.hits.hits, function(index, item) {
-					planet.projects.push({ "id" : item.fields.sys_project, "name" : item.fields.sys_title });
-					planet.projectNames.push(item.fields.sys_title);
+					planet.projects.push({ "id" : item.fields.sys_project[0], "name" : item.fields.sys_title[0] });
+					planet.projectNames.push(item.fields.sys_title[0]);
 				});
 
 				callback(planet.projects);
