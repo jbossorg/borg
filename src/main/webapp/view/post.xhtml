@@ -96,13 +96,13 @@
 					}
 
 					p.data = {
-						_source: data
+						fields: data
 					};
-					if (p.data._source.sys_project != null) {
+					if (p.data.fields.sys_project != null) {
 						planet.getProjectItems(function () {
-							var projectName = planet.getProjectName(p.data._source.sys_project);
+							var projectName = planet.getProjectName(p.data.fields.sys_project);
 							if (projectName != "") {
-								var projectInfo = '<li><a href="../#projects=' + p.data._source.sys_project + '">' + projectName + '</a></li>';
+								var projectInfo = '<li><a href="../#projects=' + p.data.fields.sys_project + '">' + projectName + '</a></li>';
 								$(".breadcrumbs").last().append(projectInfo);
 							}
 						});

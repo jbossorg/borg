@@ -72,11 +72,11 @@ Post = function(val) {
 		}
 		var preview = '<li id="home-post-li-' + this.getId() + '" class="post-list-preview">';
 		preview += '<a href="#content" class="post-link">'
-		// + '<img src="' + this.data._source.avatar_link
+		// + '<img src="' + this.data.fields.avatar_link
 		// + '" class="ui-li-thumb" height="46px" width="46px"/>'
-		+ '<h2 class="ui-li-heading">' + this.data._source.sys_title + '</h2>'
+		+ '<h2 class="ui-li-heading">' + this.data.fields.sys_title + '</h2>'
 				+ '<p class="ui-li-desc"><span class="blog-post-list-date">' + this.getPublishedAndAuthor()
-				+ '</span><br/>' + this.data._source.sys_description + '</p></a></li>';
+				+ '</span><br/>' + this.data.fields.sys_description + '</p></a></li>';
 		previewElm = $(preview);
 
 		return previewElm;
@@ -87,19 +87,19 @@ Post = function(val) {
 	};
 
 	this.getContent = function() {
-		return this.data._source.sys_content;
+		return this.data.fields.sys_content;
 	};
 
 	this.getTitle = function() {
-		return this.data._source.sys_title;
+		return this.data.fields.sys_title;
 	};
 
 	this.getPublished = function() {
-		return util.parseISODateString(this.data._source.sys_created);
+		return util.parseISODateString(this.data.fields.sys_created);
 	};
 
 	this.getPublishedAndAuthor = function() {
-		return util.dateToString(this.getPublished()) + ', by ' + this.data._source.author;
+		return util.dateToString(this.getPublished()) + ', by ' + this.data.fields.author;
 	};
 
 };

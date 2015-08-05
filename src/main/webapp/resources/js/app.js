@@ -120,9 +120,18 @@ Post = function(val, format) {
 
 	this.displayFormat = format;
 
+	var fields = ["sys_content_id", "sys_url_view", "sys_created", "sys_title", "sys_project", "sys_description", "sys_contributors", "sys_content", "tags", "avatar_link"];
+
 	/* Get post based on ID */
 	this.getPost = function(id, callback) {
-		var url = planet.dcpRestApi + "content/" + planet.dcpContentType + "/" + id + "?field=_source";
+		var url = planet.dcpRestApi + "content/" + planet.dcpContentType + "/" + id;
+		for (var i = 0; i < fields.length; i++) {
+			if (i == 0) {
+				url += "?field=" + fields[i];
+			} else {
+				url += "&field=" + fields[i];
+			}
+		}
 		$.ajax(url)
 			.done(function(data) {
 				callback(data, true);
@@ -130,7 +139,7 @@ Post = function(val, format) {
 			.fail(function() {
 				callback({}, false);
 			});
-	},
+	};
 
 	this.previewElm = null;
 
@@ -139,20 +148,20 @@ Post = function(val, format) {
 			return this.previewElm;
 		}
 		var preview = '<article id="home-post-li-' + this.data._id + '" class="blog-post-article">';
-		var addThisTempl = planet.addThisTemplate(this.data._source.sys_url_view, this.data._source.sys_title);
-		var projectName = planet.getProjectName(this.data._source.sys_project);
+		var addThisTempl = planet.addThisTemplate(this.data.fields.sys_url_view, this.data.fields.sys_title);
+		var projectName = planet.getProjectName(this.data.fields.sys_project);
 		var projectInfo = "";
 		if (projectName != "") {
-			projectInfo = 'in <a href="#projects=' + this.data._source.sys_project + '">' + projectName + '</a>';
+			projectInfo = 'in <a href="#projects=' + this.data.fields.sys_project + '">' + projectName + '</a>';
 		}
 		var tags = this.getTagsRow();
-		var originalLink = this.data._source.sys_url_view;
+		var originalLink = this.data.fields.sys_url_view;
 		var originalLinkText = '<i class="fa fa-external-link-square"></i> Original Post';
-		var permanentLink = planet.resourcesPrefix + 'post/' + this.data._source.sys_content_id;
+		var permanentLink = planet.resourcesPrefix + 'post/' + this.data.fields.sys_content_id;
 		var permanentLinkText = '<i class="fa fa-bookmark-o"></i> Permanent Link';
 
 		preview += '<header><h3><a class="post-title-link" href="' + permanentLink + '" data-id="'
-				+ this.data._id + '">' + this.data._source.sys_title + '</a></h3>'
+				+ this.data._id + '">' + this.data.fields.sys_title + '</a></h3>'
 				+ '<div class="blog-post-header-info row collapse"><div class="small-4 large-3 columns"><img src="' + this.getAuthorAvatarUrl()
 				+ '" height="80px" width="80px"/></div>'
 				+ '<div class="small-17 columns">' + util.dateToString(this.getPublished()) + '<br/>by '
@@ -162,7 +171,7 @@ Post = function(val, format) {
 
 		if (this.displayFormat == 1) {
 			preview += '<div class="blog-post-content">'
-				+ this.data._source.sys_description
+				+ this.data.fields.sys_description
 				+ '</div>'
 				+ '<footer><div class="blog-post-tags"><h5>'
 				+ tags
@@ -172,7 +181,7 @@ Post = function(val, format) {
 				+ '<a href="' + permanentLink + '">' + permanentLinkText + '</a>'
 				+ '<a href="' + originalLink + '">' + originalLinkText + '</a></div></footer>';
 		} else {
-			preview += '<div class="blog-post-content">' + this.data._source.sys_content + '</div>'
+			preview += '<div class="blog-post-content">' + this.data.fields.sys_content + '</div>'
 				+ '<footer><div class="blog-post-tags"><h5>' + tags + '</h5></div>'
 				+ '<div class="home-post-perm-link">'
 				+ '<a href="' + permanentLink + '">' + permanentLinkText + '</a>'
@@ -187,7 +196,7 @@ Post = function(val, format) {
 
 	this.getTagsRow = function() {
 		var tags = "";
-		$.each(this.data._source.tags, function(i, val) {
+		$.each(this.data.fields.tags, function(i, val) {
 			if (!util.stringStartWith(val, "feed_name_") && !util.stringStartWith(val, "feed_group_name_")) {
 				tags += '<a href="' + planet.resourcesPrefix + '#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
 			}
@@ -198,10 +207,10 @@ Post = function(val, format) {
 	var author = null;
 	this.getAuthor = function() {
 		if (author == null) {
-			if (this.data._source.sys_contributors != null) {
-				author = util.parseEmail(this.data._source.sys_contributors);
+			if (this.data.fields.sys_contributors != null) {
+				author = util.parseEmail(this.data.fields.sys_contributors[0]);
 			} else {
-				author = util.parseEmail(this.data._source.author);
+				author = util.parseEmail(this.data.fields.author[0]);
 			}
 		}
 		return author;
@@ -209,8 +218,8 @@ Post = function(val, format) {
 	};
 
 	this.getAuthorAvatarUrl = function() {
-		if (this.data._source.avatar_link != null && this.data._source.avatar_link != "") {
-			return this.data._source.avatar_link;
+		if (this.data.fields.avatar_link != null && this.data.fields.avatar_link != "") {
+			return this.data.fields.avatar_link;
 		} else if (this.getAuthor().email != null) {
 			var emailMd5 = md5(this.getAuthor().email);
 			return "//www.gravatar.com/avatar/" + emailMd5 + "?s=80&d=https%3A%2F%2Fstatic.jboss.org/developer/gravatar/"
@@ -221,14 +230,14 @@ Post = function(val, format) {
 	};
 
 	this.getPublished = function() {
-		return util.parseISODateString(this.data._source.sys_created);
+		return util.parseISODateString(this.data.fields.sys_created[0]);
 	};
 
 	this.showFullPost = function() {
 		var contentElm = $(".blog-post-content", this.previewElm);
 		contentElm.empty();
 		contentElm.hide();
-		contentElm.append(this.data._source.sys_content);
+		contentElm.append(this.data.fields.sys_content);
 		$(".blog-post-show-more", this.previewElm).empty();
 		$(".home-post-perm-link", this.previewElm).show();
 
