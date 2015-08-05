@@ -371,7 +371,7 @@ var planet = {
 		if (planet.projectNames != null) {
 			return callback(planet.projectNames);
 		}
-		var projectsRestUrl = planet.dcpRestApi + "search?sys_type=project_info&from=0&size=200&sortBy=new-create";
+		var projectsRestUrl = planet.dcpRestApi + "search?sys_type=project_info&field=sys_project&field=sys_title&from=0&size=200&sortBy=new-create";
 		$.ajax({
 			url : encodeURI(projectsRestUrl),
 			type : "get",
