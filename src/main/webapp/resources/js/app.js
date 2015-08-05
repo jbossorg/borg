@@ -37,8 +37,10 @@ Util = function() {
 		}
 	};
 	this.parseEmail = function(fullEmail) {
+		var val = util.arrayToString(fullEmail);
+
 		var emailRE = /([^<]+)\s<(.*)>/;
-		var match = fullEmail.match(emailRE);
+		var match = val.match(emailRE);
 		if (match) {
 			return {
 				name : match[1],
@@ -65,7 +67,7 @@ Util = function() {
 	};
 	this.isEmpty = function(str) {
 		return (!str || 0 === str.length);
-	}
+	};
 	this.arrayToString = function(array) {
 		if (array == null) {
 			return "";
@@ -120,7 +122,7 @@ Post = function(val, format) {
 
 	this.displayFormat = format;
 
-	var fields = ["sys_content_id", "sys_url_view", "sys_created", "sys_title", "sys_project", "sys_description", "sys_contributors", "sys_content", "tags", "avatar_link"];
+	var fields = ["sys_content_id", "sys_url_view", "sys_created", "sys_title", "sys_project", "sys_description", "sys_contributors", "sys_content", "sys_tags", "avatar_link"];
 
 	/* Get post based on ID */
 	this.getPost = function(id, callback) {
@@ -196,7 +198,10 @@ Post = function(val, format) {
 
 	this.getTagsRow = function() {
 		var tags = "";
-		$.each(this.data.fields.tags, function(i, val) {
+		if (this.data.fields.sys_tags == null) {
+			return tags;
+		}
+		$.each(this.data.fields.sys_tags, function(i, val) {
 			if (!util.stringStartWith(val, "feed_name_") && !util.stringStartWith(val, "feed_group_name_")) {
 				tags += '<a href="' + planet.resourcesPrefix + '#tags=' + val + '" ><span class="label">' + val + '</span></a> ';
 			}
@@ -208,9 +213,9 @@ Post = function(val, format) {
 	this.getAuthor = function() {
 		if (author == null) {
 			if (this.data.fields.sys_contributors != null) {
-				author = util.parseEmail(this.data.fields.sys_contributors[0]);
+				author = util.parseEmail(this.data.fields.sys_contributors);
 			} else {
-				author = util.parseEmail(this.data.fields.author[0]);
+				author = util.parseEmail(this.data.fields.author);
 			}
 		}
 		return author;
@@ -230,7 +235,8 @@ Post = function(val, format) {
 	};
 
 	this.getPublished = function() {
-		return util.parseISODateString(this.data.fields.sys_created[0]);
+		var str = util.arrayToString(this.data.fields.sys_created);
+		return util.parseISODateString(str);
 	};
 
 	this.showFullPost = function() {

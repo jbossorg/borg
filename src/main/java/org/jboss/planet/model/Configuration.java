@@ -196,7 +196,7 @@ public class Configuration implements Serializable {
 		if (StringUtils.isBlank(searchQuery)) {
 			// Default value for initial configuration
 			return "search?sys_type=blogpost&sortBy=new-create&field=sys_content_id&field=sys_url_view&field=sys_title" +
-					"&field=sys_project&field=sys_description&field=sys_contributors&field=sys_content&field=tags" +
+					"&field=sys_project&field=sys_description&field=sys_contributors&field=sys_content&field=sys_tags" +
 					"&field=avatar_link&field=sys_created&field=author";
 		}
 		return searchQuery;
