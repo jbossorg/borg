@@ -82,6 +82,13 @@ public class Configuration implements Serializable {
 	@NotNull
 	private String themeUrl;
 
+	/**
+	 * Search Query
+	 */
+	@Column
+	private String searchQuery;
+
+
 	private boolean twitterEnabled;
 	private String twitterOAuthConsumerKey;
 	private String twitterOAuthConsumerSecret;
@@ -183,6 +190,18 @@ public class Configuration implements Serializable {
 
 	public void setThemeUrl(String themeUrl) {
 		this.themeUrl = themeUrl;
+	}
+
+	public String getSearchQuery() {
+		if (StringUtils.isBlank(searchQuery)) {
+			// Default value for initial configuration
+			return "search?sys_type=blogpost&sortBy=new-create&field=_source";
+		}
+		return searchQuery;
+	}
+
+	public void setSearchQuery(String searchQuery) {
+		this.searchQuery = searchQuery;
 	}
 
 	public String getSyncServer() {

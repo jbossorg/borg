@@ -337,8 +337,7 @@ Home = function() {
 	this.retrievePosts = function(history, callback) {
 		$("#loading", page).text("Loading ...");
 		retrievingNewPosts = true;
-		var url = reader.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
-				+ "&sortBy=new-create&field=_source";
+		var url = reader.dcpRestApi + reader.dcpSearchQuery + "&from=" + currentFrom + "&size=" + count;
 
 		$.ajax({
 			url : encodeURI(url),
@@ -585,6 +584,7 @@ var preview = new Preview();
  */
 var reader = {
 	dcpRestApi : syncServer + "/rest/",
+	dcpSearchQuery : searchQuery,
 	effect : {
 		fadeInDuration : 400,
 		slideDuration : 400

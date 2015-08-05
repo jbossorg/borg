@@ -1,7 +1,7 @@
 %define  _deploy_dir /services/borg
 
 Name:           borg
-Version:        3.6.3
+Version:        3.6.4
 Release:        ${release}.el6
 Summary:        Blog post aggregator - planet.jboss.org
 
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Aug 6 2015 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.6.4
+  - ORG-2510 - Use Searchisko registered query on main page
+
 * Fri Jul 17 2015 Libor Krzyzanek <lkrzyzan at, redhat.com> 3.6.3
   - ORG-2290 - Use Searchisko v 2 API
 

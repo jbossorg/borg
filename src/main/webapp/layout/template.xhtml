@@ -25,6 +25,7 @@
 		var contextRoot = "#{facesContext.externalContext.requestContextPath}/";
 		var syncServer = "#{configurationService.syncServerOnView}";
 		var syncContentType = "#{configurationService.configuration.syncContentType}";
+		var searchQuery = "#{configurationService.configuration.searchQuery}";
 	</script>
 
 	<h:outputText escape="false" value="&lt;!--[if lt IE 9]&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;//html5shim.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/stylesheets/ie8grid.css&quot;&gt;&lt;![endif]-->" />

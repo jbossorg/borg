@@ -266,6 +266,7 @@ var planet = {
 	resourcesPrefix : contextRoot,
 	dcpRestApi : syncServer + "/rest/",
 	dcpContentType : syncContentType,
+	dcpSearchQuery : searchQuery,
 
 	layout : 1,
 
@@ -313,8 +314,7 @@ var planet = {
 	/* Global method for retrieving new posts */
 	retrieveNewPosts : function(currentFrom, count, callback, projects, tags) {
 		planet.canRetrieveNewPosts = false;
-		var url = planet.dcpRestApi + "search?sys_type=blogpost&from=" + currentFrom + "&size=" + count
-				+ "&sortBy=new-create&field=_source";
+		var url = planet.dcpRestApi + planet.dcpSearchQuery + "&from=" + currentFrom + "&size=" + count;
 		if (typeof tags != "undefined" && tags != "" && tags != null) {
 			if ($.isArray(tags)) {
 				$.each(tags, function(index, value) {

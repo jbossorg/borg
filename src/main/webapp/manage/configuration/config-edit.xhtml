@@ -127,6 +127,14 @@
 							<h:message for="themeUrl" errorClass="error"/>
 						</div>
 					</div>
+					<div class="row collapse">
+						<h:outputLabel for="searchQuery" value="#{msg['management.config.searchQuery']}:"
+									   styleClass="#{!searchQuery.valid ? 'error' : ''}"/>
+						<h:inputText id="searchQuery" value="#{configurationController.config.searchQuery}"
+									 binding="#{searchQuery}" styleClass="#{!searchQuery.valid ? 'error' : ''}"
+									 label="#{msg['management.config.searchQuery']}"/>
+						<h:message for="searchQuery" errorClass="error"/>
+					</div>
 				</div>
 
 				<div class="large-12 columns">
