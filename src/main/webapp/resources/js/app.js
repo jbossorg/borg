@@ -574,24 +574,36 @@ var home = {
 			filterFeed.tokenInput("clear");
 
 			var filterTags = $("#home-tags-filter");
-			filterTags.val("");
-			filterTags.change();
+			filterTags.tokenInput("clear");
 			return false;
 		});
 
 		home.data.tags = home.getTagsFromUrl();
 		tagsFilter = $("#home-tags-filter", page);
 
-		tagsFilter.val(util.arrayToString(home.data.tags));
-
-		tagsFilter.change(function() {
-			home.changeTags($(this).val());
+		tagsFilter.tokenInput("http://dcp2.jboss.org/v2/rest/search/suggest_tags_prefix", {
+			propertyToSearch: "name",
+			theme: "jbdev",
+			preventDuplicates: true,
+			animateDropdown: false,
+			searchDelay: 0,
+			searchingText: "",
+			queryParam: "query",
+			crossDomain: false,
+			propertyToSearch: "key",
+			jsonContainerCallback: function(data) {
+				return data["aggregations"]["sys_tags_candidates"]["buckets"];
+			}
 		});
+/*
+ onAdd: home.changeProjectEvent,
+ onDelete: home.changeProjectEvent,
 
+
+ */
 		if (home.data.projects.length > 0 || home.data.tags.length > 0) {
 			home.showFilter();
-		}
-		;
+		};
 		$("#home-refresh", page).bind('click', function() {
 			home.refresh();
 			return false;
@@ -614,11 +626,17 @@ var home = {
 					var item = planet.getProjectItem(home.data.projects[i]);
 					projectFilter.tokenInput("add", item);
 				}
+
+				var tagsFilter = $("#home-tags-filter", page);
+				tagsFilter.tokenInput("clear");
+				for (var i=0; i < home.data.tags.length; i++) {
+					var item = home.data.tags[i];
+					tagsFilter.tokenInput("add", item);
+				}
+
 				home.data.filterProjectNoAction = false;
 			}
 			home.data.hashChangeByUser = false;
-
-			$("#home-tags-filter", page).val(util.arrayToString(home.data.tags));
 
 			if (home.data.projects.length > 0 || home.data.tags.length > 0) {
 				home.showFilter();

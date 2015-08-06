@@ -797,7 +797,11 @@ $.TokenList = function (input, url_or_data, settings) {
 
                   // only populate the dropdown if the results are associated with the active search query
                   if(input_box.val().toLowerCase() === query) {
-                      populate_dropdown(query, settings.jsonContainer ? results[settings.jsonContainer] : results);
+                      if (settings.jsonContainerCallback) {
+                          populate_dropdown(query, settings.jsonContainerCallback(results));
+                      } else {
+                          populate_dropdown(query, settings.jsonContainer ? results[settings.jsonContainer] : results);
+                      }
                   }
                 };
 
