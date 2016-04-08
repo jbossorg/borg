@@ -12,7 +12,7 @@
 
 	<groupId>org.jboss.borg</groupId>
 	<artifactId>borg</artifactId>
-	<version>3.6.4</version>
+	<version>3.6.5</version>
 	<packaging>war</packaging>
 	<name>Blog posts aggregator</name>
 	<description>Blog post aggregator for JBoss Developer - planet.jboss.org</description>

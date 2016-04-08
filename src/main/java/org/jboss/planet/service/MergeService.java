@@ -68,6 +68,13 @@ public class MergeService {
 				ignoredPosts++;
 				continue;
 			}
+			if (p.getPublished() == null) {
+				log.log(Level.WARNING,
+						"Post has publish date null. Ignoring. Title: {0}",
+						p.getTitle());
+				ignoredPosts++;
+				continue;
+			}
 			if (!needToCheck(p.getPublished(), threshold)) {
 				ignoredPosts++;
 				continue;
