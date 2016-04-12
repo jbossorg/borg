@@ -59,12 +59,15 @@
 	</developers>
 
 	<properties>
-		<compileSource>1.7</compileSource>
+		<!-- 1.7 for Openshfit Online v2 -->
+		<compileSource>1.8</compileSource>
 		<filter.name>localhost</filter.name>
 
 		<!-- Explicitly declaring the source encoding eliminates the following message: -->
 		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 	</properties>
 
 
@@ -284,12 +287,10 @@
 			<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${compileSource}</source>
 					<target>${compileSource}</target>
-					<debug>false</debug>
-					<optimize>false</optimize>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -458,6 +459,15 @@
 						<configuration>
 							<outputDirectory>deployments</outputDirectory>
 							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven-compiler-plugin.version}</version>
+						<configuration>
+							<source>1.7</source>
+							<target>1.7</target>
 						</configuration>
 					</plugin>
 				</plugins>
