@@ -34,16 +34,16 @@ import org.jboss.planet.model.RemoteFeed;
 public class MergeService {
 
 	@Inject
-	private Logger log;
+	protected Logger log;
 
 	@Inject
-	private FeedsService feedsService;
+	protected FeedsService feedsService;
 
 	@Inject
-	private LinkService linkService;
+	protected LinkService linkService;
 
 	@Inject
-	private PostService postService;
+	protected PostService postService;
 
 	/**
 	 * Date threshold. Older posts than threshold are ignored.
@@ -80,7 +80,7 @@ public class MergeService {
 				continue;
 			}
 			try {
-				// Decide new or update post
+				// Decide new or update post within same feed
 				List<Post> postDbs = postService.find(feed, p.getTitle(), p.getPublished());
 				if (postDbs.size() == 0) {
 					boolean duplicatePostHandled = handleDuplicatePosts(p, feed);
@@ -135,7 +135,7 @@ public class MergeService {
 
 		for (Post duplicateTitlePost : duplicateTitlePosts) {
 			// Check if duplicate post is same
-			if (duplicateTitlePost.compareTo(p) == 0) {
+			if (duplicateTitlePost.compareAuthorTitle(p) == 0) {
 				if (log.isLoggable(Level.FINE)) {
 					log.log(Level.FINE, "Blog post with duplicate title and same author: ''{0}'', title: ''{1}'', duplicate post: {2}",
 							new Object[]{p.getAuthor(), p.getTitle(), duplicateTitlePost});

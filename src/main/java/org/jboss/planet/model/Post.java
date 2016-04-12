@@ -313,6 +313,15 @@ public class Post implements Serializable {
 		}
 	}
 
+	public int compareAuthorTitle(Post post2) {
+		if (StringUtils.equals(getAuthor(), post2.getAuthor())) {
+			return 0;
+		} else if (StringUtils.equals(getTitle(), post2.getTitle())) {
+			return 0;
+		}
+		return -1;
+	}
+
 	public String toString() {
 		return "Post(title = " + title + ", published = " + published + ", titleAsId = " + titleAsId + ")";
 	}
