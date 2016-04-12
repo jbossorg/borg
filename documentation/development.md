@@ -45,16 +45,16 @@ Create borg database in local Mysql database and user with appropriate access:
 		GRANT ALL PRIVILEGES ON borg.* TO borg@localhost;
 
 Add Mysql module to JBoss EAP
-Create directories `{JBOSS_EAP}/modules/com/mysql/jdbc/main/` containing:
+Create directories `{JBOSS_EAP}/modules/com/mysql/jdbc/main/` containing module.xml and [mysql-connector-java-5.1.38.jar](http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar):
 
 		module.xml
-		mysql-connector-java-5.1.20-bin.jar
+		mysql-connector-java-5.1.38.jar
 
 Content of `module.xml`:
 
 		<module xmlns="urn:jboss:module:1.0" name="com.mysql.jdbc">
 		  <resources>
-			<resource-root path="mysql-connector-java-5.1.34-bin.jar"/>
+			<resource-root path="mysql-connector-java-5.1.38.jar"/>
 		  </resources>
 		  <dependencies>
 			<module name="javax.api"/>
