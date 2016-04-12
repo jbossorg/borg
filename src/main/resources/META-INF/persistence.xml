@@ -16,7 +16,7 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
-			<property name="hibernate.generate_statistics" value="true" />
+			<property name="hibernate.generate_statistics" value="false" />
 
 			<!-- Caching - https://docs.jboss.org/author/display/ISPN/Using+Infinispan+as+JPA-Hibernate+Second+Level+Cache+Provider -->
 			<property name="hibernate.cache.use_second_level_cache" value="true" />
