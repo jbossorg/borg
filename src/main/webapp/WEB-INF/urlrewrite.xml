@@ -16,7 +16,7 @@
 		<set type="expires">1 year</set>
 	</rule>
 	<rule>
-		<from>^/ffe/([\d\.]*/)(.*)$</from>
+		<from>^/ffe/([\d\.\w\-]*/)(.*)$</from>
 		<to type="forward" last="true">/$2</to>
 	</rule>
 
