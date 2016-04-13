@@ -1,2 +1,0 @@
-echo "executing pre_start - setting SSL property for not so strict validation"
-export JAVA_OPTS="-Djsse.enableSNIExtension=false"
