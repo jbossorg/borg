@@ -36,6 +36,7 @@
 	
 	<system-properties>
        <property name="org.apache.coyote.http11.Http11Protocol.COMPRESSION" value="on"/>
+		<property name="borg.updatefeed.workers.count" value="5" />
     </system-properties>
 
 	<management>
@@ -221,6 +222,9 @@
 			<iiop enable-by-default="false" use-qualified-name="false" />
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:infinispan:1.4">
+			<cache-container name="borg">
+				<local-cache name="sync-feeds"/>
+			</cache-container>
 			<cache-container name="cluster" aliases="ha-partition"
 				default-cache="default">
 				<transport lock-timeout="60000" />

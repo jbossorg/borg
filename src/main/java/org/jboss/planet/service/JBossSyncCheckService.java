@@ -80,7 +80,7 @@ public class JBossSyncCheckService {
 		int syncSucc = 0;
 		int syncFail = 0;
 		for (Integer id : postsToSync) {
-			if (syncFail > 20 && syncSucc == 0) {
+			if (syncFail > 10 && syncSucc == 0) {
 				// Something is probably badly configured. Let's skip this update.
 				log.log(Level.SEVERE, "20 attempts sync to server failed. Aborting.");
 				break;
@@ -98,7 +98,7 @@ public class JBossSyncCheckService {
 		syncSucc = 0;
 		syncFail = 0;
 		for (Integer id : postsToReSync) {
-			if (syncFail > 20 && syncSucc == 0) {
+			if (syncFail > 10 && syncSucc == 0) {
 				log.log(Level.SEVERE, "20 attempts sync to server failed. Aborting.");
 				break;
 			}

@@ -88,6 +88,14 @@ and driver
 			<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
 		</driver>
 
+Add Infinispan cache container `borg` with proper caches
+
+        <subsystem xmlns="urn:jboss:domain:infinispan:1.5">
+            <cache-container name="borg">
+                <local-cache name="sync-feeds"/>
+            </cache-container>
+
+
 
 
 Build project with `localhost` development profile. 
