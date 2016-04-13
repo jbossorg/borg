@@ -5,7 +5,6 @@
  */
 package org.jboss.planet.service;
 
-import java.lang.management.ManagementFactory;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -25,12 +24,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 
 import org.infinispan.Cache;
@@ -72,7 +65,6 @@ public class UpdateService implements UpdateServiceMBean {
     public static final String CACHE_NAME = "sync-feeds";
 
     public static final String WORKERS_COUNT = "borg.updatefeed.workers.count";
-
 
     protected Cache<Integer, Date> feedsToSync;
 
