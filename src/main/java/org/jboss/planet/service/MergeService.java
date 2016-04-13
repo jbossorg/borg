@@ -100,6 +100,7 @@ public class MergeService {
 								log.log(Level.FINEST, "Published: current: {0}, new: {1}", new Object[]{postDb.getPublished(), p.getPublished()});
 								log.log(Level.FINEST, "Modified : current: {0}, new: {1}", new Object[]{postDb.getModified(), p.getModified()});
 							}
+							postDb.compareTo(p);
 							// Title is not changed because it has unique titleAsId and is already created. See above.
 							postDb.setPublished(p.getPublished());
 							postDb.setModified(p.getModified());
@@ -111,7 +112,7 @@ public class MergeService {
 
 							postService.update(postDb, false);
 							mergedPosts++;
-							log.log(Level.INFO, "Post ''{0}'' merged", postDb.getTitleAsId());
+							log.log(Level.FINE, "Post ''{0}'' merged", postDb.getTitleAsId());
 						}
 					}
 				}
@@ -190,10 +191,10 @@ public class MergeService {
 					new Object[]{feed.getName(), post.getTitle(), post.getTitleAsId(), post.getPublished(), post.getStatus()});
 		}
 
-		log.log(Level.INFO, "Saving new post ''{0}''", post.getTitleAsId());
+		log.log(Level.FINEST, "Saving new post ''{0}''", post.getTitleAsId());
 
 		postService.create(post, false);
-		log.log(Level.INFO, "New post ''{0}'' saved", post.getTitleAsId());
+		log.log(Level.FINEST, "New post ''{0}'' saved", post.getTitleAsId());
 	}
 
 }

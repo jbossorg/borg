@@ -80,6 +80,11 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 		return t;
 	}
 
+	public RemoteFeed getFeed(Integer id) {
+		return em.find(RemoteFeed.class, id);
+	}
+
+
 	public RemoteFeed getFeed(String feedName) {
 		return (RemoteFeed) em.createQuery("select feed from RemoteFeed feed WHERE feed.name = ?1")
 				.setParameter(1, feedName).getSingleResult();
@@ -206,8 +211,8 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RemoteFeed> getAcceptedFeeds() {
-		return em.createQuery("select feed from RemoteFeed feed WHERE feed.status = ?1")
+	public List<Integer> getAcceptedFeedIds() {
+		return em.createQuery("select feed.id from RemoteFeed feed WHERE feed.status = ?1")
 				.setParameter(1, FeedStatus.ACCEPTED).getResultList();
 	}
 
