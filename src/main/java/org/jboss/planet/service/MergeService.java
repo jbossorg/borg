@@ -96,11 +96,11 @@ public class MergeService {
 						if (postDb.compareTo(p) != 0) {
 							if (log.isLoggable(Level.FINEST)) {
 								log.log(Level.FINEST, "Merging post: ''{0}''", postDb.getTitleAsId());
-								log.log(Level.FINEST, "Content difference: ''{0}''", StringUtils.difference(postDb.getContent(), p.getContent()));
+								log.log(Level.FINEST, "Title difference: ''{0}''", StringUtils.difference(postDb.getTitle(), p.getTitle()));
 								log.log(Level.FINEST, "Published: current: {0}, new: {1}", new Object[]{postDb.getPublished(), p.getPublished()});
 								log.log(Level.FINEST, "Modified : current: {0}, new: {1}", new Object[]{postDb.getModified(), p.getModified()});
 							}
-							postDb.compareTo(p);
+
 							// Title is not changed because it has unique titleAsId and is already created. See above.
 							postDb.setPublished(p.getPublished());
 							postDb.setModified(p.getModified());

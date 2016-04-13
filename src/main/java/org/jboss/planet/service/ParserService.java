@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import com.sun.syndication.io.impl.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.jboss.planet.exception.ParserException;
 import org.jboss.planet.exception.ParserException.CAUSE_TYPE;
 import org.jboss.planet.model.Category;
@@ -166,12 +168,23 @@ public class ParserService {
 				if (publishedDate == null) {
 					publishedDate = entry.getUpdatedDate();
 				}
+				// ORG-3029 - Round seconds because mysql doesn't store ms
+				if (publishedDate != null) {
+					publishedDate = DateUtils.round(publishedDate, Calendar.SECOND);
+				}
 
 				post.setPublished(publishedDate);
 
+				Date modifiedDate = entry.getUpdatedDate();
+				if (modifiedDate != null) {
+					modifiedDate = DateUtils.round(modifiedDate, Calendar.SECOND);
+				} else {
+					modifiedDate = publishedDate;
+				}
+				post.setModified(modifiedDate);
+
 				// And other properties
 				post.setTitle(entry.getTitle());
-				post.setModified(entry.getUpdatedDate() == null ? post.getPublished() : entry.getUpdatedDate());
 				post.setLink(entry.getLink());
 
 				post.setStatus(PostStatus.CREATED);
