@@ -211,6 +211,12 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<RemoteFeed> getAcceptedFeeds() {
+		return em.createQuery("select feed from RemoteFeed feed WHERE feed.status = ?1")
+				.setParameter(1, FeedStatus.ACCEPTED).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Integer> getAcceptedFeedIds() {
 		return em.createQuery("select feed.id from RemoteFeed feed WHERE feed.status = ?1")
 				.setParameter(1, FeedStatus.ACCEPTED).getResultList();
