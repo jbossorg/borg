@@ -83,7 +83,6 @@ public class UpdateFeedsExecutor extends Thread {
                     }
 
                     MergePostsEvent stat = syncFeed(feed);
-                    lastFeedUpdateDate = entry.getValue();
 
                     newPosts += stat.getNewPosts();
                     mergedPosts += stat.getMergedPosts();
@@ -97,6 +96,7 @@ public class UpdateFeedsExecutor extends Thread {
                 }
             }
 
+            lastFeedUpdateDate = new Date();
             log.log(totalCountAtStart > 0 ? Level.INFO : Level.FINE,
                     "Update all feeds in thread finished. "
                             + "Total feeds: " + totalCountAtStart
@@ -162,4 +162,7 @@ public class UpdateFeedsExecutor extends Thread {
         running = false;
     }
 
+    public Date getLastFeedUpdateDate() {
+        return lastFeedUpdateDate;
+    }
 }

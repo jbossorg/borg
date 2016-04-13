@@ -5,6 +5,7 @@
  */
 package org.jboss.planet.service;
 
+import java.lang.management.ManagementFactory;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -24,9 +25,17 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
 
 import org.infinispan.Cache;
 import org.infinispan.manager.EmbeddedCacheManager;
+import org.jboss.planet.util.MBeanUtils;
 
 /**
  * Service handle update feeds
@@ -37,7 +46,7 @@ import org.infinispan.manager.EmbeddedCacheManager;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.NEVER)
-public class UpdateService {
+public class UpdateService implements UpdateServiceMBean {
 
     @Inject
     private ConfigurationService configurationService;
@@ -69,6 +78,10 @@ public class UpdateService {
 
     private Set<UpdateFeedsExecutor> threadPool;
 
+    protected ObjectName mBeanName;
+
+    protected Date lastUpdateDate;
+
     @PostConstruct
     public void init() {
         feedsToSync = container.getCache(CACHE_NAME);
@@ -90,6 +103,8 @@ public class UpdateService {
         int startupInMin = 0;
         log.log(Level.INFO, "Initializing first blog posts update in {0} min", startupInMin);
         timerService.createSingleActionTimer(startupInMin * 60 * 1000, new TimerConfig(null, false));
+
+        mBeanName = MBeanUtils.registerMBean(this, "org.jboss.planet:type=UpdateService");
     }
 
     @PreDestroy
@@ -101,6 +116,8 @@ public class UpdateService {
         for (UpdateFeedsExecutor thread : threadPool) {
             thread.stopExecution();
         }
+
+        MBeanUtils.unregisterMBean(mBeanName);
     }
 
     private void initTimer() {
@@ -119,7 +136,24 @@ public class UpdateService {
             feedsToSync.put(id, new Date());
         }
 
+        lastUpdateDate = new Date();
+
         initTimer();
     }
 
+    @Override
+    public int getUpdateWorkersCount() {
+        return threadPool.size();
+    }
+
+    @Override
+    public Date getLastFeedsUpdateRunDate() {
+        return lastUpdateDate;
+    }
+
+    @Override
+    public Date getLastFeedsUpdateInWorker(int workerNumber) {
+        UpdateFeedsExecutor[] threads = threadPool.toArray(new UpdateFeedsExecutor[0]);
+        return threads[workerNumber + 1].getLastFeedUpdateDate();
+    }
 }
