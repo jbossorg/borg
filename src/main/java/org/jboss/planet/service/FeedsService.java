@@ -20,7 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.jboss.planet.model.FeedGroup;
 import org.jboss.planet.model.FeedsSecurityRole;
 import org.jboss.planet.model.Post;
@@ -138,14 +137,10 @@ public class FeedsService extends EntityServiceJpa<RemoteFeed> {
 		// Check permissions before deleting anything on Sync server.
 		securityService.checkPermission(f, CRUDOperationType.DELETE);
 
-		DefaultHttpClient httpClient = jbossSyncService.createHttpClient();
-
 		List<Post> posts = f.getPosts();
 		for (Post post : posts) {
-			jbossSyncService.deletePost(post.getTitleAsId(), httpClient);
+			jbossSyncService.deletePost(post.getTitleAsId());
 		}
-
-		jbossSyncService.shutdownHttpClient(httpClient);
 
 		delete(f.getId());
 	}

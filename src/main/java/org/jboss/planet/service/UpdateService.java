@@ -101,12 +101,10 @@ public class UpdateService implements UpdateServiceMBean {
 
     @PreDestroy
     public void close() {
-        if (threadPool == null) {
-            return;
-        }
-
-        for (UpdateFeedsExecutor thread : threadPool) {
-            thread.stopExecution();
+        if (threadPool != null) {
+            for (UpdateFeedsExecutor thread : threadPool) {
+                thread.stopExecution();
+            }
         }
 
         MBeanUtils.unregisterMBean(mBeanName);
