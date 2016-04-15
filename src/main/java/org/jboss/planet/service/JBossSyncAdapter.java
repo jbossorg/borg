@@ -71,7 +71,7 @@ public class JBossSyncAdapter {
 
     private CloseableHttpClient httpClient = null;
 
-    private HttpContext localContext = null;
+    private HttpHost syncHost;
 
     @PostConstruct
     public void init() {
@@ -81,9 +81,9 @@ public class JBossSyncAdapter {
         cm.setDefaultMaxPerRoute(10);
 
         Configuration cfg = configurationService.getConfiguration();
-        HttpHost syncHost;
+
         try {
-            syncHost = URIUtils.extractHost(new URI(cfg.getSyncServer()));
+            this.syncHost = URIUtils.extractHost(new URI(cfg.getSyncServer()));
         } catch (URISyntaxException e) {
             throw new RuntimeException("Invalid rest api url" + configurationService.getConfiguration(), e);
         }
@@ -97,8 +97,6 @@ public class JBossSyncAdapter {
         credentialsProvider.setCredentials(
                 new AuthScope(syncHost.getHostName(), AuthScope.ANY_PORT),
                 new UsernamePasswordCredentials(cfg.getSyncUsername(), cfg.getSyncPassword()));
-
-        this.localContext = createPreemptiveAuthContext(syncHost);
 
         this.httpClient = HttpClients.custom()
                 .useSystemProperties()
@@ -117,10 +115,10 @@ public class JBossSyncAdapter {
         authCache.put(targetHost, basicAuth);
 
         // Add AuthCache to the execution context
-        BasicHttpContext localcontext = new BasicHttpContext();
-        localcontext.setAttribute(HttpClientContext.AUTH_CACHE, authCache);
+        BasicHttpContext context = new BasicHttpContext();
+        context.setAttribute(HttpClientContext.AUTH_CACHE, authCache);
 
-        return localcontext;
+        return context;
     }
 
     @PreDestroy
@@ -154,7 +152,7 @@ public class JBossSyncAdapter {
         entityTemplate.setContentType(httpContentType.toString());
         httpPost.setEntity(entityTemplate);
 
-        httpClient.execute(httpPost, new BasicResponseHandler(), localContext);
+        httpClient.execute(httpPost, new BasicResponseHandler(), createPreemptiveAuthContext(syncHost));
     }
 
     /**
@@ -172,7 +170,7 @@ public class JBossSyncAdapter {
                 + "?ignore_missing=true";
 
         HttpDelete httpDelete = new HttpDelete(syncApiURL);
-        httpClient.execute(httpDelete, new BasicResponseHandler(), localContext);
+        httpClient.execute(httpDelete, new BasicResponseHandler(), createPreemptiveAuthContext(syncHost));
     }
 
 }
