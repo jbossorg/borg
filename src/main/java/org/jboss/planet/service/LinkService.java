@@ -5,6 +5,8 @@
  */
 package org.jboss.planet.service;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,6 +20,7 @@ import javax.inject.Named;
 @Named
 @ApplicationScoped
 @Singleton
+@Lock(LockType.READ)
 public class LinkService {
 
 	@Inject
