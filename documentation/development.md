@@ -93,8 +93,14 @@ Add Infinispan cache container `borg` with proper caches
         <subsystem xmlns="urn:jboss:domain:infinispan:1.5">
             <cache-container name="borg">
                 <local-cache name="sync-feeds"/>
+                <local-cache name="sync-feeds-to-dcp" />
             </cache-container>
 
+It's possible to control number of sync workers by this System properties:
+
+        <system-properties>
+            <property name="borg.updatefeed.workers.count" value="5" />
+            <property name="borg.sync.dcp.workers.count" value="5" />
 
 
 
