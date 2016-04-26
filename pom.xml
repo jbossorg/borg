@@ -73,11 +73,13 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Dependency management for JBoss EAP 6.2 artifacts -->
+			<!-- Dependency management for JBoss EAP 6.2 artifacts
+			See here: http://maven.repository.redhat.com/techpreview/all/org/jboss/bom/eap6-supported-artifacts/
+			-->
 			<dependency>
 				<groupId>org.jboss.bom</groupId>
 				<artifactId>eap6-supported-artifacts</artifactId>
-				<version>6.2.0.GA</version>
+				<version>6.4.7.GA</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
