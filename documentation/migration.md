@@ -25,25 +25,26 @@ docker cp mysql:/var/lib/mysql-files/tags.json .
 
 
 
-Mongo
+## Import data to Mongo
 
 ```
 docker run -it --rm --name mongo -p 27017:27017 mongo:3.6
 
-
+# Copy data to Mongo DB
 docker cp posts.json mongo:.
 docker cp tags.json mongo:.
+```
 
+```
 docker exec -it mongo bash
-```
 
-```
 # Delete any posts
 mongo feeds2mongo
 db.posts.deleteMany({});
 exit
 
-# Import
+# Import posts
 mongoimport --db feeds2mongo --collection posts posts.json
-mongoimport --db feeds2mongo --collection posts tags.json
+# Update tabs
+mongo feeds2mongo < tags.json
 ```
