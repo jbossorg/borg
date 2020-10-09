@@ -26,3 +26,8 @@ Development
 -----------
 
 Go to [Borg Development Info](development.md) page.
+
+Migration to new architecture
+-----------------------------
+
+Go to [Migration](migration.md) page.
