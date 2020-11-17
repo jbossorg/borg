@@ -1,4 +1,9 @@
-Borg [![Build Status](https://travis-ci.org/jbossorg/borg.svg?branch=master)](https://travis-ci.org/jbossorg/borg) [![Coverage Status](https://coveralls.io/repos/jbossorg/borg/badge.png)](https://coveralls.io/r/jbossorg/borg)
+
+> :warning: This project is no more mantained.
+
+Check out the successor [NodeJS Blog Aggreator](https://github.com/jbossorg/jbossorg.github.io/issues/17) or checkout java standalone aggregator and rest api [jbossorg/feedsaggregator](https://github.com/jbossorg/feedsaggregator) .
+
+Borg (Not maintained)
 ====
 
 [Documentation main page](documentation/README.md).
